@@ -1,0 +1,44 @@
+{
+  "name": "attendance_managment",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/dm-sans": "^5.2.5",
+    "@iconify/react": "^5.2.1",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.2",
+    "@tailwindcss/vite": "^4.1.4",
+    "@tanstack/react-query": "^5.74.4",
+    "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
+    "datejs": "^1.0.0-rc3",
+    "formik": "^2.4.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.1",
+    "react-hot-toast": "^2.5.2",
+    "react-router-dom": "^7.5.1",
+    "tailwindcss": "^4.1.4",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "vite": "^6.3.1"
+  }
+}
