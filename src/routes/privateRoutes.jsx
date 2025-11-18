@@ -11,12 +11,13 @@ const Designation = lazy(() => import("@/pages/Designation"));
 const AttendanceRequest = lazy(() => import("@/pages/AttendanceRequest"));
 const Department = lazy(() => import("@/pages/Department Master"));
 const OfficeAllocation = lazy(() => import("@/pages/OfficeAllocation"));
+const Office = lazy(() => import("@/pages/Office"));
 
 export const PrivateRoutes = [
   { index: true, element: <Navigate to="dashboard" /> },
   { path: "dashboard", element: <Dashboard /> },
   { path: "sector-master", element: <Sector /> },
-  { path: "office-master", element: <Dashboard /> },
+  { path: "office-master", element: <Office /> },
   { path: "leave-type", element: <LeaveType /> },
   { path: "geo-location", element: <Geo /> },
   { path: "employee-master", element: <Employee /> },
