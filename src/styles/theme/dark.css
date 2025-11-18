@@ -65,7 +65,7 @@
   .button-1 {
     cursor: pointer;
     background-color: var(--color-button);
-    font-weight: bolder;
+    font-weight: 500;
     color: var(--color-button-text);
 
     &.button-2 {
@@ -96,7 +96,7 @@
       background-color: var(--color-bg-1);
       th {
         text-align: left;
-        padding: 15px;
+        padding: 10px;
         border-right: 1px solid var(--color-border-1);
         border-bottom: 1px solid var(--color-border-1);
       }
@@ -106,7 +106,7 @@
         border-top: 1px solid var(--color-bg-4);
         td {
           background-color: var(--color-bg-2);
-          padding: 15px;
+          padding: 10px;
           border-top: 1px solid var(--color-border-1);
         }
       }
