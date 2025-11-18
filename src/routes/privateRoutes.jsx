@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Sector = lazy(() => import("@/pages/Sector"));
+const Geo = lazy(() => import("@/pages/Geo Location"));
 const Employee = lazy(() => import("@/pages/Employee"));
 const WeekendMaster = lazy(() => import("@/pages/WeekendMaster"));
 const Designation = lazy(() => import("@/pages/Designation"));
@@ -14,6 +15,7 @@ export const PrivateRoutes = [
   { path: "dashboard", element: <Dashboard /> },
   { path: "sector-master", element: <Sector /> },
   { path: "office-master", element: <Dashboard /> },
+  { path: "geo-location", element: <Geo /> },
   { path: "employee-master", element: <Employee /> },
   { path: "weekend-master", element: <WeekendMaster /> },
   { path: "designation-master", element: <Designation /> },
