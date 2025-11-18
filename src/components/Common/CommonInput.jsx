@@ -10,7 +10,7 @@ import { CalendarDaysIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 dayjs.extend(customParseFormat);
 
 export const CommonInput = ({
-  type,
+  type = "text",
   label,
   containerStyle = {},
   subLabelStyle = {},
@@ -112,7 +112,10 @@ export const CommonInput = ({
             <input
               type={passwordType}
               {...props}
-              className={twMerge("p-2 py-1.5 w-full outline-0 border-0", inputClass)}
+              className={twMerge(
+                "p-2 py-1.5 w-full outline-0 border-0",
+                inputClass
+              )}
             />
             <EyeSlashIcon
               onClick={handlePasswordVisibility}

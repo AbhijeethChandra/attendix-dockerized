@@ -93,8 +93,8 @@ export const Disclosures = (props) => {
             </DisclosureButton>
             <div
               className={twMerge(
-                "overflow-hidden transition-all duration-300",
-                open ? "max-h-96 mb-2" : "max-h-0"
+                "overflow-hidden transition-all duration-600 ease-in-out",
+                open ? "max-h-[200vh] mb-2" : "max-h-0"
               )}
             >
               <DisclosurePanel

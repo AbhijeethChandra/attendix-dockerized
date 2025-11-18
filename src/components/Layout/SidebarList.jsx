@@ -111,7 +111,7 @@ export const SidebarList = (props) => {
                   )}
                   {...{ HeadingComponent: ListComponent }}
                 >
-                  <div className="flex flex-col">
+                  <div className="flex flex-col h-fit">
                     {heading.subMenus.map((subMenu, subIndex) => {
                       const activeSubMenu =
                         pathName.split("/")[pathName.split("/").length - 1] ===
@@ -124,9 +124,9 @@ export const SidebarList = (props) => {
                           className={twMerge(
                             `flex items-center justify-start gap-2 
                             text-md p-2.5 cursor-pointer w-full bg-[var(--color-bg-4)]`,
-
                             "justify-start text-nowrap gap-x-10 ps-10",
-                            activeSubMenu && "bg-[var(--color-bg-3)]"
+                            activeSubMenu && "bg-[var(--color-bg-3)]",
+                            heading.subMenus.length -1 === subIndex && "pb-5"
                           )}
                         >
                           {subMenu.name}

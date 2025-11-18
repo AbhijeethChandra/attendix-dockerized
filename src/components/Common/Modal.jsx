@@ -4,7 +4,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import CloseIcon from "@/assets/icons/close.svg?react";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { twMerge } from "tailwind-merge";
 
 export const Modal = ({
@@ -12,7 +12,7 @@ export const Modal = ({
   dialogTitleClass,
   dialogTitle,
   isOpen,
-  close,
+  onClose,
   TitleIcon,
   backdropChildClass,
   panelClass,
@@ -23,14 +23,14 @@ export const Modal = ({
         open={isOpen}
         as="div"
         className="relative z-10 focus:outline-none"
-        onClose={close}
+        onClose={onClose}
       >
         <DialogBackdrop className="fixed inset-0 bg-white/10" />
         <div
           className={twMerge(
             "fixed inset-0 flex w-screen items-center justify-center p-4",
             backdropChildClass,
-            isOpen ? "bg-white/50" : "bg-white/0"
+            isOpen ? "bg-white/10" : "bg-white/0"
           )}
         >
           <div
@@ -41,7 +41,7 @@ export const Modal = ({
             <DialogPanel
               transition
               className={twMerge(
-                "w-full min-w-fit max-w-md rounded-md bg-[var(--color-bg-2)] duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 overflow-hidden",
+                "w-full rounded-md bg-[var(--color-bg-2)] duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 overflow-hidden",
                 panelClass
               )}
             >
@@ -58,8 +58,8 @@ export const Modal = ({
                       {dialogTitle}
                     </DialogTitle>
                   </div>
-                  <CloseIcon
-                    onClick={close}
+                  <XCircleIcon
+                    onClick={onClose}
                     className="size-6.5 cursor-pointer text-[var(--color-icon-2)]"
                   />
                 </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import { twMerge } from "tailwind-merge";
 
 export const CustomTable1 = (props) => {
@@ -37,7 +36,7 @@ export const CustomTable1 = (props) => {
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length}>No data available</td>
+              <td className="text-center" colSpan={columns.length}>No data available</td>
             </tr>
           )}
         </tbody>
