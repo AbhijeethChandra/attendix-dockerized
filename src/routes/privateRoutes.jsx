@@ -10,6 +10,7 @@ const WeekendMaster = lazy(() => import("@/pages/WeekendMaster"));
 const Designation = lazy(() => import("@/pages/Designation"));
 const AttendanceRequest = lazy(() => import("@/pages/AttendanceRequest"));
 const Department = lazy(() => import("@/pages/Department Master"));
+const OfficeAllocation = lazy(() => import("@/pages/OfficeAllocation"));
 
 export const PrivateRoutes = [
   { index: true, element: <Navigate to="dashboard" /> },
@@ -23,5 +24,6 @@ export const PrivateRoutes = [
   { path: "designation-master", element: <Designation /> },
   { path: "attendance-request", element: <AttendanceRequest /> },
   { path: "department-master", element: <Department /> },
+  { path: "office-allocation", element: <OfficeAllocation /> },
   { path: "*", element: <div>On Development...</div> },
 ];
