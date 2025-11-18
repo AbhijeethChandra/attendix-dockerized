@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Sector = lazy(() => import("@/pages/Sector"));
+const LeaveType = lazy(() => import("@/pages/Leave Type"));
 const Geo = lazy(() => import("@/pages/Geo Location"));
 const Employee = lazy(() => import("@/pages/Employee"));
 const WeekendMaster = lazy(() => import("@/pages/WeekendMaster"));
@@ -15,6 +16,7 @@ export const PrivateRoutes = [
   { path: "dashboard", element: <Dashboard /> },
   { path: "sector-master", element: <Sector /> },
   { path: "office-master", element: <Dashboard /> },
+  { path: "leave-type", element: <LeaveType /> },
   { path: "geo-location", element: <Geo /> },
   { path: "employee-master", element: <Employee /> },
   { path: "weekend-master", element: <WeekendMaster /> },
