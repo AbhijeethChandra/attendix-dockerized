@@ -1,0 +1,168 @@
+.theme-dark {
+  --color-sidebar: #1d1d1d;
+  --color-header: #e2e8f0;
+
+  --color-button: #a9d2d2;
+  --color-button-2: #323232;
+  --color-button-3: #f0fdf4;
+  --color-button-4: #fee2e2;
+  --color-button-5: #dbeafe;
+
+  --color-button-border-1: #bbf7d0;
+  --color-button-border-2: #93c5fd;
+  --color-button-border-3: #545454;
+
+  --color-button-text: #1d1d1d;
+  --color-button-text-2: #66696d;
+  --color-button-text-3: #ff9581;
+  --color-button-text-4: #2563eb;
+
+  --color-icon-1: black;
+  --color-icon-2: white;
+  --color-icon-3: white;
+
+  --color-bg-1: #1d1d1d;
+  --color-bg-2: #323232;
+  --color-bg-3: #707070;
+  --color-bg-4: #3f3f3f;
+  --color-bg-5: #54545480;
+  --color-bg-6: #4b5563;
+  --color-bg-7: #d1d1d1;
+  --color-bg-8: #ebebeb;
+  --color-bg-hover: white;
+
+  --color-bg-toggle-1: #a9d2d2;
+  --color-bg-toggle-2: #323232;
+
+  --color-text: #1d1d1d;
+  --color-text-1: #ebebeb;
+  --color-text-2: #d1d1d1;
+  --color-text-3: #ff9581;
+  --color-text-4: #6b7280;
+  --color-text-5: #dc2626;
+  --color-text-active: #f05032;
+  --color-text-active-2: #a9d2d2;
+  --color-text-active-3: #58af6b;
+  --color-text-success: #43c78f;
+  --color-text-success-2: #22c55e;
+  --color-text-warning: #fe9a2e;
+
+  --color-link: #72b7f9;
+
+  --color-border-input: #545454;
+  --color-border-1: #545454;
+  --color-border-2: #ebebeb;
+  --color-border-3: #a9d2d2;
+  --color-border-4: #60a5fa;
+  --color-border-5: #3b82f6;
+  --color-border-6: #22c55e;
+  --color-border-active: #f05032;
+  --color-border-success: #43c78f;
+  --color-border-hover: #ebebeb;
+
+  color: white !important;
+
+  .button-1 {
+    cursor: pointer;
+    background-color: var(--color-button);
+    font-weight: bolder;
+    color: var(--color-button-text);
+
+    &.button-2 {
+      background-color: transparent !important;
+      color: var(--color-button-text-1);
+      border: 1px solid var(--color-button-border-3);
+    }
+
+    &.button-3 {
+      border: 1px solid var(--color-button);
+      background-color: transparent !important;
+      color: var(--color-button);
+    }
+
+    &.button-4 {
+      border: 1px solid var(--color-border-active);
+      background-color: transparent !important;
+      color: var(--color-text-active);
+    }
+  }
+
+  table {
+    width: 100%;
+    border: 1px solid var(--color-border-1);
+    border-radius: 8px;
+
+    thead {
+      background-color: var(--color-bg-1);
+      th {
+        text-align: left;
+        padding: 15px;
+        border-right: 1px solid var(--color-border-1);
+        border-bottom: 1px solid var(--color-border-1);
+      }
+    }
+    tbody {
+      tr {
+        border-top: 1px solid var(--color-bg-4);
+        td {
+          background-color: var(--color-bg-2);
+          padding: 15px;
+          border-top: 1px solid var(--color-border-1);
+        }
+      }
+    }
+
+    &.table-2 {
+      tbody {
+        td {
+          border-right: 1px solid var(--color-border-1);
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+
+    &.table-3 {
+      thead {
+        background-color: var(--color-bg-2);
+        th {
+          border: none;
+          padding: 8px 15px;
+        }
+      }
+      tbody {
+        td {
+          background-color: var(--color-bg-2);
+          border-top: 1px solid var(--color-border-1);
+        }
+      }
+    }
+
+    &.table-4 {
+      thead {
+        th {
+          text-align: left;
+          padding: 15px;
+          border-right: 1px solid var(--color-border-1);
+          border-bottom: 1px solid var(--color-border-1);
+        }
+      }
+      tbody {
+        td {
+          border-top: 1px solid var(--color-border-1);
+        }
+      }
+    }
+  }
+
+  .dashboard-sytem-status {
+    background-color: transparent !important;
+
+    --color-border-1: #4ade80;
+    --color-border-2: #facc15;
+    --color-border-3: #facc15;
+    --color-border-4: #ef4444;
+    --color-border-5: #4ade80;
+  }
+}

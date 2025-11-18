@@ -1,0 +1,47 @@
+import React from "react";
+import { twMerge } from "tailwind-merge";
+
+export const CustomTable1 = (props) => {
+  const { columns, datas, actions, className } = props;
+
+  return (
+    <div className="w-full overflow-x-auto">
+      <table className={twMerge("table-1", className)}>
+        <thead>
+          {columns && (
+            <tr>
+              {columns.map((col, index) => (
+                <th key={index}>{col}</th>
+              ))}
+            </tr>
+          )}
+        </thead>
+        <tbody>
+          {datas && datas.length > 0 ? (
+            datas.map((data, rowIndex) => (
+              <tr key={rowIndex}>
+                {Object.values(data).map((value, colIndex) => (
+                  <td key={colIndex}>{value}</td>
+                ))}
+                {actions &&
+                  actions.map((action, index) => (
+                    <td key={index}>
+                      <div className="flex gap-2 items-center">
+                        {action.map((ActionComponent, actionIndex) => (
+                          <ActionComponent key={actionIndex} data={data} />
+                        ))}
+                      </div>
+                    </td>
+                  ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length}>No data available</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};

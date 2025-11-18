@@ -1,28 +1,14 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import "./styles/index.css";
 import App from "./App.jsx";
-import "./index.css";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
-import { Toaster } from "react-hot-toast";
-import "@fontsource/dm-sans"; // Defaults to weight 400 (normal)
+import { Provider } from "react-redux";
+import store, { persistor } from "./app/store.js";
+import { PersistGate } from "redux-persist/integration/react";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <ThemeProvider>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          style: {
-            fontFamily: '"DM Sans", sans-serif',
-            // fontSize: "1.2rem",
-            padding: "10px",
-            maxWidth: "300px",
-            minWidth: "200px",
-          },
-        }}
-      />
-    </ThemeProvider>
-  </StrictMode>
+    </PersistGate>
+  </Provider>
 );
