@@ -1,6 +1,10 @@
 import {
+  BriefcaseIcon,
   CalendarDateRangeIcon,
+  DeviceTabletIcon,
+  ForwardIcon,
   HomeIcon,
+  NewspaperIcon,
   RectangleGroupIcon,
 } from "@heroicons/react/16/solid";
 
@@ -22,6 +26,15 @@ export const ALL_SIDEBAR_LIST = [
     name: "Attendance Request",
     path: "attendance-request",
   },
+  { Icon: BriefcaseIcon, name: "leave-request", path: "leave-request" },
+  { Icon: ForwardIcon, name: "shift", path: "shift" },
+  { Icon: null, name: "shift-assignment", path: "shift-assignment" },
+  { Icon: null, name: "shift-override", path: "shift-override" },
+  { Icon: NewspaperIcon, name: "reports", path: "reports" },
+  { Icon: null, name: "day-wise-report", path: "day-wise-report" },
+  { Icon: null, name: "employee-wise-report", path: "employee-wise-report" },
+  { Icon: null, name: "leave-report", path: "leave-report" },
+  { Icon: DeviceTabletIcon, name: "device-info", path: "device-info" },
 ];
 
 export const SIDEBAR_LIST_BY_ROLE = {
@@ -39,5 +52,14 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "leave-type", parent: 2 },
     { name: "weekend-master", parent: 2 },
     { name: "attendance-request", id: 3 },
+    { name: "leave-request", id: 4 },
+    { name: "shift", id: 5 },
+    { name: "shift-assignment", parent: 5 },
+    { name: "shift-override", parent: 5 },
+    { name: "reports", id: 6 },
+    { name: "day-wise-report", parent: 6 },
+    { name: "employee-wise-report", parent: 6 },
+    { name: "leave-report", parent: 6 },
+    { name: "device-info", id: 7 },
   ],
 };

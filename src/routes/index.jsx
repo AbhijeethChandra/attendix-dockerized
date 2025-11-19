@@ -1,8 +1,9 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import { ParentRoutes } from "./parentRoutes";
 import { PrivateRoutes } from "./privateRoutes";
 import { ROUTES_BY_ROLE } from "./routesConstants";
 import { PublicRoutes } from "./publicRoutes";
+import { ErrorBoundary } from "@/components/Common/ErrorBoundary";
 
 export const AppRoutes = () => {
   let routes = [];
@@ -22,18 +23,24 @@ export const AppRoutes = () => {
       route.index
   );
 
-  
   let layoutRouteIndex = routesWithParent.findIndex((route) => route.isLayout);
-  
+
   if (layoutRouteIndex !== -1) {
     routesWithParent[layoutRouteIndex].children = childRoutes;
   }
-  
-  routes = [...routesWithParent, ...PublicRoutes];
 
-  console.log("Routes:", routes);
-  
-  const router = createBrowserRouter(routes)
+  routes = [
+    {
+      element: (
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
+      ),
+      children: [...routesWithParent, ...PublicRoutes],
+    },
+  ];
+
+  const router = createBrowserRouter(routes);
 
   return <RouterProvider router={router} />;
 };
