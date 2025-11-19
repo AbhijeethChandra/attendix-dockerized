@@ -1,24 +1,36 @@
 import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
+import { SearchBar } from "@/components/Common/SearchBar";
 
-export const CreateSector = (props) => {
+export const CreateGeoLocation = (props) => {
   const { isOpen, onClose } = props;
   return (
     <Modal
       {...{
         isOpen,
         onClose,
-        dialogTitle: "Create Sector",
+        dialogTitle: "Create Geo Location",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
     >
       <div className="h-[calc(100vh-5rem)] w-full flex flex-col gap-5 px-5 py-3 overflow-y-auto flex flex-col justify-between">
         <div className="flex-1 space-y-5">
+          <SearchBar label="Office" placeholder="Search Office" />
           <CommonInput
             type="text"
-            label="Sector Name"
-            placeholder="Enter Sector Name"
+            label="Radius (in meters)"
+            placeholder="Enter Radius"
+          />
+          <CommonInput
+            type="text"
+            label="Latitude"
+            placeholder="Enter Latitude "
+          />
+          <CommonInput
+            type="text"
+            label="Longitude"
+            placeholder="Enter Longitude"
           />
         </div>
         <div className="w-full flex gap-3">

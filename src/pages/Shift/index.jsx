@@ -1,13 +1,18 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
+import { useState } from "react";
+import { CreateShift } from "./CreateShift";
 
 const Shift = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClose = () => setIsOpen(false);
   return (
     <div>
       <HeadingComp
         heading="Shift Master"
         iconToShow={[]}
-        handleButtonClick={() => {}}
+        handleButtonClick={() => setIsOpen(true)}
         createButtonText="Create Shift"
       />
       <CustomTable1
@@ -22,6 +27,7 @@ const Shift = () => {
           "Actions",
         ]}
       />
+      <CreateShift {...{ isOpen, onClose }} />
     </div>
   );
 };

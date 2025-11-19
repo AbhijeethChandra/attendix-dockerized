@@ -3,13 +3,22 @@ import { twMerge } from "tailwind-merge";
 
 export const SearchBar = (props) => {
   const {
+    label,
+    labelStyle = {},
+    labelClass = "",
     containerClass = "",
     inputClass = "",
     iconClass = "",
     placeholder = "Search...",
   } = props;
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
+      {label && (
+        <label style={labelStyle} className={labelClass}>
+          {label}
+        </label>
+      )}
+
       <div
         className={twMerge(
           "flex items-center border border-[var(--color-border-input)] rounded-md px-3 min-w-[350px] w-full py-1.5",

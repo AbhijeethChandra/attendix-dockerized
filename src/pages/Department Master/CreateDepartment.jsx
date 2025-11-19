@@ -1,14 +1,14 @@
 import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
 
-export const CreateSector = (props) => {
+export const CreateDepartment = (props) => {
   const { isOpen, onClose } = props;
   return (
     <Modal
       {...{
         isOpen,
         onClose,
-        dialogTitle: "Create Sector",
+        dialogTitle: "Create Department",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
@@ -17,8 +17,8 @@ export const CreateSector = (props) => {
         <div className="flex-1 space-y-5">
           <CommonInput
             type="text"
-            label="Sector Name"
-            placeholder="Enter Sector Name"
+            label="Department Name"
+            placeholder="Enter Department Name"
           />
         </div>
         <div className="w-full flex gap-3">
