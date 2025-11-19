@@ -48,7 +48,7 @@ export const CreateShift = (props) => {
                 <input
                   type="text"
                   placeholder="Time"
-                  className="p-2 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-1)] w-full rounded-md pr-10"
+                  className="p-2 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-2)] w-full rounded-md pr-10"
                 />
                 <ClockIcon className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-icon-1)]" />
               </div>
@@ -59,7 +59,7 @@ export const CreateShift = (props) => {
                 <input
                   type="text"
                   placeholder="Time"
-                  className="p-2 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-1)] w-full rounded-md pr-10"
+                  className="p-2 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-2)] w-full rounded-md pr-10"
                 />
                 <ClockIcon className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-icon-1)]" />
               </div>
@@ -81,7 +81,7 @@ export const CreateShift = (props) => {
           {/* Second Row - 3 columns with boxes */}
           <div className="grid grid-cols-3 gap-4">
             {/* Define Break Time Box */}
-            <div className="border border-[var(--color-border-1)] rounded-lg p-4 space-y-4 bg-[var(--color-bg-2)]">
+            <div className="border border-[var(--color-border-2)] rounded-lg p-4 space-y-4 bg-[var(--color-bg-2)]">
               <div className="space-y-3">
                 <label className="font-medium block">Define Break Time?</label>
                 <CommonRadio
@@ -130,7 +130,7 @@ export const CreateShift = (props) => {
             </div>
 
             {/* Shift Margin Box */}
-            <div className="border border-[var(--color-border-1)] rounded-lg p-4 space-y-4 bg-[var(--color-bg-2)]">
+            <div className="border border-[var(--color-border-2)] rounded-lg p-4 space-y-4 bg-[var(--color-bg-2)]">
               <div className="space-y-3">
                 <label className="font-medium block">Shift Margin</label>
                 <CommonRadio
@@ -170,7 +170,7 @@ export const CreateShift = (props) => {
             </div>
 
             {/* Shift Type Box */}
-            <div className="border border-[var(--color-border-1)] rounded-lg p-4 space-y-4 bg-[var(--color-bg-2)]">
+            <div className="border border-[var(--color-border-2)] rounded-lg p-4 space-y-4 bg-[var(--color-bg-2)]">
               <div className="space-y-3">
                 <label className="font-medium block">Shift Type</label>
                 <CommonRadio
@@ -184,7 +184,7 @@ export const CreateShift = (props) => {
                 />
               </div>
 
-              <div className="pt-2 border-t border-[var(--color-border-1)]">
+              <div className="pt-2 border-t border-[var(--color-border-2)]">
                 <div className="flex gap-2 flex-wrap items-center justify-between">
                   <label className="font-medium">Night Shift</label>
                   <ToggleSwitch
@@ -198,7 +198,7 @@ export const CreateShift = (props) => {
         </div>
 
         {/* Footer Buttons */}
-        <div className="w-full flex gap-3 px-5 pt-3 border-t border-[var(--color-border-1)]">
+        <div className="w-full flex gap-3 px-5 pt-3 border-t border-[var(--color-border-2)]">
           <button
             onClick={onClose}
             className="button-1 w-full button-3 rounded-md py-2 px-4"

@@ -1,5 +1,6 @@
 import { Switch } from "@headlessui/react";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 export const ToggleSwitch = (props) => {
   const { buttonStyle } = props;
@@ -13,7 +14,7 @@ export const ToggleSwitch = (props) => {
   // Define padding and calculate circle size and translation
   const padding = 2.5; // padding inside the switch container
   const circleSize = height - padding * 2.5; // circle diameter
-  const translateX = enabled ? width - height +2 : 3; // move the circle within the container
+  const translateX = enabled ? width - height + 2 : 3; // move the circle within the container
 
   return (
     <div
@@ -23,14 +24,11 @@ export const ToggleSwitch = (props) => {
       <Switch
         checked={enabled}
         onChange={setEnabled}
-        style={{
-          background: enabled? "var(--color-bg-toggle-1)": "var(--color-bg-toggle-2)",
-          border: "1px solid var(--color-border-2)",
-        }}
-        className={`relative inline-flex h-full w-full items-center 
-            rounded-full transition-colors duration-200 ${
-              enabled ? "bg-blue-600" : "bg-gray-200"
-            }`}
+        className={twMerge(
+          `relative inline-flex h-full w-full items-center border border-[var(--color-toggle-border)] 
+            rounded-full transition-colors duration-200 bg-[var(--color-toggle-bg)] `,
+          enabled && "bg-[var(--color-toggle-bg-active)]"
+        )}
       >
         <span
           style={{
@@ -39,7 +37,10 @@ export const ToggleSwitch = (props) => {
             transform: `translateX(${translateX}px)`,
             transition: "transform 0.2s ease",
           }}
-          className="bg-white rounded-full"
+          className={twMerge(
+            "bg-[var(--color-toggle-button)] rounded-full",
+            enabled ? "bg-[var(--color-toggle-button-active)]" : ""
+          )}
         />
       </Switch>
     </div>

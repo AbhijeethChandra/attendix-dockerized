@@ -27,6 +27,8 @@ export const CommonInput = ({
   const handlePasswordVisibility = () =>
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
 
+  const INPUTCLASS = "p-2 py-1.5 bg-[var(--color-bg-2)] text-[var(--color-text-1)] outline-1 outline-[var(--color-border-2)] w-full rounded-md text-balance"
+
   return (
     <div
       style={containerStyle}
@@ -59,7 +61,7 @@ export const CommonInput = ({
           }
           onInput={(e) => e.target.setCustomValidity("")}
           className={twMerge(
-            "p-2 py-1.5 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-1)] w-full rounded-md text-balance",
+            INPUTCLASS,
             inputClass
           )}
         />
@@ -68,7 +70,7 @@ export const CommonInput = ({
           {...props}
           id={props.name}
           className={twMerge(
-            "p-2.5 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-1)] w-full rounded-md text-balance",
+            INPUTCLASS,
             inputClass
           )}
         >
@@ -87,7 +89,7 @@ export const CommonInput = ({
           id={props.name}
           {...props}
           className={twMerge(
-            "p-2 py-1.5 bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-1)] w-full rounded-md text-balance",
+            INPUTCLASS,
             inputClass
           )}
         />
@@ -102,7 +104,7 @@ export const CommonInput = ({
           }
           clearIcon={null}
           className={twMerge(
-            "date-picker w-full flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-1)] rounded-md p-2 cursor-pointer",
+            "date-picker w-full flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-2)] rounded-md p-2 cursor-pointer",
             inputClass
           )}
         />
@@ -113,7 +115,7 @@ export const CommonInput = ({
               type={passwordType}
               {...props}
               className={twMerge(
-                "p-2 py-1.5 w-full outline-0 border-0",
+                "p-2 py-1.5 w-full outline-0 border-0 text-[var(--color-text-1)] bg-[var(--color-bg-2)] rounded-md",
                 inputClass
               )}
             />

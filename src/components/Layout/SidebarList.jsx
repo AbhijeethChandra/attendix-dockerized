@@ -71,30 +71,32 @@ export const SidebarList = (props) => {
 
           const ListComponent = () => {
             return (
-              <div
-                key={index}
-                onClick={() => !isParentMenu && handleTabClick(heading.path)}
-                className={twMerge(
-                  `flex items-center justify-start gap-2 bg-[var(--color-bg-2)] text-[var(--color-text-2)]
-                    text-md border-b p-2.5 cursor-pointer w-full border-[var(--color-border-1)]`,
-                  !isSidebarExpanded &&
-                    "justify-start text-nowrap gap-x-10 ps-3",
-                  (isActive || isSubMenuActive) &&
-                    "border-[var(--color-border-active)] text-[var(--color-text-active)]"
-                )}
-              >
-                {Icon && (
-                  <div>
-                    <Icon
-                      className={twMerge(
-                        "size-6 stroke-[var(--color-icon-2)] text-transparent",
-                        (isActive || isSubMenuActive) &&
-                          "stroke-[var(--color-text-active)]"
-                      )}
-                    />
-                  </div>
-                )}
-                {heading.name}
+              <div className="p-2">
+                <div
+                  key={index}
+                  onClick={() => !isParentMenu && handleTabClick(heading.path)}
+                  className={twMerge(
+                    `flex items-center justify-start gap-2 bg-[var(--color-sidebar)] text-[var(--color-text-2)]
+                    text-md p-3 cursor-pointer rounded-md w-full border- border-[var(--color-border-1)]`,
+                    !isSidebarExpanded &&
+                      "justify-start text-nowrap gap-x-10 ps-2",
+                    (isActive || (isSubMenuActive && !isSidebarExpanded)) &&
+                      "text-[var(--color-text-active)] bg-[var(--color-header)]"
+                  )}
+                >
+                  {Icon && (
+                    <div>
+                      <Icon
+                        className={twMerge(
+                          "size-6 stroke-[var(--color-text-2)] text-transparent",
+                          (isActive || (isSubMenuActive && !isSidebarExpanded)) &&
+                            "text-[var(--color-text-active)] stroke-transparent"
+                        )}
+                      />
+                    </div>
+                  )}
+                  {heading.name}
+                </div>
               </div>
             );
           };
@@ -104,11 +106,7 @@ export const SidebarList = (props) => {
               {isParentMenu ? (
                 <Disclosures
                   parentRef={sidebarListRef}
-                  iconContainerClass={twMerge(
-                    "bg-[var(--color-bg-2)] border-b border-[var(--color-border-1)]",
-                    (isActive || isSubMenuActive) &&
-                      "border-[var(--color-border-active)]"
-                  )}
+                  buttonClass="pe-5"
                   {...{ HeadingComponent: ListComponent }}
                 >
                   <div className="flex flex-col h-fit">
@@ -118,18 +116,21 @@ export const SidebarList = (props) => {
                         subMenu.path;
 
                       return (
-                        <div
-                          key={subIndex}
-                          onClick={() => handleTabClick(subMenu.path)}
-                          className={twMerge(
-                            `flex items-center justify-start gap-2 
-                            text-md p-2.5 cursor-pointer w-full bg-[var(--color-bg-4)]`,
-                            "justify-start text-nowrap gap-x-10 ps-10",
-                            activeSubMenu && "bg-[var(--color-bg-3)]",
-                            heading.subMenus.length -1 === subIndex && "pb-5"
-                          )}
-                        >
-                          {subMenu.name}
+                        <div className="p-2 py-1">
+                          <div
+                            key={subIndex}
+                            onClick={() => handleTabClick(subMenu.path)}
+                            className={twMerge(
+                              `flex rounded-md items-center justify-start gap-2 
+                            text-md p-2 cursor-pointer w-full bg-[var(--color-sidebar)]`,
+                              "justify-start text-nowrap gap-x-10 ps-10",
+                              activeSubMenu &&
+                                "text-[var(--color-text-active)] bg-[var(--color-header)]",
+                              heading.subMenus.length - 1 === subIndex && "mb-5"
+                            )}
+                          >
+                            {subMenu.name}
+                          </div>
                         </div>
                       );
                     })}
@@ -139,12 +140,12 @@ export const SidebarList = (props) => {
                 <ListComponent />
               )}
 
-              {index === 2 && (
+              {/* {index === 2 && (
                 <hr
                   key={"sub" + index}
-                  className="border-[var(--color-border-1)] mb-2"
+                  className=" mb-2"
                 />
-              )}
+              )} */}
             </>
           );
           // });

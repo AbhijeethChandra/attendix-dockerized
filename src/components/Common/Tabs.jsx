@@ -24,7 +24,7 @@ export const Tabs = (props) => {
       onChange={setControlledIndex}
       className={twMerge("p-3 pe-0 pb-0 h-full flex flex-col", tabGroupClass)}
     >
-      <TabList className="flex gap-5 border-b border-[var(--color-border-1)] px-3">
+      <TabList className="flex gap-5 border-b border-[var(--color-border-2)] px-3">
         {tabs.map((tab, index) => (
           <Tab key={index} as="div">
             {({ selected }) => (

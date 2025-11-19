@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_THEME = {
-  themeName: "DARK",
+  themeName: "LIGHT",
   sideBar: "EXPANDED", // or COLLAPSED
 };
 

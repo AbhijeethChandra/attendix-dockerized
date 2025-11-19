@@ -30,7 +30,7 @@ export const Modal = ({
           className={twMerge(
             "fixed inset-0 flex w-screen items-center justify-center p-4",
             backdropChildClass,
-            isOpen ? "bg-white/10" : "bg-white/0"
+            isOpen ? "bg-[var(--color-modal-backdrop-bg)]/10" : "bg-[var(--color-modal-backdrop-bg)]/0"
           )}
         >
           <div

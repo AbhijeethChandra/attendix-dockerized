@@ -58,7 +58,7 @@ export const UserCreate = (props) => {
         ) : (
           currentStep == 2 && (
             <div>
-              <div className="flex flex-col gap-4 border-b border-[var(--color-border-1)] pb-4 mb-5">
+              <div className="flex flex-col gap-4 border-b border-[var(--color-border-2)] pb-4 mb-5">
                 <span className="text-lg font-semibold mb-3">
                   Janaki Raman has been added to the platform.
                 </span>
@@ -83,7 +83,7 @@ export const UserCreate = (props) => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4 border-b border-[var(--color-border-1)] pb-4 mb-5">
+              <div className="flex flex-col gap-4 border-b border-[var(--color-border-2)] pb-4 mb-5">
                 <div className="flex justify-between items-center">
                   <div className="flex gap-2">
                     User Name:{" "}

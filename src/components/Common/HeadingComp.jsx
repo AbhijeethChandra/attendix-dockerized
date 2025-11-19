@@ -76,14 +76,14 @@ export const HeadingComp = (props) => {
         {(CreateButtonIcon || createButtonText) && (
           <div
             onClick={handleButtonClick}
-            className="cursor-pointer rounded-md border border-[var(--color-border-3)] flex"
+            className="button-1 cursor-pointer rounded-md flex"
           >
             {CreateButtonIcon && (
               <div className="flex items-center justify-center p-2 bg-[var(--color-border-3)]">
-                <CreateButtonIcon className="size-6 text-[var(--color-icon-1)]" />
+                <CreateButtonIcon className="size-6" />
               </div>
             )}
-            <label className="cursor-pointer w-full px-2 py-1.5 text-center  text-white text-md font-semibold font-medium">
+            <label className="cursor-pointer w-full px-2 py-1.5 text-center text-md font-semibold font-medium">
               {createButtonText}
             </label>
           </div>

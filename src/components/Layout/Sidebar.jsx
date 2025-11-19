@@ -46,26 +46,32 @@ export const Sidebar = (props) => {
         minWidth: isSidebarExpanded ? "250px" : "55px",
         maxWidth: isSidebarExpanded ? "250px" : "55px",
       }}
-      className="bg-[var(--color-sidebar)] border-r border-[var(--color-border-1)] h-screen min-w-[250px] flex flex-col justify-between"
+      className="bg-[var(--color-sidebar)] h-screen min-w-[250px] flex flex-col justify-between"
     >
       <div
         className={twMerge(
-          "cursor-pointer border-b flex justify-between items-center border-[var(--color-border-input)] px-4 h-16",
+          "bg-[var(--color-sidebar-heading)] cursor-pointer flex justify-between items-center px-4 h-16",
           !isSidebarExpanded && "justify-center p-0"
         )}
-        onClick={()=>handleSidebarToggle()}
+        onClick={() => handleSidebarToggle()}
       >
         <img
-          style={{ width: isSidebarExpanded ? "100px" : "25px" }}
+          style={{
+            width: isSidebarExpanded ? "100px" : "25px",
+            filter: "brightness(0) invert(1)",
+          }}
           src={isSidebarExpanded ? logoWithName : logo}
           alt="mail_logo"
         />
         <Bars3Icon
           style={{ width: isSidebarExpanded ? "15px" : "10px" }}
-          className="cursor-pointer"
+          className="cursor-pointer text-[var(--color-icon-1)]"
         />
       </div>
-      <div className="flex-1 mt-4">
+      <div
+        style={{ boxShadow: "8px 0 12px rgba(0, 0, 0, 0.25)" }}
+        className=" flex-1 pt-4 border-r border-[var(--color-border-1)]"
+      >
         {!hideList && (
           <SidebarList {...{ isSidebarExpanded, handleTabClick, pathName }} />
         )}
