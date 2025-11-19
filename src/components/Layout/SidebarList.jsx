@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { twMerge } from "tailwind-merge";
 import { ALL_SIDEBAR_LIST, SIDEBAR_LIST_BY_ROLE } from "./sidebarConstants";
 import { Disclosures } from "../Common/Disclosures";
+import { GoDotFill } from "react-icons/go";
 
 export const SidebarList = (props) => {
   const {
@@ -71,7 +72,7 @@ export const SidebarList = (props) => {
 
           const ListComponent = () => {
             return (
-              <div className="p-2">
+              <div className="p-2 py-0">
                 <div
                   key={index}
                   onClick={() => !isParentMenu && handleTabClick(heading.path)}
@@ -89,7 +90,8 @@ export const SidebarList = (props) => {
                       <Icon
                         className={twMerge(
                           "size-6 stroke-[var(--color-text-2)] text-transparent",
-                          (isActive || (isSubMenuActive && !isSidebarExpanded)) &&
+                          (isActive ||
+                            (isSubMenuActive && !isSidebarExpanded)) &&
                             "text-[var(--color-text-active)] stroke-transparent"
                         )}
                       />
@@ -122,13 +124,13 @@ export const SidebarList = (props) => {
                             onClick={() => handleTabClick(subMenu.path)}
                             className={twMerge(
                               `flex rounded-md items-center justify-start gap-2 
-                            text-md p-2 cursor-pointer w-full bg-[var(--color-sidebar)]`,
-                              "justify-start text-nowrap gap-x-10 ps-10",
+                            text-md p-2 cursor-pointer w-full bg-[var(--color-sidebar)] gap-2`,
+                              "justify-start text-nowrap gap-3 ps-10",
                               activeSubMenu &&
-                                "text-[var(--color-text-active)] bg-[var(--color-header)]",
-                              heading.subMenus.length - 1 === subIndex && "mb-5"
+                                "text-[var(--color-text-active)] bg-[var(--color-header)]"
                             )}
                           >
+                            <GoDotFill className="size-4" />
                             {subMenu.name}
                           </div>
                         </div>
