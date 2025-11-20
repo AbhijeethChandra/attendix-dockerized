@@ -32,7 +32,10 @@ export const Disclosures = (props) => {
   useEffect(() => {
     function handleClick(e) {
       if (!ref.current) return;
-      if (!ref.current.contains(e.target) && !parentRef?.current?.contains(e.target)) {
+      if (
+        !ref.current.contains(e.target) &&
+        !parentRef?.current?.contains(e.target)
+      ) {
         disclosureRef.current?.close();
       }
     }

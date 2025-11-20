@@ -5,7 +5,11 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
-import { CalendarDaysIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import {
+  CalendarDaysIcon,
+  EyeSlashIcon,
+  EyeIcon,
+} from "@heroicons/react/16/solid";
 
 dayjs.extend(customParseFormat);
 
@@ -27,7 +31,8 @@ export const CommonInput = ({
   const handlePasswordVisibility = () =>
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
 
-  const INPUTCLASS = "p-2 py-1.5 bg-[var(--color-bg-2)] text-[var(--color-text-1)] outline-1 outline-[var(--color-border-2)] w-full rounded-md text-balance"
+  const INPUTCLASS =
+    "p-2 py-1.5 bg-[var(--color-bg-2)] text-[var(--color-text-1)] outline-1 outline-[var(--color-border-input)] w-full rounded-md text-balance";
 
   return (
     <div
@@ -60,19 +65,13 @@ export const CommonInput = ({
             errorMessage ? e.target.setCustomValidity(errorMessage) : null
           }
           onInput={(e) => e.target.setCustomValidity("")}
-          className={twMerge(
-            INPUTCLASS,
-            inputClass
-          )}
+          className={twMerge(INPUTCLASS, inputClass)}
         />
       ) : type === "select" ? (
         <select
           {...props}
           id={props.name}
-          className={twMerge(
-            INPUTCLASS,
-            inputClass
-          )}
+          className={twMerge(INPUTCLASS, inputClass)}
         >
           <option value="">
             {props.defaultselectvalue || "Select a value"}
@@ -88,10 +87,7 @@ export const CommonInput = ({
           rows={4}
           id={props.name}
           {...props}
-          className={twMerge(
-            INPUTCLASS,
-            inputClass
-          )}
+          className={twMerge(INPUTCLASS, inputClass)}
         />
       ) : type === "date" ? (
         <DatePicker
@@ -110,7 +106,7 @@ export const CommonInput = ({
         />
       ) : (
         type === "password" && (
-          <div className="flex items-center pe-3 gap-2 bg-[var(--color-bg-2)] w-full rounded-md text-balance">
+          <div className="flex items-center pe-3 gap-2 bg-[var(--color-bg-2)] w-full border border-[var(--color-border-input)] rounded-md text-balance">
             <input
               type={passwordType}
               {...props}
@@ -119,10 +115,17 @@ export const CommonInput = ({
                 inputClass
               )}
             />
-            <EyeSlashIcon
-              onClick={handlePasswordVisibility}
-              className="size-6 cursor-pointer"
-            />
+            {passwordType === "password" ? (
+              <EyeSlashIcon
+                onClick={handlePasswordVisibility}
+                className="size-6 cursor-pointer"
+              />
+            ) : (
+              <EyeIcon
+                onClick={handlePasswordVisibility}
+                className="size-6 cursor-pointer"
+              />
+            )}
           </div>
         )
       )}

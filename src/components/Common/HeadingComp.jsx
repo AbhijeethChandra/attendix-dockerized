@@ -22,6 +22,8 @@ export const HeadingComp = (props) => {
     CreateButtonIcon,
     createButtonText,
     handleButtonClick,
+    searchValue,
+    onSearchChange,
   } = props;
 
   const handleListType = (type) => {
@@ -49,7 +51,7 @@ export const HeadingComp = (props) => {
       </div>
       <div className="flex  gap-5">
         <div className="flex items-center gap-4">
-          {!hideSearch && <SearchBar />}
+          {!hideSearch && <SearchBar {...{searchValue, onSearchChange}} />}
           {listType === "TABLE" && iconToShow.includes("list") ? (
             <span onClick={() => handleListType("GRID")}>
               <QueueListIcon className="size-4 cursor-pointer" />

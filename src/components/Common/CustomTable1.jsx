@@ -17,26 +17,36 @@ export const CustomTable1 = (props) => {
         </thead>
         <tbody>
           {datas && datas.length > 0 ? (
-            datas.map((data, rowIndex) => (
-              <tr key={rowIndex}>
-                {Object.values(data).map((value, colIndex) => (
-                  <td key={colIndex}>{value}</td>
-                ))}
-                {actions &&
-                  actions.map((action, index) => (
-                    <td key={index}>
-                      <div className="flex gap-2 items-center">
-                        {action.map((ActionComponent, actionIndex) => (
-                          <ActionComponent key={actionIndex} data={data} />
-                        ))}
-                      </div>
-                    </td>
-                  ))}
-              </tr>
-            ))
+            datas.map((data, rowIndex) => {
+              let rowElements = [];
+
+              {
+                Object.entries(data).forEach(([key, value], colIndex) => {
+                  if (!key.match(/^-/))
+                    rowElements.push(<td key={colIndex}>{value}</td>);
+                });
+              }
+              return (
+                <tr key={rowIndex}>
+                  {rowElements}
+                  {actions &&
+                    actions.map((action, index) => (
+                      <td key={index}>
+                        <div className="flex gap-2 items-center">
+                          {action.map((ActionComponent, actionIndex) => (
+                            <ActionComponent key={actionIndex} data={data} />
+                          ))}
+                        </div>
+                      </td>
+                    ))}
+                </tr>
+              );
+            })
           ) : (
             <tr>
-              <td className="text-center" colSpan={columns.length}>No data available</td>
+              <td className="text-center" colSpan={columns.length}>
+                No data available
+              </td>
             </tr>
           )}
         </tbody>

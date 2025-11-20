@@ -1,20 +1,24 @@
 .theme-light {
   --color-sidebar: #ffffff;
-  --color-sidebar-heading: #1575B2;
-  --color-header: #1575B2;
+  --color-sidebar-heading: #1575b2;
+  --color-header: #1575b2;
 
-  --color-button: #1575B2;
+  --color-button: #1575b2;
 
   --color-button-border-1: #bbf7d0;
   --color-button-border-2: #93c5fd;
+  --color-button-border-active: #5df200;
+  --color-button-border-inactive: #ff0000;
 
   --color-button-text: #ffffff;
   --color-button-text-2: #020203;
   --color-button-text-3: #d31510;
   --color-button-text-4: #21448f;
+  --color-button-active: rgba(98, 255, 0, 0.23);
+  --color-button-inactive: #ff00003b;
 
   --color-icon-1: white;
-  --color-icon-2: #1575B2;
+  --color-icon-2: #1575b2;
 
   --color-bg-1: #eeeeee;
   --color-bg-2: #ffffff;
@@ -40,19 +44,19 @@
 
   --color-link: #0265dc;
 
-  --color-toggle-button: #1575B2;
-  --color-toggle-border: #1575B2;
+  --color-toggle-button: #1575b2;
+  --color-toggle-border: #1575b2;
   --color-toggle-bg: #ffffff;
   --color-toggle-button-active: #ffffff;
   --color-toggle-border-active: #000000;
-  --color-toggle-bg-active: #1575B2;
+  --color-toggle-bg-active: #1575b2;
 
-  --color-radio-border: #1575B2;
-  --color-radio-dot: #1575B2;
+  --color-radio-border: #1575b2;
+  --color-radio-dot: #1575b2;
 
   color: #282828 !important;
 
-  --color-border-input: #bccbde;
+  --color-border-input: #b6b6b6;
   --color-border-1: #c1c1c1;
   --color-border-2: #dfdfdf;
   --color-border-3: #135052;
@@ -64,6 +68,18 @@
     background-color: var(--color-button);
     font-weight: 500;
     color: var(--color-button-text);
+
+    &.button-inactive {
+      border: 1px solid var(--color-button-border-inactive);
+      background-color: var(--color-button-inactive);
+      color: var(--color-button-border-inactive);
+    }
+
+    &.button-active {
+      border: 1px solid var(--color-button-border-active);
+      background-color: var(--color-button-active);
+      color: var(--color-button-border-active);
+    }
 
     &.button-2 {
       background-color: transparent !important;

@@ -28,5 +28,4 @@ export const PrivateRoutes = [
   { path: "department-master", element: <Department /> },
   { path: "office-allocation", element: <OfficeAllocation /> },
   { path: "shift-master", element: <Shift /> },
-  { path: "*", element: <div>On Development...</div> },
 ];

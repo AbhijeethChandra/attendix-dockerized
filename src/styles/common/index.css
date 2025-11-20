@@ -30,3 +30,11 @@ ul {
 * {
   transition: all 0.2s ease-in-out;
 }
+
+.scrollbar-hidden {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

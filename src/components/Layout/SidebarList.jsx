@@ -18,11 +18,11 @@ export const SidebarList = (props) => {
 
   const sidebarListRef = useRef(null);
 
-  //   const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     let tempList = [];
-    (list ? [list] : SIDEBAR_LIST_BY_ROLE["admin"]).forEach((sidebar) => {
+    (list ? [list] : SIDEBAR_LIST_BY_ROLE[user.role.name]).forEach((sidebar) => {
       const matchedSidebar = ALL_SIDEBAR_LIST.filter(
         (x) => x.path === sidebar.name && !/^-/.test(x.name)
       )[0];

@@ -1,9 +1,73 @@
-import logoWithName from "../../assets/icons/Attendix_Tagline.svg";
-import { CommonInput } from "../../components/Common/CommonInput";
+import { useState } from "react";
+import logoWithName from "@/assets/icons/Attendix_Tagline.svg";
+import { CommonInput } from "@/components/Common/CommonInput";
+import { useLoginApiMutation } from "@/app/features/auth/authApi";
+import { useLogoutAllApiMutation } from "../../app/features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { handleLoginSlice } from "../../app/features/auth/authSlice";
+import { useNavigate } from "react-router";
 
 export const Login = () => {
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  const [loginApi, { isLoading, isError, data }] = useLoginApiMutation();
+
+  const [logoutAllApi, logoutAllApiResult] = useLogoutAllApiMutation();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async (e) => {
+    if (e) e.preventDefault();
+
+    try {
+      const resp = await loginApi(loginData).unwrap();
+      if (resp.success) {
+        console.log("Login successful:", resp);
+        dispatch(handleLoginSlice({
+          user: resp.data.user,
+          accessToken: resp.data.accessToken,
+          refreshToken: resp.data.refreshToken,
+          username: resp.data.user.username,
+        }))
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error(err);
+      if (err?.data?.message === "Already Loggedin") {
+        handleLogoutAllDevices();
+      }
+    }
+  };
+
+  const handleLogoutAllDevices = async () => {
+    try {
+      const resp = await logoutAllApi({
+        username: loginData.username,
+      }).unwrap();
+      if (resp.success) {
+        console.log("Logout from all devices successful:", resp);
+        handleLogin();
+      }
+    } catch (err) {
+      console.error("Logout from all devices failed:", err);
+    }
+  };
+
   return (
-    <div
+    <form
+      onSubmit={handleLogin}
       style={{
         background: "#1575B2",
         background:
@@ -13,33 +77,53 @@ export const Login = () => {
     >
       <div
         style={{
-          background: "rgba(255, 255, 255, 0.28)",
+          background: "white",
           borderRadius: "16px",
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
           backdropFilter: "blur(5px)",
           WebkitBackdropFilter: "blur(5px)",
         }}
-        className="rounded-md w-[400px] h-[500px] flex flex-col items-center gap-4 text-[var(--color-text-3)] px-10"
+        className="rounded-md w-[400px] h-[500px] flex flex-col items-center gap-4 text-[var(--color-text-1)] px-10"
       >
         <img
-          className="mx-auto mt-10 mb-5"
-          style={{ width: "200px", filter: "brightness(0) invert(1)" }}
+          className="mx-auto mt-10 mb-2"
+          style={{ width: "200px" }}
           src={logoWithName}
           alt="mail_logo"
         />
-        <div className="text-center text-white text-2xl font-semibold">
+        <div className="text-center text-[var(--color-header)] text-2xl font-semibold">
           Welcome
         </div>
 
         <div>Please Login</div>
 
-        <CommonInput type="text" label="Username" placeholder="Username" />
-        <CommonInput type="password" label="Password" placeholder="Password" />
+        <CommonInput
+          name="username"
+          required
+          value={loginData.username}
+          onChange={handleChange}
+          type="text"
+          label="Username"
+          placeholder="Username"
+        />
+        <CommonInput
+          name="password"
+          required
+          value={loginData.password}
+          onChange={handleChange}
+          type="password"
+          label="Password"
+          placeholder="Password"
+        />
 
-        <button className="bg-[#1575B2]/60 cursor-pointer w-full py-2 rounded-md text-white font-medium mt-4 hover:opacity-50 transition">
+        <button
+          disabled={isLoading}
+          type="submit"
+          className="bg-[#1575B2]/80 cursor-pointer w-full py-2 rounded-md text-white font-medium mt-4 hover:opacity-50 transition"
+        >
           Login
         </button>
       </div>
-    </div>
+    </form>
   );
 };

@@ -4,17 +4,18 @@ import { PrivateRoutes } from "./privateRoutes";
 import { ROUTES_BY_ROLE } from "./routesConstants";
 import { PublicRoutes } from "./publicRoutes";
 import { ErrorBoundary } from "@/components/Common/ErrorBoundary";
+import { useSelector } from "react-redux";
 
 export const AppRoutes = () => {
+  const user = useSelector((state) => state.auth.user);
   let routes = [];
 
-  const pathByRole = ROUTES_BY_ROLE["admin"] || [];
-
+  const pathByRole = ROUTES_BY_ROLE[user.role.name] || [];
   let routesWithParent = [];
 
-  ParentRoutes.filter((parentRoute) => parentRoute.roles.includes("admin")).map(
-    (data) => routesWithParent.push(...data.routes)
-  );
+  ParentRoutes.filter((parentRoute) =>
+    parentRoute.roles.includes(user.role.name)
+  ).map((data) => routesWithParent.push(...data.routes));
 
   let childRoutes = PrivateRoutes.filter(
     (route) =>

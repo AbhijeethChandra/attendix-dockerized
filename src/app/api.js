@@ -2,26 +2,31 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_API_URL, BASE_AUTH_URL } from "../config";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
-// import {
-//   handleLogoutSlice,
-//   handleRefreshToken,
-// } from "./features/auth/authSlice";
+import {
+  handleLogoutSlice,
+  handleRefreshToken,
+} from "./features/auth/authSlice";
 
 const handleApiError = (error, api) => {
-  const status = error.originalStatus || error.status;
-  const statusMessage = error.data.statusMessage;
-
+  const status = error?.originalStatus || error.status;
+  const errorMessage = error?.data?.message || "";
+  console.log(error.data);
+  // error.data = JSON.parse(error.data);
   let message =
-    error?.data?.message || error.data.errorCode || "Request failed";
-
+    error?.data?.message ||
+    error?.data?.errorCode ||
+    "Request failed";
   if (status === 404) {
     return error;
   } else if (status === 401) {
-    message = "Unauthorized. Please login again";
-    if (statusMessage === "Invalid Token") {
-      // api.dispatch(handleLogoutSlice());
+    if (message === "Already Loggedin") {
+      return;
+    }
+    if (message === "Unauthorized: Invalid JWT Token,") {
+      api.dispatch(handleLogoutSlice());
       localStorage.clear();
     }
+    message = "Unauthorized. Please login again";
   } else if (status >= 400)
     message =
       error?.data?.errorMessage || error.data.errorCode || "Request failed";
@@ -66,7 +71,7 @@ const reauthWrapper = (baseQuery) => async (args, api, extra) => {
     );
 
     if (refreshResult.data?.accessToken) {
-      // api.dispatch(handleRefreshToken(refreshResult.data.accessToken));
+      api.dispatch(handleRefreshToken(refreshResult.data.accessToken));
       result = await baseQuery(args, api, extra);
     } else {
       api.dispatch(handleLogoutSlice());
@@ -110,5 +115,5 @@ export const authApiInstance = makeApiInstance({
 export const apiInstance = makeApiInstance({
   reducerPath: "api",
   baseQuery: errorWrapper(reauthWrapper(rawBaseQueryApi)),
-  tagTypes: ["producer", "editor", "projectManager", "platformAdmin"],
+  tagTypes: ["dashboard"],
 });

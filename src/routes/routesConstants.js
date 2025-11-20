@@ -1,5 +1,5 @@
 export const ROUTES_BY_ROLE = {
-  admin: [
+  ['Admin']: [
     "dashboard",
     "sector-master",
     "office-master",

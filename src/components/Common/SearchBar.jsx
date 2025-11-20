@@ -10,6 +10,8 @@ export const SearchBar = (props) => {
     inputClass = "",
     iconClass = "",
     placeholder = "Search...",
+    searchValue,
+    onSearchChange,
   } = props;
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -33,6 +35,8 @@ export const SearchBar = (props) => {
         />
         <input
           type="text"
+          value={searchValue}
+          onChange={onSearchChange}
           placeholder={placeholder}
           className={twMerge("flex-1 w-full outline-none", inputClass)}
         />

@@ -1,19 +1,21 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { authApiInstance, apiInstance } from "./api";
 import themeSlice from "./features/theme/themeSlice";
+import authSlice from "./features/auth/authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
 const persistConfig = {
   key: "root",
   storage: storage.default,
-  whitelist: ["theme"],
+  whitelist: ["theme", "auth"],
 };
 
 const rootReducer = combineReducers({
   [apiInstance.reducerPath]: apiInstance.reducer,
   [authApiInstance.reducerPath]: authApiInstance.reducer,
   theme: themeSlice,
+  auth: authSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

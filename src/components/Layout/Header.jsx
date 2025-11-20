@@ -1,25 +1,190 @@
 import { BellAlertIcon, UserCircleIcon } from "@heroicons/react/16/solid";
 import { CommonInput } from "../Common/CommonInput";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLogoutApiMutation } from "../../app/features/auth/authApi";
+import {
+  handleLogoutSlice,
+  handleOfficeUpdate,
+} from "../../app/features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useGetOfficesQuery,
+  useGetUnreadNotificationsQuery,
+} from "../../app/features/dashboard/dashboardApi";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 export const Header = () => {
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const user = useSelector((state) => state.auth.user);
+  const officeId = useSelector((state) => state.auth.officeId);
+
+  const profileMenuRef = useRef(null);
+  const profileMenuParentRef = useRef(null);
+  const notificationRef = useRef(null);
+  const notificationParentRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const [logoutApi, logoutApiResult] = useLogoutApiMutation();
+
+  const { data: officesData, isLoading: isOfficeLoading } = useGetOfficesQuery(
+    user.tenant_id ? user.tenant_id : skipToken
+  );
+
+  const {
+    data: unreadNotificationsData,
+    isLoading: isUnreadNotificationsLoading,
+  } = useGetUnreadNotificationsQuery(user.id ? user.id : skipToken);
+
+  const unreadNotificationsCount = useCallback(() => {
+    if (unreadNotificationsData?.data?.length > 0) {
+      return unreadNotificationsData.data.length;
+    } else return 0;
+  }, [unreadNotificationsData]);
+
+  const officesOptions = useCallback(() => {
+    if (officesData?.data?.length > 0) {
+      return officesData.data.map((office) => ({
+        label: office.officeName,
+        value: office.id,
+      }));
+    } else return [];
+  }, [officesData]);
+
+  useEffect(() => {
+    const handleClickOutside = (event, ref, parentRef) => {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target) &&
+        !parentRef.current.contains(event.target)
+      ) {
+        setIsProfileMenuOpen(false);
+        setIsNotificationOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", (e) => {
+      handleClickOutside(e, profileMenuRef, profileMenuParentRef);
+      handleClickOutside(e, notificationRef, notificationParentRef);
+    });
+    return () => {
+      document.removeEventListener("mousedown", (e) => {
+        handleClickOutside(e, profileMenuRef, profileMenuParentRef);
+        handleClickOutside(e, notificationRef, notificationParentRef);
+      });
+    };
+  }, [profileMenuRef, notificationRef]);
+
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
+  const toggleNotificationOpen = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const resp = await logoutApi().unwrap();
+      if (resp.success) {
+        dispatch(handleLogoutSlice());
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleTenantChange = (e) => {
+    const { value } = e.target;
+    dispatch(handleOfficeUpdate(value));
+  };
+
   return (
     <div className="px-5 h-16 flex justify-between items-center bg-[var(--color-header)]">
       <div className="w-[25%]">
         <CommonInput
           type="select"
+          value={officeId}
           defaultselectvalue="Please choose your company"
-          options={[]}
+          onChange={handleTenantChange}
+          options={officesOptions()}
         />
       </div>
       <div className="flex gap-3 items-center">
-          <BellAlertIcon className="size-6 cursor-pointer stroke-[var(--color-icon-1)] text-transparent" />
-        <div className="flex gap-2 items-center justfy-center">
+        <div ref={notificationParentRef} className="relative">
+          {unreadNotificationsCount() > 0 && (
+            <div
+              onClick={toggleNotificationOpen}
+              className="cursor-pointer p-1 rounded-full bg-[red] absolute -top-2 -right-3 text-[9.5px] text-[var(--color-text-3)] font-bold"
+            >
+              {unreadNotificationsCount()}
+            </div>
+          )}
+          <BellAlertIcon
+            onClick={toggleNotificationOpen}
+            className="size-6 cursor-pointer stroke-[var(--color-icon-1)] text-transparent"
+          />
+          {isNotificationOpen && (
+            <div
+              ref={notificationRef}
+              className="p-4 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] space-y-2 rounded absolute top-10 right-2 max-h-80 w-80 overflow-y-auto scrollbar-hidden"
+            >
+              {unreadNotificationsData?.data?.length > 0 ? (
+                unreadNotificationsData.data.map((notification) => (
+                  <div
+                    key={notification.id}
+                    className="border-b border-[var(--color-border-1)] last:border-0 pb-2"
+                  >
+                    <div className="font-medium text-[var(--color-text-1)]">
+                      {notification.notifyContent}
+                    </div>
+                    <div className="text-sm text-[var(--color-text-2)]">
+                      {notification.message}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-[var(--color-text-2)]">
+                  No new notifications
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div
+          onClick={toggleProfileMenu}
+          ref={profileMenuParentRef}
+          className="cursor-pointer flex gap-2 items-center justfy-center"
+        >
           <UserCircleIcon className="size-8 cursor-pointer text-[var(--color-icon-1)]" />
           <div className="flex flex-col">
-            <span className="font-medium text-[var(--color-text-3)]">Nikhil C R</span>
-            <span className="text-xs text-[var(--color-text-3)]">admin</span>
+            <span className="font-medium text-[var(--color-text-3)]">
+              {user?.fullName}
+            </span>
+            <span className="text-xs text-[var(--color-text-3)]">
+              {user?.role?.name}
+            </span>
           </div>
         </div>
+        {isProfileMenuOpen && (
+          <div
+            ref={profileMenuRef}
+            className="absolute top-15 right-5 bg-[var(--color-bg-2)] rounded p-2 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-2"
+          >
+            <div className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
+              Profile
+            </div>
+            <div className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
+              Settings
+            </div>
+            <div
+              onClick={handleLogout}
+              className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105"
+            >
+              Logout
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

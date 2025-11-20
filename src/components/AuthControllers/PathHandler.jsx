@@ -3,11 +3,9 @@ import { Navigate } from "react-router";
 
 export const PathHandler = (props) => {
   const { userTypes = [] } = props;
-  // const user = useSelector((state) => state.auth.user);
-  const user = { role: 'admin' };
-  // const token = useSelector(state => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
 
-  const rootPath = user.role === 'admin' ? "" : "";
+  const rootPath = user.role === "admin" ? "" : "";
 
   if (!user.role) {
     return <Navigate to={`${rootPath}/login`} replace={true} />;

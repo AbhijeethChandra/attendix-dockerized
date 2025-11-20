@@ -38,7 +38,7 @@ export const ALL_SIDEBAR_LIST = [
 ];
 
 export const SIDEBAR_LIST_BY_ROLE = {
-  ["admin"]: [
+  ["Admin"]: [
     { name: "dashboard", id: 1 },
     { name: "control-panel", id: 2 },
     { name: "sector-master", parent: 2 },
