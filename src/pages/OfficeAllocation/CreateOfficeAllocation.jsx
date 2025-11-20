@@ -9,7 +9,7 @@ export const CreateOfficeAllocation = (props) => {
       {...{
         isOpen,
         onClose,
-        dialogTitle: "Create Office Allocation",
+        dialogTitle: "Employee Office Allocation",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
