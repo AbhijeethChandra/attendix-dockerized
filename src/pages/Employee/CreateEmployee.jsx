@@ -15,41 +15,52 @@ export const CreateEmployee = (props) => {
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
     >
-      <div className="h-[calc(100vh-5rem)] w-full flex flex-col gap-5 py-3 overflow-y-auto flex flex-col justify-between">
-        <div className="flex-1 space-y-5 overflow-y-auto px-5 pb-1">
-          <CommonInput type="text" label="Name" placeholder="Enter Name" />
-          <SearchBar label="Office" placeholder="Search Office" />
-          <CommonInput
-            type="select"
-            label="Role"
-            options={[]}
-            placeholder="Select Role"
-          />
-          <CommonInput
-            type="select"
-            label="Department"
-            options={[]}
-            placeholder="Select Department"
-          />
-          <CommonInput
-            type="select"
-            label="Designation"
-            options={[]}
-            placeholder="Select Designation"
-          />
-          <CommonInput
-            type="number"
-            label="Phone"
-            placeholder="Enter Phone Number"
-          />
-          <CommonInput type="email" label="Email" placeholder="Enter Email" />
-          <CommonInput
-            type="select"
-            label="Reporting Staff"
-            options={[]}
-            placeholder="Select Reporting Staff"
-          />
-          <div className="flex items-center justify-between w-full">
+      <div className="h-[calc(100vh-5rem)] w-full flex flex-col py-3">
+        <div className="flex-1 px-5 pb-1 space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <CommonInput type="text" label="Name" placeholder="Enter Name" />
+            <SearchBar label="Office" placeholder="Search Office" />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <CommonInput
+              type="select"
+              label="Role"
+              options={[]}
+              placeholder="Select Role"
+            />
+            <CommonInput
+              type="select"
+              label="Department"
+              options={[]}
+              placeholder="Select Department"
+            />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <CommonInput
+              type="select"
+              label="Designation"
+              options={[]}
+              placeholder="Select Designation"
+            />
+            <CommonInput
+              type="number"
+              label="Phone"
+              placeholder="Enter Phone Number"
+            />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <CommonInput type="email" label="Email" placeholder="Enter Email" />
+            <CommonInput
+              type="select"
+              label="Reporting Staff"
+              options={[]}
+              placeholder="Select Reporting Staff"
+            />
+          </div>        
+          <div className="flex items-center justify-between w-full pt-2">
             <label>Outside Punch Request</label>
             <ToggleSwitch />
           </div>

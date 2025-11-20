@@ -13,6 +13,13 @@ const Department = lazy(() => import("@/pages/Department Master"));
 const OfficeAllocation = lazy(() => import("@/pages/OfficeAllocation"));
 const Office = lazy(() => import("@/pages/Office"));
 const Shift = lazy(() => import("@/pages/Shift"));
+const LeaveReq = lazy(() => import("@/pages/LeaveRequest"));
+const ShiftAss = lazy(() => import("@/pages/ShiftAssignment"));
+const ShiftOver = lazy(() => import("@/pages/ShiftOverride"));
+const DayWiseRep = lazy(() => import("@/pages/DayWiseReport"));
+const EmployeeWiseRep = lazy(() => import("@/pages/EmployeeWiseReport"));
+const LeaveRep = lazy(() => import("@/pages/LeaveReport"));
+const DeviceIn = lazy(() => import("@/pages/DeviceInfo"));
 
 export const PrivateRoutes = [
   { index: true, element: <Navigate to="dashboard" /> },
@@ -27,6 +34,13 @@ export const PrivateRoutes = [
   { path: "attendance-request", element: <AttendanceRequest /> },
   { path: "department-master", element: <Department /> },
   { path: "office-allocation", element: <OfficeAllocation /> },
+  { path: "leave-request", element: <LeaveReq /> },
   { path: "shift-master", element: <Shift /> },
+  { path: "shift-assignment", element: <ShiftAss /> },
+  { path: "shift-override", element: <ShiftOver /> },
+  { path: "day-wise-report", element: <DayWiseRep /> },
+  { path: "employee-wise-report", element: <EmployeeWiseRep /> },
+  { path: "leave-report", element: <LeaveRep /> },
+  { path: "device-info", element: <DeviceIn /> },
   { path: "*", element: <div>On Development...</div> },
 ];

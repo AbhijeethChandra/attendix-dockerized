@@ -9,7 +9,7 @@ export const CreateLeaveType = (props) => {
       {...{
         isOpen,
         onClose,
-        dialogTitle: "Create Create Leave Type",
+        dialogTitle: "Add Leave Type",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
