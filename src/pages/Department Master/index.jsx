@@ -24,33 +24,31 @@ const Department = () => {
     refetch,
   } = useGetAllDepartmentQuery(user.tenant_id ?? skipToken);
 
-  const [updateStatusDepartmentApi, updateStatusDepartmentResult] =
+  const [updateStatusApi, updateStatusResult] =
     useUpdateStatusDepartmentMutation();
 
   const departments = useCallback(() => {
-    if (departmentData?.data.length) {
+    if (departmentData?.data.length && !isError) {
       return departmentData.data
         .filter((data) =>
           data?.deptname?.toLowerCase().includes(searchText.toLowerCase())
         )
         .map((data, index) => ({
-          "-id": data.id,
-          "-active": data.active,
-          sl: index + 1,
-          deptname: data.deptname,
+          other: { ...data },
+          tableData: { sl: index + 1, deptname: data.deptname },
         }));
     } else return [];
-  }, [departmentData, searchText]);
+  }, [departmentData, searchText, isError]);
 
-  const handleStatus = async (data) => {
-    const updatedStatus = data["-active"] === "Y" ? "N" : "Y";
+  const handleStatusUpdate = async (data) => {
+    const updatedStatus = data.active === "Y" ? "N" : "Y";
     const submitData = {
-      id: data["-id"],
+      id: data.id,
       active: updatedStatus,
       tenantId: user.tenant_id,
     };
     try {
-      await updateStatusDepartmentApi(submitData);
+      await updateStatusApi(submitData).unwrap();
       refetch();
     } catch (err) {
       console.log("Error updating status:", err);
@@ -67,35 +65,38 @@ const Department = () => {
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
       <CustomTable1
-        datas={departments()}
-        columns={["Sl.No", "Department Name", "Status", "Actions"]}
-        actions={[
-          [
-            ({ data }) => {
-              const isActive = data["-active"] === "Y";
-              return (
-                <button
-                  disabled={updateStatusDepartmentResult.isLoading}
-                  onClick={() => handleStatus(data)}
-                  className={twMerge(
-                    "button-1 rounded-md px-2 py-0.5 button-inactive text-md font-medium",
-                    isActive && "button-active"
-                  )}
-                >
-                  {isActive ? "Active" : "Inactive"}
-                </button>
-              );
-            },
+        {...{
+          isLoading,
+          datas: departments(),
+          columns: ["Sl.No", "Department Name", "Status", "Actions"],
+          actions: [
+            [
+              ({ data }) => {
+                const isActive = data.active === "Y";
+                return (
+                  <button
+                    disabled={updateStatusResult.isLoading}
+                    onClick={() => handleStatusUpdate(data)}
+                    className={twMerge(
+                      "button-1 rounded-md px-2 py-0.5 button-inactive text-md font-medium",
+                      isActive && "button-active"
+                    )}
+                  >
+                    {isActive ? "Active" : "Inactive"}
+                  </button>
+                );
+              },
+            ],
+            [
+              ({ data }) => (
+                <MdEdit
+                  onClick={() => setIsOpen(data)}
+                  className="cursor-pointer size-6 text-[var(--color-icon-2)]"
+                />
+              ),
+            ],
           ],
-          [
-            ({ data }) => (
-              <MdEdit
-                onClick={() => setIsOpen(data)}
-                className="cursor-pointer size-6 text-[var(--color-icon-2)]"
-              />
-            ),
-          ],
-        ]}
+        }}
       />
       <CreateDepartment {...{ isOpen, onClose, refetch }} />
     </div>

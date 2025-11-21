@@ -6,12 +6,13 @@ import {
   useCreateDepartmentMutation,
   useUpdateDepartmentMutation,
 } from "../../app/features/department/departmentApi";
-const INITIAL_STATE = {
+import toast from "react-hot-toast";
+const INITIAL_DETAILS = {
   deptname: "",
 };
 export const CreateDepartment = (props) => {
   const { isOpen, onClose, refetch } = props;
-  const [details, setDetails] = useState(INITIAL_STATE);
+  const [details, setDetails] = useState(INITIAL_DETAILS);
   const user = useSelector((state) => state.auth.user);
 
   const [createApi, createApiRes] = useCreateDepartmentMutation();
@@ -20,11 +21,11 @@ export const CreateDepartment = (props) => {
   useEffect(() => {
     if (typeof isOpen === "object" && isOpen !== null) {
       setDetails({
-        id: isOpen["-id"],
+        id: isOpen.id,
         deptname: isOpen.deptname,
       });
     } else {
-      setDetails(INITIAL_STATE);
+      setDetails(INITIAL_DETAILS);
     }
   }, [isOpen]);
 
@@ -45,11 +46,14 @@ export const CreateDepartment = (props) => {
         active: "Y",
       };
 
-      if (details.id) await editApi(submitData);
-      else await createApi(submitData);
-      setDetails(INITIAL_STATE);
+      if (details.id) await editApi(submitData).unwrap();
+      else await createApi(submitData).unwrap();
+      setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
+      toast.success(
+        `Department ${details.id ? "updated" : "created"} successfully`
+      );
     } catch (err) {
       console.log("Error creating sector:", err);
     }
@@ -81,12 +85,14 @@ export const CreateDepartment = (props) => {
         </div>
         <div className="w-full flex gap-3">
           <button
+            onClick={() => setDetails(INITIAL_DETAILS)}
             type="reset"
             className="button-1 w-full button-3 rounded-md py-1.5 px-3"
           >
             Reset
           </button>
           <button
+            disabled={createApiRes.isLoading || editApiRes.isLoading}
             type="submit"
             className="button-1 w-full rounded-md py-1.5 px-3"
           >
