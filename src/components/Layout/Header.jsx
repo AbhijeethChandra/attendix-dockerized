@@ -11,14 +11,17 @@ import {
   useGetOfficesQuery,
   useGetUnreadNotificationsQuery,
 } from "../../app/features/dashboard/dashboardApi";
+import { TbLockCode } from "react-icons/tb";
+import { IoMdLogOut } from "react-icons/io";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { SearchBar } from "../Common/SearchBar";
 
 export const Header = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
-  const officeId = useSelector((state) => state.auth.officeId);
+  const office = useSelector((state) => state.auth.office);
 
   const profileMenuRef = useRef(null);
   const profileMenuParentRef = useRef(null);
@@ -45,12 +48,28 @@ export const Header = () => {
 
   const officesOptions = useCallback(() => {
     if (officesData?.data?.length > 0) {
-      return officesData.data.map((office) => ({
-        label: office.officeName,
+      let options = officesData.data.map((office) => ({
+        name: office.officeName,
         value: office.id,
+        id: office.id,
       }));
+      return [{ name: "All Offices", value: null }, ...options];
     } else return [];
   }, [officesData]);
+
+  useEffect(() => {
+    if (!office?.id && officesData?.data?.length > 0) {
+      const defaultOffice = officesData.data[0];
+      dispatch(
+        handleOfficeUpdate({
+          id: defaultOffice.id,
+          officeName: defaultOffice.officeName,
+          name: defaultOffice.officeName,
+          value: defaultOffice.id,
+        })
+      );
+    }
+  }, [officesData, office]);
 
   useEffect(() => {
     const handleClickOutside = (event, ref, parentRef) => {
@@ -94,23 +113,24 @@ export const Header = () => {
     }
   };
 
-  const handleTenantChange = (e) => {
-    const { value } = e.target;
-    dispatch(handleOfficeUpdate(value));
+  const handleTenantChange = (value) => {
+    const options = officesOptions();
+    const selectedOffice = options.find((office) => office.value === value);
+    dispatch(handleOfficeUpdate(selectedOffice));
   };
 
   return (
     <div className="px-5 h-16 flex justify-between items-center bg-[var(--color-header)]">
-      <div className="w-[25%]">
-        <CommonInput
-          type="select"
-          value={officeId}
-          defaultselectvalue="Please choose your company"
+      <div className="w-[35%]">
+        <SearchBar
+          value={office?.id}
+          placeholder="Please choose your company"
+          containerClass={`bg-[var(--color-bg-2)] border-none`}
           onChange={handleTenantChange}
           options={officesOptions()}
         />
       </div>
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-6 items-center">
         <div ref={notificationParentRef} className="relative">
           {unreadNotificationsCount() > 0 && (
             <div
@@ -169,18 +189,17 @@ export const Header = () => {
         {isProfileMenuOpen && (
           <div
             ref={profileMenuRef}
-            className="absolute top-15 right-5 bg-[var(--color-bg-2)] rounded p-2 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-2"
+            className="absolute top-15 right-5 bg-[var(--color-bg-2)] rounded p-4 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-4"
           >
             <div className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
-              Profile
-            </div>
-            <div className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
-              Settings
+              <TbLockCode className="inline size-5 mr-2 text-[var(--color-icon-2)]" />
+              Change Password
             </div>
             <div
               onClick={handleLogout}
               className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105"
             >
+              <IoMdLogOut className="inline size-5 mr-2 text-[var(--color-icon-2)]" />
               Logout
             </div>
           </div>

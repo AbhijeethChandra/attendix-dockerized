@@ -43,14 +43,16 @@ const data = [
 
 export const Dashboard = () => {
   const user = useSelector((state) => state.auth.user);
-  const officeId = useSelector((state) => state.auth.officeId);
+  const office = useSelector((state) => state.auth.office);
 
   const {
     data: dashboardData,
     isLoading,
     isError,
   } = useGetDashboardCountsQuery(
-    user?.tenant_id ? { officeId, tenantId: user.tenant_id } : skipToken
+     user?.tenant_id || office?.id
+    ? { officeId: office?.id ? office.id : null, tenantId: user.tenant_id }
+    : skipToken
   );
 
   console.log(isLoading, isError);
@@ -63,16 +65,19 @@ export const Dashboard = () => {
       </h1>
 
       <div className="grid grid-cols-4 py-5 gap-3">
-        {!isLoading?
-        data.map((item, index) => (
-          <DashCard
-            key={index}
-            title={item.title}
-            value={dashboardData?.data[item.name] || item.value}
-            icon={item.icon}
-            isLoading={isLoading}
-          />
-        )): <div>Loading...</div>}
+        {!isLoading ? (
+          data.map((item, index) => (
+            <DashCard
+              key={index}
+              title={item.title}
+              value={dashboardData?.data[item.name] || item.value}
+              icon={item.icon}
+              isLoading={isLoading}
+            />
+          ))
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
     </div>
   );

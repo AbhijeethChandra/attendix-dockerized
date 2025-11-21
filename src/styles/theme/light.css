@@ -24,6 +24,8 @@
   --color-bg-2: #ffffff;
   --color-bg-3: #f7f3ea;
 
+  --color-hover: #1575b2;
+
   --color-modal-backdrop-bg: black;
 
   --color-bg-toggle-1: #ffffff;
@@ -41,6 +43,8 @@
   --color-text-h1: #282828;
   --color-text-sub-h1: #66696d;
   --color-text-active: #ffffff;
+
+  --color-text-error: red;
 
   --color-link: #0265dc;
 

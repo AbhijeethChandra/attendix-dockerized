@@ -9,6 +9,7 @@ import {
   CalendarDaysIcon,
   EyeSlashIcon,
   EyeIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/16/solid";
 
 dayjs.extend(customParseFormat);
@@ -24,6 +25,7 @@ export const CommonInput = ({
   containerClass = "",
   errorMessage,
   subLabel,
+  searchIconClass = "",
   ...props
 }) => {
   const [passwordType, setPasswordType] = useState("password");
@@ -74,7 +76,7 @@ export const CommonInput = ({
           className={twMerge(INPUTCLASS, inputClass)}
         >
           <option value="">
-            {props.defaultselectvalue || "Select a value"}
+            {props.defaultselectvalue || `Select ${label.toLowerCase()}`}
           </option>
           {props.options.map(({ value, label, key }, index) => (
             <option value={value} key={key || index}>
@@ -104,28 +106,48 @@ export const CommonInput = ({
             inputClass
           )}
         />
+      ) : type === "password" ? (
+        <div className="flex items-center pe-3 gap-2 bg-[var(--color-bg-2)] w-full border border-[var(--color-border-input)] rounded-md text-balance">
+          <input
+            type={passwordType}
+            {...props}
+            className={twMerge(
+              "p-2 py-1.5 w-full outline-0 border-0 text-[var(--color-text-1)] bg-[var(--color-bg-2)] rounded-md",
+              inputClass
+            )}
+          />
+          {passwordType === "password" ? (
+            <EyeSlashIcon
+              onClick={handlePasswordVisibility}
+              className="size-6 cursor-pointer"
+            />
+          ) : (
+            <EyeIcon
+              onClick={handlePasswordVisibility}
+              className="size-6 cursor-pointer"
+            />
+          )}
+        </div>
       ) : (
-        type === "password" && (
-          <div className="flex items-center pe-3 gap-2 bg-[var(--color-bg-2)] w-full border border-[var(--color-border-input)] rounded-md text-balance">
-            <input
-              type={passwordType}
-              {...props}
+        type === "search" && (
+          <div
+            className={twMerge(
+              "flex items-center border border-[var(--color-border-input)] rounded-md px-3 min-w-[350px] w-full py-1.5",
+              containerClass
+            )}
+          >
+            <MagnifyingGlassIcon
               className={twMerge(
-                "p-2 py-1.5 w-full outline-0 border-0 text-[var(--color-text-1)] bg-[var(--color-bg-2)] rounded-md",
-                inputClass
+                "size-6 text-[var(--color-text-2)] mr-2",
+                searchIconClass
               )}
             />
-            {passwordType === "password" ? (
-              <EyeSlashIcon
-                onClick={handlePasswordVisibility}
-                className="size-6 cursor-pointer"
-              />
-            ) : (
-              <EyeIcon
-                onClick={handlePasswordVisibility}
-                className="size-6 cursor-pointer"
-              />
-            )}
+            <input
+              {...props}
+              type="text"
+              id={props.name}
+              className={twMerge("flex-1 w-full outline-none", inputClass)}
+            />
           </div>
         )
       )}

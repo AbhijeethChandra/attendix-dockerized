@@ -4,7 +4,7 @@ import { Navigate } from "react-router";
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Sector = lazy(() => import("@/pages/Sector"));
 const LeaveType = lazy(() => import("@/pages/Leave Type"));
-const Geo = lazy(() => import("@/pages/Geo Location"));
+const Geo = lazy(() => import("@/pages/GeoLocation"));
 const Employee = lazy(() => import("@/pages/Employee"));
 const WeekendMaster = lazy(() => import("@/pages/WeekendMaster"));
 const Designation = lazy(() => import("@/pages/Designation"));

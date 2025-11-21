@@ -28,6 +28,12 @@ const sectorApi = apiInstance.injectEndpoints({
         method: "GET",
       }),
     }),
+    getActiveSector: builder.query({
+      query: (tenantId) => ({
+        url: `/sector/active-tenantId?tenantId=${tenantId}&active=Y`,
+        method: "GET",
+      }),
+    }),
     updateStatusSector: builder.mutation({
       query: (data) => ({
         url: `/sector/active`,
@@ -43,5 +49,6 @@ export const {
   useUpdateSectorMutation,
   useGetSectorQuery,
   useGetAllSectorQuery,
+  useGetActiveSectorQuery,
   useUpdateStatusSectorMutation,
 } = sectorApi;
