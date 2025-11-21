@@ -13,9 +13,7 @@ const handleApiError = (error, api) => {
   console.log(error.data);
   // error.data = JSON.parse(error.data);
   let message =
-    error?.data?.message ||
-    error?.data?.errorCode ||
-    "Request failed";
+    error?.data?.message || error?.data?.errorCode || "Request failed";
   if (status === 404) {
     return error;
   } else if (status === 401) {
@@ -27,10 +25,7 @@ const handleApiError = (error, api) => {
       localStorage.clear();
     }
     message = "Unauthorized. Please login again";
-  } else if (status >= 400)
-    message =
-      error?.data?.errorMessage || error.data.errorCode || "Request failed";
-  else if (status === "FETCH_ERROR")
+  } else if (status === "FETCH_ERROR")
     message = "Network issue. Check connection.";
   toast.error(message);
 };

@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 export const CustomTable1 = (props) => {
-  const { columns, datas, actions, className } = props;
+  const { columns, datas, actions, className, isLoading, errorMessage } = props;
 
   return (
     <div className="w-full overflow-x-auto">
@@ -16,15 +16,23 @@ export const CustomTable1 = (props) => {
           )}
         </thead>
         <tbody>
-          {datas && datas.length > 0 ? (
+          {isLoading || errorMessage ? (
+            <tr>
+              <td className={twMerge("text-center", errorMessage && "text-[var(--color-text-error)]")} colSpan={columns.length}>
+                {errorMessage ? errorMessage : "Loading, Please wait ..."}
+              </td>
+            </tr>
+          ) : datas && datas.length > 0 ? (
             datas.map((data, rowIndex) => {
               let rowElements = [];
 
               {
-                Object.entries(data).forEach(([key, value], colIndex) => {
-                  if (!key.match(/^-/))
-                    rowElements.push(<td key={colIndex}>{value}</td>);
-                });
+                Object.entries(data.tableData).forEach(
+                  ([key, value], colIndex) => {
+                    if (!key.match(/^-/))
+                      rowElements.push(<td key={colIndex}>{value}</td>);
+                  }
+                );
               }
               return (
                 <tr key={rowIndex}>
@@ -34,7 +42,10 @@ export const CustomTable1 = (props) => {
                       <td key={index}>
                         <div className="flex gap-2 items-center">
                           {action.map((ActionComponent, actionIndex) => (
-                            <ActionComponent key={actionIndex} data={data} />
+                            <ActionComponent
+                              key={actionIndex}
+                              data={{ ...data.tableData, ...data.other }}
+                            />
                           ))}
                         </div>
                       </td>

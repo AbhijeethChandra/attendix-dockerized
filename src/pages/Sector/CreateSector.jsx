@@ -22,7 +22,7 @@ export const CreateSector = (props) => {
   useEffect(() => {
     if (typeof isOpen === "object" && isOpen !== null) {
       setDetails({
-        id: isOpen["-id"],
+        id: isOpen.id,
         sectorName: isOpen.sectorName,
       });
     } else {
@@ -85,11 +85,15 @@ export const CreateSector = (props) => {
         <div className="w-full flex gap-3">
           <button
             type="reset"
+            onClick={() => {
+              setDetails(INITIAL_STATE);
+            }}
             className="button-1 w-full button-3 rounded-md py-1.5 px-3"
           >
             Reset
           </button>
           <button
+            disabled={createApiRes.isLoading || editApiRes.isLoading}
             type="submit"
             className="button-1 w-full rounded-md py-1.5 px-3"
           >

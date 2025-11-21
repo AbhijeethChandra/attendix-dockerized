@@ -131,7 +131,9 @@ export const SidebarList = (props) => {
                             )}
                           >
                             <GoDotFill className="size-4" />
+                            <span className="w-[90%] text-wrap">
                             {subMenu.name}
+                            </span>
                           </div>
                         </div>
                       );

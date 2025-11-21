@@ -6,7 +6,7 @@ const INITIAL_USER = {
   refreshToken: "",
   otpTokenId: "",
   loginDetails: { email: "" },
-  officeId: null,
+  office: null,
 };
 
 const authSlice = createSlice({
@@ -47,7 +47,7 @@ const authSlice = createSlice({
       return state;
     },
     handleOfficeUpdate: (state, action) => {
-      state.officeId = action.payload;
+      state.office = action.payload;
 
       return state;
     },

@@ -6,6 +6,7 @@ import {
   QueueListIcon,
   TableCellsIcon,
 } from "@heroicons/react/16/solid";
+import { CommonInput } from "./CommonInput";
 
 export const HeadingComp = (props) => {
   const {
@@ -51,7 +52,16 @@ export const HeadingComp = (props) => {
       </div>
       <div className="flex  gap-5">
         <div className="flex items-center gap-4">
-          {!hideSearch && <SearchBar {...{searchValue, onSearchChange}} />}
+          {!hideSearch && (
+            <CommonInput
+              {...{
+                type: "search",
+                placeholder: "Search...",
+                value: searchValue,
+                onChange: onSearchChange,
+              }}
+            />
+          )}
           {listType === "TABLE" && iconToShow.includes("list") ? (
             <span onClick={() => handleListType("GRID")}>
               <QueueListIcon className="size-4 cursor-pointer" />
