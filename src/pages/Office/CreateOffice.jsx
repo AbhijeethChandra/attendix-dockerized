@@ -4,15 +4,15 @@ import {
   useCreateOfficeMutation,
   useGetActiveOfficesQuery,
   useUpdateOfficeMutation,
-} from "../../app/features/office/officeApi";
+} from "@/app/features/office/officeApi";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
 import {
   useGetCountriesQuery,
   useGetStatesQuery,
-} from "../../app/common/commonApi";
+} from "@/app/common/commonApi";
 import { useEffect, useState } from "react";
-import { useGetActiveSectorQuery } from "../../app/features/sector/sectorApi";
+import { useGetActiveSectorQuery } from "@/app/features/sector/sectorApi";
 import toast from "react-hot-toast";
 
 const OFFICE_TYPE_OPTIONS = [

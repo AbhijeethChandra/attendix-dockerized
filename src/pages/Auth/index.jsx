@@ -2,9 +2,9 @@ import { useState } from "react";
 import logoWithName from "@/assets/icons/Attendix_Tagline.svg";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { useLoginApiMutation } from "@/app/features/auth/authApi";
-import { useLogoutAllApiMutation } from "../../app/features/auth/authApi";
+import { useLogoutAllApiMutation } from "@/app/features/auth/authApi";
 import { useDispatch } from "react-redux";
-import { handleLoginSlice } from "../../app/features/auth/authSlice";
+import { handleLoginSlice } from "@/app/features/auth/authSlice";
 import { useNavigate } from "react-router";
 
 export const Login = () => {

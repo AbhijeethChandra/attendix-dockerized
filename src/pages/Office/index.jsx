@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import {
   useGetAllOfficeQuery,
   useUpdateStatusOfficeMutation,
-} from "../../app/features/office/officeApi";
+} from "@/app/features/office/officeApi";
 
 const Office = () => {
   const [isOpen, setIsOpen] = useState(false);

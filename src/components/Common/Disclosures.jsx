@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { toggleSidebar } from "../../app/features/theme/themeSlice";
+import { toggleSidebar } from "@/app/features/theme/themeSlice";
 
 export const Disclosures = (props) => {
   const {

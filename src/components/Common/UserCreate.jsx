@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStepper } from "../../hooks/useStepper";
+import { useStepper } from "@/hooks/useStepper";
 import CopyIcon from "/src/assets/icons/copy.svg?react";
 import ShareIcon from "/src/assets/icons/share.svg?react";
 import FileIcon from "/src/assets/icons/email.svg?react";

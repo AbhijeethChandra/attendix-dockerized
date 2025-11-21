@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import {
   useGetAllSectorQuery,
   useUpdateStatusSectorMutation,
-} from "../../app/features/sector/sectorApi";
+} from "@/app/features/sector/sectorApi";
 
 const Sector = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,9 +34,9 @@ const Sector = () => {
         .filter((sector) =>
           sector.sectorName.toLowerCase().includes(searchText.toLowerCase())
         )
-        .map((sector, index) => ({
-          other: { ...sector },
-          tableData: { sl: index + 1, sectorName: sector.sectorName },
+        .map((data, index) => ({
+          other: { ...data },
+          tableData: { sl: index + 1, sectorName: data.sectorName },
         }));
     } else return [];
   }, [sectorsData, searchText, isError]);
@@ -49,7 +49,7 @@ const Sector = () => {
       tenantId: user.tenant_id,
     };
     try {
-      await updateStatusApi(submitData);
+      await updateStatusApi(submitData).unwrap();
       refetch();
     } catch (err) {
       console.log("Error updating sector status:", err);

@@ -3,17 +3,18 @@ import { CommonInput } from "@/components/Common/CommonInput";
 import {
   useCreateSectorMutation,
   useUpdateSectorMutation,
-} from "../../app/features/sector/sectorApi";
+} from "@/app/features/sector/sectorApi";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
-const INITIAL_STATE = {
+const INITIAL_DETAILS = {
   sectorName: "",
 };
 
 export const CreateSector = (props) => {
   const { isOpen, onClose, refetch } = props;
-  const [details, setDetails] = useState(INITIAL_STATE);
+  const [details, setDetails] = useState(INITIAL_DETAILS);
   const user = useSelector((state) => state.auth.user);
 
   const [createApi, createApiRes] = useCreateSectorMutation();
@@ -26,7 +27,7 @@ export const CreateSector = (props) => {
         sectorName: isOpen.sectorName,
       });
     } else {
-      setDetails(INITIAL_STATE);
+      setDetails(INITIAL_DETAILS);
     }
   }, [isOpen]);
 
@@ -47,11 +48,14 @@ export const CreateSector = (props) => {
         active: "Y",
       };
 
-      if (details.id) await editApi(submitData);
-      else await createApi(submitData);
-      setDetails(INITIAL_STATE);
+      if (details.id) await editApi(submitData).unwrap();
+      else await createApi(submitData).unwrap();
+      setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
+      toast.success(
+        `Sector ${details.id ? "updated" : "created"} successfully`
+      );
     } catch (err) {
       console.log("Error creating sector:", err);
     }
@@ -85,9 +89,7 @@ export const CreateSector = (props) => {
         <div className="w-full flex gap-3">
           <button
             type="reset"
-            onClick={() => {
-              setDetails(INITIAL_STATE);
-            }}
+            onClick={() => setDetails(INITIAL_DETAILS)}
             className="button-1 w-full button-3 rounded-md py-1.5 px-3"
           >
             Reset

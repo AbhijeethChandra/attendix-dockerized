@@ -2,7 +2,7 @@ import { Bars3Icon } from "@heroicons/react/16/solid";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "@/assets/icons/Attendix_A.svg";
 import logoWithName from "@/assets/icons/Attendix_Logo.svg";
-import { toggleSidebar } from "../../app/features/theme/themeSlice";
+import { toggleSidebar } from "@/app/features/theme/themeSlice";
 import { SidebarList } from "./SidebarList";
 import { useLocation, useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
