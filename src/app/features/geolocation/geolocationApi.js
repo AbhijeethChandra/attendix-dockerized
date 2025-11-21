@@ -36,5 +36,4 @@ export const {
   useUpdateGeolocationMutation,
   useGetGeolocationQuery,
   useGetAllGeolocationsQuery,
-  useGetActiveGeolocationsQuery,
 } = geolocationApi;
