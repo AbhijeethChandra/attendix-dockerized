@@ -28,6 +28,12 @@ const departmentApi = apiInstance.injectEndpoints({
         method: "GET",
       }),
     }),
+    getActiveDepartments: builder.query({
+      query: (tenantId) => ({
+        url: `/departments/active/${tenantId}`,
+        method: "GET",
+      }),
+    }),
     updateStatusDepartment: builder.mutation({
       query: (data) => ({
         url: `/departments/update-active`,
@@ -43,5 +49,6 @@ export const {
   useUpdateDepartmentMutation,
   useGetDepartmentQuery,
   useGetAllDepartmentQuery,
+  useGetActiveDepartmentsQuery,
   useUpdateStatusDepartmentMutation,
 } = departmentApi;

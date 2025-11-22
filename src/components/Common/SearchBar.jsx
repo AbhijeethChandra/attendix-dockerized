@@ -20,6 +20,7 @@ export const SearchBar = (props) => {
     options = [],
     value,
     onChange,
+    optionMenuClass = "",
     ...rest
   } = props;
 
@@ -66,7 +67,8 @@ export const SearchBar = (props) => {
             transition
             className={twMerge(
               "w-(--input-width) mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible border border-[var(--color-border-input)]",
-              "transition duration-100 ease-in data-leave:data-closed:opacity-0"
+              "transition duration-100 ease-in data-leave:data-closed:opacity-0",
+              optionMenuClass
             )}
           >
             {filteredOptions.map((data) => (

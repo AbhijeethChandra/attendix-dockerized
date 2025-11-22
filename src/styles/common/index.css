@@ -39,3 +39,17 @@ ul {
   scrollbar-width: none;
 }
 
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  
+  thead {
+    position: relative;
+    th {
+      position: sticky;
+      top: 0;
+      border-right: 1px solid var(--color-border-2);
+      z-index: 10;
+    }
+  }
+}

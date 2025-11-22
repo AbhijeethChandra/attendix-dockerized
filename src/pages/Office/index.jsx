@@ -30,8 +30,11 @@ const Office = () => {
   const offices =
     officesData?.data.length && !isError
       ? officesData.data
-          .filter((office) =>
-            office.officeName.toLowerCase().includes(searchText.toLowerCase())
+          .filter((data) =>
+            Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
           )
           .map((data, index) => ({
             other: {

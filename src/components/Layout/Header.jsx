@@ -128,6 +128,7 @@ export const Header = () => {
           containerClass={`bg-[var(--color-bg-2)] border-none`}
           onChange={handleTenantChange}
           options={officesOptions()}
+          optionMenuClass="z-90"
         />
       </div>
       <div className="flex gap-6 items-center">

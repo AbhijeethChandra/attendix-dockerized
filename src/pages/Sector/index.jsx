@@ -32,7 +32,10 @@ const Sector = () => {
     if (sectorsData?.data.length && !isError) {
       return sectorsData.data
         .filter((sector) =>
-          sector.sectorName.toLowerCase().includes(searchText.toLowerCase())
+          Object.values(data)
+            ?.join(" ")
+            ?.toLowerCase()
+            ?.includes(searchText.toLowerCase())
         )
         .map((data, index) => ({
           other: { ...data },

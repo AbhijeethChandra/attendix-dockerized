@@ -29,8 +29,10 @@ const GeoLocation = () => {
     if (geolocationData?.data.length && !isError) {
       return geolocationData.data
         .filter((data) =>
-          data?.officeName?.toLowerCase().includes(searchText.toLowerCase())
-        )
+          Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())        )
         .map((data, index) => ({
           other: {
             ...data,

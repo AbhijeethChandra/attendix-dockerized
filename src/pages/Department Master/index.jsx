@@ -31,8 +31,10 @@ const Department = () => {
     if (departmentData?.data.length && !isError) {
       return departmentData.data
         .filter((data) =>
-          data?.deptname?.toLowerCase().includes(searchText.toLowerCase())
-        )
+          Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())        )
         .map((data, index) => ({
           other: { ...data },
           tableData: { sl: index + 1, deptname: data.deptname },

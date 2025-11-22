@@ -1,10 +1,23 @@
 import { twMerge } from "tailwind-merge";
 
 export const CustomTable1 = (props) => {
-  const { columns, datas, actions, className, isLoading, errorMessage } = props;
+  const {
+    columns,
+    datas,
+    actions,
+    className,
+    isLoading,
+    errorMessage,
+    containerClass,
+  } = props;
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div
+      className={twMerge(
+        "w-full overflow-x-auto max-h-[calc(100vh-10rem)] overflow-y-auto",
+        containerClass
+      )}
+    >
       <table className={twMerge("table-1", className)}>
         <thead>
           {columns && (
@@ -18,7 +31,13 @@ export const CustomTable1 = (props) => {
         <tbody>
           {isLoading || errorMessage ? (
             <tr>
-              <td className={twMerge("text-center", errorMessage && "text-[var(--color-text-error)]")} colSpan={columns.length}>
+              <td
+                className={twMerge(
+                  "text-center",
+                  errorMessage && "text-[var(--color-text-error)]"
+                )}
+                colSpan={columns.length}
+              >
                 {errorMessage ? errorMessage : "Loading, Please wait ..."}
               </td>
             </tr>
