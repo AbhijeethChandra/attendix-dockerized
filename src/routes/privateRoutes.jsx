@@ -6,6 +6,7 @@ const Sector = lazy(() => import("@/pages/Sector"));
 const LeaveType = lazy(() => import("@/pages/Leave Type"));
 const Geo = lazy(() => import("@/pages/GeoLocation"));
 const Employee = lazy(() => import("@/pages/Employee"));
+const Holiday = lazy(() => import("@/pages/Holiday"));
 const WeekendMaster = lazy(() => import("@/pages/WeekendMaster"));
 const Designation = lazy(() => import("@/pages/Designation"));
 const AttendanceRequest = lazy(() => import("@/pages/AttendanceRequest"));
@@ -29,6 +30,7 @@ export const PrivateRoutes = [
   { path: "leave-type", element: <LeaveType /> },
   { path: "geo-location", element: <Geo /> },
   { path: "employee-master", element: <Employee /> },
+  { path: "holiday-master", element: <Holiday /> },
   { path: "weekend-master", element: <WeekendMaster /> },
   { path: "designation-master", element: <Designation /> },
   { path: "attendance-request", element: <AttendanceRequest /> },

@@ -96,13 +96,13 @@ export const CommonInput = ({
           {...props}
           id={props.name}
           format="dd-MM-yyyy"
-          value={props.value ? dayjs(props.value, "DD-MM-YYYY") : dayjs()}
+          value={props.value || null}
           calendarIcon={
             <CalendarDaysIcon className="size-6 cursor-pointer shrink-0" />
           }
           clearIcon={null}
           className={twMerge(
-            "date-picker w-full flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-2)] rounded-md p-2 cursor-pointer",
+            "date-picker w-full flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-input)] rounded-md p-1.5 cursor-pointer",
             inputClass
           )}
         />

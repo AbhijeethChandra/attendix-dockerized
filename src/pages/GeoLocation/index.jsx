@@ -2,7 +2,7 @@ import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { CreateGeoLocation } from "./CreateGeoLocation";
 import { MdEdit } from "react-icons/md";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetAllGeolocationsQuery } from "@/app/features/geolocation/geolocationApi";
@@ -25,28 +25,28 @@ const GeoLocation = () => {
     officeId: office?.id ?? skipToken,
   });
 
-  const geolocation = useCallback(() => {
-    if (geolocationData?.data.length && !isError) {
-      return geolocationData.data
-        .filter((data) =>
-          Object.values(data)
+  const geolocation =
+    geolocationData?.data.length && !isError
+      ? geolocationData.data
+          .filter((data) =>
+            Object.values(data)
               ?.join(" ")
               ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())        )
-        .map((data, index) => ({
-          other: {
-            ...data,
-          },
-          tableData: {
-            sl: index + 1,
-            officeName: data.officeName,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            geoRadius: data.geoRadius,
-          },
-        }));
-    } else return [];
-  }, [geolocationData, searchText, isError]);
+              ?.includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: {
+              ...data,
+            },
+            tableData: {
+              sl: index + 1,
+              officeName: data.officeName,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              geoRadius: data.geoRadius,
+            },
+          }))
+      : [];
 
   return (
     <div>

@@ -18,6 +18,7 @@ export const ROUTES_BY_ROLE = {
     "shift-override",
     "reports",
     "day-wise-report",
+    "holiday-master",
     "employee-wise-report",
     "leave-report",
     "device-info",
