@@ -1,7 +1,7 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { CreateOffice } from "./CreateOffice";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdEdit } from "react-icons/md";
 import { skipToken } from "@reduxjs/toolkit/query";

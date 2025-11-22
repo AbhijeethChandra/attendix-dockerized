@@ -39,7 +39,7 @@ export const CommonInput = ({
   return (
     <div
       style={containerStyle}
-      className={twMerge("flex flex-col gap-2 w-full", containerClass)}
+      className={twMerge("flex flex-col gap-2 gap-y-1 w-full", containerClass)}
     >
       {label && (
         <div className="w-full flex justify-between">

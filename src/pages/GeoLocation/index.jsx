@@ -62,7 +62,7 @@ const GeoLocation = () => {
         {...{
           isLoading: isLoading,
           errorMessage: office?.id ? null : "Please select an office",
-          datas: geolocation(),
+          datas: geolocation,
           columns: [
             "Sl.No",
             "Office Name",

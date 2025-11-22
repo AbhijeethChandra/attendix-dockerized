@@ -40,6 +40,12 @@ const employeeApi = apiInstance.injectEndpoints({
         method: "GET",
       }),
     }),
+    getEmployeesOffices: builder.query({
+      query: ({ tenantId, officeId }) => ({
+        url: `/staff/additional-offices?tenantId=${tenantId}&officeId=${officeId}`,
+        method: "GET",
+      }),
+    }),
     updateStatusEmployee: builder.mutation({
       query: (data) => ({
         url: `/staff/update-active`,
@@ -57,5 +63,6 @@ export const {
   useGetOfficeEmployeesQuery,
   useGetOfficeActiveEmployeesQuery,
   useGetDepartmentEmployeesQuery,
+  useGetEmployeesOfficesQuery,
   useUpdateStatusEmployeeMutation,
 } = employeeApi;

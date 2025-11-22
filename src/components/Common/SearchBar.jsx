@@ -19,8 +19,12 @@ export const SearchBar = (props) => {
     placeholder = "Search...",
     options = [],
     value,
+    multiple = false,
     onChange,
     optionMenuClass = "",
+    className = "",
+    multiselectClass = "",
+    required = false,
     ...rest
   } = props;
 
@@ -34,55 +38,76 @@ export const SearchBar = (props) => {
         });
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className={twMerge("flex flex-col gap-1.5 w-full", className)}>
       {label && <label className={labelClass}>{label}</label>}
 
-      <Combobox value={value} onChange={onChange} onClose={() => setQuery("")}>
+      <Combobox
+        multiple={multiple}
+        immediate
+        value={value}
+        onChange={onChange}
+        onClose={() => setQuery("")}
+        as="div"
+        className="relative"
+      >
         <div
           className={twMerge(
-            "flex items-center border border-[var(--color-border-input)] rounded-md px-1 w-full py-1.5",
+            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[5px] w-full",
             containerClass
           )}
         >
-          <ComboboxButton className="flex items-center">
-            <MagnifyingGlassIcon
-              className={twMerge(
-                "size-6 text-[var(--color-text-2)] mr-2",
-                iconClass
-              )}
-            />
-          </ComboboxButton>
-          <ComboboxInput
-            className={twMerge("flex-1 w-full outline-none", inputClass)}
-            displayValue={(data) =>
-              options.find((opt) => opt.value === data)?.name
-            }
-            placeholder={placeholder || "Search..."}
-            onChange={(event) => setQuery(event.target.value)}
-            {...rest}
-          />
+          <div className="flex gap-2">
+            <ComboboxButton className="flex-non items-center ">
+              <MagnifyingGlassIcon
+                className={twMerge(
+                  "size-6 text-[var(--color-text-2)] mr-2",
+                  iconClass
+                )}
+              />
+            </ComboboxButton>
 
-          <ComboboxOptions
-            anchor="bottom"
-            transition
-            className={twMerge(
-              "w-(--input-width) mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible border border-[var(--color-border-input)]",
-              "transition duration-100 ease-in data-leave:data-closed:opacity-0",
-              optionMenuClass
-            )}
-          >
-            {filteredOptions.map((data) => (
-              <ComboboxOption
-                key={data.value}
-                value={data.value}
-                className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/20"
-              >
-                <div className="text-sm/6 text-black">{data.name}</div>
-                <CheckIcon className="invisible size-4 fill-[var(--color-icon-2)] group-data-selected:visible" />
-              </ComboboxOption>
-            ))}
-          </ComboboxOptions>
+            <ComboboxInput
+              required={required && !(multiple && value?.length)}
+              className={twMerge("flex-1 outline-none", inputClass)}
+              displayValue={(data) =>
+                options.find((opt) => opt.value === data)?.name
+              }
+              placeholder={placeholder || "Search..."}
+              onChange={(event) => setQuery(event.target.value)}
+              {...rest}
+            />
+          </div>
+
+          {value?.length > 0 && (
+            <div className={twMerge("text-wrap max-h-[55px] overflow-y-auto px-1 pt-1", multiselectClass)}>
+              {value.map((data) => (
+                <span key={data}>
+                  {options.find((opt) => opt.value === data)?.name}, &nbsp;
+                </span>
+              ))}
+            </div>
+          )}
         </div>
+
+        <ComboboxOptions
+          transition
+          className={twMerge(
+            "absolute left-0 top-full w-fit max-w-[200px] overflow-x-auto mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible border border-[var(--color-border-input)] z-[2]",
+            "transition duration-100 ease-in data-leave:data-closed:opacity-0",
+            optionMenuClass
+          )}
+        >
+          {filteredOptions.map((data) => (
+            <ComboboxOption
+              key={data.value}
+              value={data.value}
+              className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/20"
+            >
+              <div className="text-sm/6 text-black">{data.name}</div>
+              <CheckIcon className="invisible size-4 fill-[var(--color-icon-2)] group-data-selected:visible" />
+            </ComboboxOption>
+          ))}
+        </ComboboxOptions>
       </Combobox>
     </div>
   );

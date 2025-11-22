@@ -1,27 +1,88 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
-import { useState } from "react";
 import { CreateOfficeAllocation } from "./CreateOfficeAllocation";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { MdEdit } from "react-icons/md";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useGetEmployeesOfficesQuery } from "@/app/features/employee/employeeApi";
 
-const OfficeAllocation = () => {
+const OfficeAllocationAllocation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  const user = useSelector((state) => state.auth.user);
+  const office = useSelector((state) => state.auth.office);
 
   const onClose = () => setIsOpen(false);
+
+  const {
+    data: officeAllocationsData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetEmployeesOfficesQuery({
+    tenantId: user.tenant_id ?? skipToken,
+    officeId: office?.id ?? skipToken,
+  });
+
+  const officeAllocations =
+    officeAllocationsData?.data.length && !isError
+      ? officeAllocationsData.data
+          .filter((data) =>
+            Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: {
+              ...data,
+              id: data.staffId,
+            },
+            tableData: {
+              sl: index + 1,
+              fullName: data.fullName,
+              phoneNumber: data.phoneNumber,
+              email: data.email,
+              tenantName: data.tenantName,
+              offices: Array.isArray(data?.offices)
+                ? data.offices.map((office) => office.officeName).join(", ")
+                : "",
+            },
+          }))
+      : [];
+
   return (
     <div>
       <HeadingComp
         heading="Office Allocation"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}
-        createButtonText="Allocate Office"
+        createButtonText="Create Office Allocation"
+        searchValue={searchText}
+        onSearchChange={(e) => setSearchText(e.target.value)}
       />
       <CustomTable1
-        className="table-2"
-        columns={["Sl.No", "Name", "Phone", " Mail", "Tenant Name", "Office"]}
+        {...{
+          isLoading,
+          datas: officeAllocations,
+          columns: ["Sl.No", "Name", "Phone", "Mail", "Tenant Name", "Offices"],
+          // actions: [
+          //   [
+          //     ({ data }) => (
+          //       <MdEdit
+          //         onClick={() => setIsOpen(data)}
+          //         className="cursor-pointer size-6 text-[var(--color-icon-2)]"
+          //       />
+          //     ),
+          //   ],
+          // ],
+        }}
       />
-      <CreateOfficeAllocation {...{ isOpen, onClose }} />
+      <CreateOfficeAllocation {...{ isOpen, onClose, refetch }} />
     </div>
   );
 };
 
-export default OfficeAllocation;
+export default OfficeAllocationAllocation;

@@ -190,7 +190,7 @@ export const Header = () => {
         {isProfileMenuOpen && (
           <div
             ref={profileMenuRef}
-            className="absolute top-15 right-5 bg-[var(--color-bg-2)] rounded p-4 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-4"
+            className="absolute z-90 top-15 right-5 bg-[var(--color-bg-2)] rounded p-4 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-4"
           >
             <div className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
               <TbLockCode className="inline size-5 mr-2 text-[var(--color-icon-2)]" />
