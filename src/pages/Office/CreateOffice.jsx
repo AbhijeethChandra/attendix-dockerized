@@ -126,7 +126,7 @@ export const CreateOffice = (props) => {
   return (
     <Modal
       {...{
-        isOpen: isOpen ? true : false,
+        isOpen: Boolean(isOpen),
         onClose,
         dialogTitle: "Create Office",
         panelClass: "min-w-[calc(100vw-70vw)]",

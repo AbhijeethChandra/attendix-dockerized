@@ -28,6 +28,12 @@ const designationApi = apiInstance.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateStatusDesignation: builder.mutation({
+      query: ({ id, active }) => ({
+        url: `/designations/update-active?id=${id}&active=${active}`,
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -36,4 +42,5 @@ export const {
   useUpdateDesignationMutation,
   useGetDesignationQuery,
   useGetAllDesignationsQuery,
+  useUpdateStatusDesignationMutation,
 } = designationApi;

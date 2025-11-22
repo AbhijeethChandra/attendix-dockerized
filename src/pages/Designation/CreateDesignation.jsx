@@ -1,42 +1,143 @@
 import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useGetAllDepartmentQuery } from "@/app/features/department/departmentApi";
+import {
+  useCreateDesignationMutation,
+  useUpdateDesignationMutation,
+} from "@/app/features/designation/designationApi";
+import { SearchBar } from "@/components/Common/SearchBar";
+import toast from "react-hot-toast";
+
+const INITIAL_DETAILS = {
+  designame: "",
+  tenantId: "",
+  departmentId: "",
+  active: "",
+};
 
 export const CreateDesignation = (props) => {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, refetch } = props;
+  const [details, setDetails] = useState(INITIAL_DETAILS);
+
+  const user = useSelector((state) => state.auth.user);
+
+  //queries
+  const { data: departmentDatas } = useGetAllDepartmentQuery(
+    user.tenant_id ?? skipToken
+  );
+
+  //mutations
+  const [createApi, createApiRes] = useCreateDesignationMutation();
+  const [editApi, editApiRes] = useUpdateDesignationMutation();
+
+  const designationOptions = departmentDatas?.data
+    ? departmentDatas?.data.map((data) => ({
+        ...data,
+        name: data.deptname,
+        value: data.id,
+      }))
+    : [];
+
+  useEffect(() => {
+    if (typeof isOpen === "object" && isOpen !== null) {
+      setDetails({
+        ...isOpen,
+      });
+    } else {
+      setDetails(INITIAL_DETAILS);
+    }
+  }, [isOpen]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (value) => {
+    setDetails((prev) => ({
+      ...prev,
+      departmentId: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const submitData = {
+        ...details,
+        tenantId: user.tenant_id,
+        active: "Y",
+      };
+
+      if (details.id) await editApi(submitData).unwrap();
+      else await createApi(submitData).unwrap();
+
+      setDetails(INITIAL_DETAILS);
+      refetch();
+      onClose();
+      toast.success("Designation saved successfully");
+    } catch (err) {
+      console.log("Error creating Designation:", err);
+    }
+  };
+
   return (
     <Modal
       {...{
-        isOpen,
+        isOpen: Boolean(isOpen),
         onClose,
         dialogTitle: "Create Designation",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
     >
-      <div className="h-[calc(100vh-5rem)] w-full flex flex-col gap-5 px-5 py-3 overflow-y-auto flex flex-col justify-between">
+      <form
+        onSubmit={handleSubmit}
+        className="h-[calc(100vh-5rem)] w-full flex flex-col gap-5 px-5 py-3 overflow-y-auto flex flex-col justify-between"
+      >
         <div className="flex-1 space-y-5">
           <CommonInput
+            required
+            onChange={handleChange}
+            value={details.designame}
+            name="designame"
             type="text"
             label="Designation Name"
             placeholder="Enter Designation Name"
           />
-          <CommonInput
-            type="select"
+          <SearchBar
+            required
+            onChange={handleSelectChange}
+            name="departmentId"
+            value={details.departmentId}
             label="Department"
-            options={[]}
             placeholder="Select Department"
+            options={designationOptions}
           />
         </div>
 
         <div className="w-full flex gap-3">
-          <button className="button-1 w-full button-3 rounded-md py-1.5 px-3">
+          <button
+            type="reset"
+            onClick={() => setDetails(INITIAL_DETAILS)}
+            className="button-1 w-full button-3 rounded-md py-1.5 px-3"
+          >
             Reset
           </button>
-          <button className="button-1 w-full rounded-md py-1.5 px-3">
-            Create
+          <button
+            type="submit"
+            disabled={createApiRes.isLoading || editApiRes.isLoading}
+            className="button-1 w-full rounded-md py-1.5 px-3"
+          >
+            {details.id ? "Update" : "Create"}
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };

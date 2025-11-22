@@ -24,8 +24,9 @@ export const CreateGeoLocation = (props) => {
   const user = useSelector((state) => state.auth.user);
 
   //queries
-  const { data: offices, isLoading: isLoadingOffices } =
-    useGetActiveOfficesQuery(user.tenant_id ?? skipToken);
+  const { data: offices } = useGetActiveOfficesQuery(
+    user.tenant_id ?? skipToken
+  );
 
   //mutations
   const [createApi, createApiRes] = useCreateGeolocationMutation();
@@ -41,7 +42,6 @@ export const CreateGeoLocation = (props) => {
     : [];
 
   useEffect(() => {
-    console.log("isOpen", isOpen);
     if (typeof isOpen === "object" && isOpen !== null) {
       setDetails({
         ...isOpen,
@@ -75,10 +75,9 @@ export const CreateGeoLocation = (props) => {
         active: "Y",
       };
 
-      // console.log(submitData);
-      // return;
       if (details.id) await editApi(submitData).unwrap();
       else await createApi(submitData).unwrap();
+
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
@@ -91,7 +90,7 @@ export const CreateGeoLocation = (props) => {
   return (
     <Modal
       {...{
-        isOpen: isOpen ? true : false,
+        isOpen: Boolean(isOpen),
         onClose,
         dialogTitle: "Create Geo Location",
         panelClass: "min-w-[calc(100vw-70vw)]",
@@ -143,6 +142,7 @@ export const CreateGeoLocation = (props) => {
         <div className="w-full flex gap-3">
           <button
             type="reset"
+            onClick={()=>setDetails(INITIAL_DETAILS)}
             className="button-1 w-full button-3 rounded-md py-1.5 px-3"
           >
             Reset

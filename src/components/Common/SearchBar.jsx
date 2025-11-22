@@ -29,7 +29,7 @@ export const SearchBar = (props) => {
     query === ""
       ? options
       : options.filter((data) => {
-          return data.name.toLowerCase().includes(query.toLowerCase());
+          return data?.name?.toLowerCase().includes(query.toLowerCase());
         });
 
   return (
@@ -65,7 +65,7 @@ export const SearchBar = (props) => {
             anchor="bottom"
             transition
             className={twMerge(
-              "w-(--input-width) mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible",
+              "w-(--input-width) mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible border border-[var(--color-border-input)]",
               "transition duration-100 ease-in data-leave:data-closed:opacity-0"
             )}
           >
@@ -73,7 +73,7 @@ export const SearchBar = (props) => {
               <ComboboxOption
                 key={data.value}
                 value={data.value}
-                className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/10"
+                className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/20"
               >
                 <div className="text-sm/6 text-black">{data.name}</div>
                 <CheckIcon className="invisible size-4 fill-[var(--color-icon-2)] group-data-selected:visible" />

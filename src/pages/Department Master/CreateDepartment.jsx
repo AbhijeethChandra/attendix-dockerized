@@ -61,7 +61,7 @@ export const CreateDepartment = (props) => {
   return (
     <Modal
       {...{
-        isOpen: isOpen ? true : false,
+        isOpen: Boolean(isOpen),
         onClose,
         dialogTitle: "Create Department",
         panelClass: "min-w-[calc(100vw-70vw)]",

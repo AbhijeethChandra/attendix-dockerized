@@ -27,27 +27,26 @@ const Office = () => {
 
   const [updateStatusApi, updateStatusResult] = useUpdateStatusOfficeMutation();
 
-  const offices = useCallback(() => {
-    if (officesData?.data.length && !isError) {
-      return officesData.data
-        .filter((office) =>
-          office.officeName.toLowerCase().includes(searchText.toLowerCase())
-        )
-        .map((office, index) => ({
-          other: {
-            ...office,
-          },
-          tableData: {
-            sl: index + 1,
-            sectorName: office.sectorName,
-            officeName: office.officeName,
-            officeType: office.officeType,
-            parentOffice: office.parentOfficeName,
-            address: office.address,
-          },
-        }));
-    } else return [];
-  }, [officesData, searchText, isError]);
+  const offices =
+    officesData?.data.length && !isError
+      ? officesData.data
+          .filter((office) =>
+            office.officeName.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: {
+              ...data,
+            },
+            tableData: {
+              sl: index + 1,
+              sectorName: data.sectorName,
+              officeName: data.officeName,
+              officeType: data.officeType,
+              parentOffice: data.parentOfficeName,
+              address: data.address,
+            },
+          }))
+      : [];
 
   const handleStatusUpdate = async (data) => {
     const updatedStatus = data.active === "Y" ? "N" : "Y";
@@ -77,7 +76,7 @@ const Office = () => {
       <CustomTable1
         {...{
           isLoading,
-          datas: offices(),
+          datas: offices,
           columns: [
             "Sl.No",
             "Sector",

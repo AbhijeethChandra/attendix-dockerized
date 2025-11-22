@@ -23,8 +23,8 @@ const departmentApi = apiInstance.injectEndpoints({
       }),
     }),
     getAllDepartment: builder.query({
-      query: (id) => ({
-        url: `/departments/tenant/${id}`,
+      query: (tenantId) => ({
+        url: `/departments/tenant/${tenantId}`,
         method: "GET",
       }),
     }),
