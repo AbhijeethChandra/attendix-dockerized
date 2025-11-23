@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { authApiInstance, apiInstance } from "./api";
-import themeSlice from "./features/theme/themeSlice";
-import authSlice from "./features/auth/authSlice";
+import { authApiInstance, apiInstance } from "./apiInstance";
+import themeSlice from "./slice/themeSlice";
+import authSlice from "./slice/authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 

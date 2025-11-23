@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdEdit } from "react-icons/md";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useGetEmployeesOfficesQuery } from "@/app/features/employee/employeeApi";
+import { useGetEmployeesOfficesQuery } from "@/app/rtkQueries/employeeApi";
 
 const OfficeAllocationAllocation = () => {
   const [isOpen, setIsOpen] = useState(false);

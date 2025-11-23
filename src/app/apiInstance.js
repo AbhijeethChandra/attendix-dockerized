@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   handleLogoutSlice,
   handleRefreshToken,
-} from "./features/auth/authSlice";
+} from "./slice/authSlice";
 
 const handleApiError = (error, api) => {
   const status = error?.originalStatus || error.status;

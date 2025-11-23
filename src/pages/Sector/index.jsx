@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import {
   useGetAllSectorQuery,
   useUpdateStatusSectorMutation,
-} from "@/app/features/sector/sectorApi";
+} from "@/app/rtkQueries/sectorApi";
 
 const Sector = () => {
   const [isOpen, setIsOpen] = useState(false);

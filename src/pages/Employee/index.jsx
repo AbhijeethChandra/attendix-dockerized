@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import {
   useGetOfficeEmployeesQuery,
   useUpdateStatusEmployeeMutation,
-} from "@/app/features/employee/employeeApi";
+} from "@/app/rtkQueries/employeeApi";
 
 const Employee = () => {
   const [isOpen, setIsOpen] = useState(false);

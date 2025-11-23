@@ -2,13 +2,13 @@ import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { SearchBar } from "@/components/Common/SearchBar";
 import { useEffect, useState } from "react";
-import { useGetActiveOfficesQuery } from "@/app/features/office/officeApi";
+import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import {
   useCreateHolidayMutation,
   useUpdateHolidayMutation,
-} from "@/app/features/holiday/holidayApi";
+} from "@/app/rtkQueries/holidayApi";
 import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
 import dayjs from "dayjs";
 

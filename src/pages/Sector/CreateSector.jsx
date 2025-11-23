@@ -3,7 +3,7 @@ import { CommonInput } from "@/components/Common/CommonInput";
 import {
   useCreateSectorMutation,
   useUpdateSectorMutation,
-} from "@/app/features/sector/sectorApi";
+} from "@/app/rtkQueries/sectorApi";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";

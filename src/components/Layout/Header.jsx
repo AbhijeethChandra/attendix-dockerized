@@ -1,16 +1,16 @@
 import { BellAlertIcon, UserCircleIcon } from "@heroicons/react/16/solid";
 import { CommonInput } from "../Common/CommonInput";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useLogoutApiMutation } from "@/app/features/auth/authApi";
+import { useLogoutApiMutation } from "@/app/rtkQueries/authApi";
 import {
   handleLogoutSlice,
   handleOfficeUpdate,
-} from "@/app/features/auth/authSlice";
+} from "@/app/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetOfficesQuery,
   useGetUnreadNotificationsQuery,
-} from "@/app/features/dashboard/dashboardApi";
+} from "@/app/rtkQueries/dashboardApi";
 import { TbLockCode } from "react-icons/tb";
 import { IoMdLogOut } from "react-icons/io";
 import { skipToken } from "@reduxjs/toolkit/query";

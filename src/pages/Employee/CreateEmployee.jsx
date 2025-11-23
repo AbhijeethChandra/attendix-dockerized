@@ -4,16 +4,16 @@ import { SearchBar } from "@/components/Common/SearchBar";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { useGetActiveOfficesQuery } from "@/app/features/office/officeApi";
+import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
 import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
-import { useGetRolesQuery } from "@/app/features/role/roleApi";
-import { useGetAllDesignationsQuery } from "@/app/features/designation/designationApi";
-import { useGetActiveDepartmentsQuery } from "@/app/features/department/departmentApi";
+import { useGetRolesQuery } from "@/app/rtkQueries/roleApi";
+import { useGetAllDesignationsQuery } from "@/app/rtkQueries/designationApi";
+import { useGetActiveDepartmentsQuery } from "@/app/rtkQueries/departmentApi";
 import {
   useCreateEmployeeMutation,
   useGetOfficeEmployeesQuery,
   useUpdateEmployeeMutation,
-} from "@/app/features/employee/employeeApi";
+} from "@/app/rtkQueries/employeeApi";
 
 const INITIAL_DETAILS = {
   tenantId: "",

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import {
   useCreateDepartmentMutation,
   useUpdateDepartmentMutation,
-} from "../../app/features/department/departmentApi";
+} from "../../app/rtkQueries/departmentApi";
 import toast from "react-hot-toast";
 const INITIAL_DETAILS = {
   deptname: "",

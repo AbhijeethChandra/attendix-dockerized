@@ -9,12 +9,13 @@ import { twMerge } from "tailwind-merge";
 import {
   useGetAllOfficeQuery,
   useUpdateStatusOfficeMutation,
-} from "@/app/features/office/officeApi";
+} from "@/app/rtkQueries/officeApi";
 
 const Office = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state) => state.auth.user);
   const [searchText, setSearchText] = useState("");
+  
+  const user = useSelector((state) => state.auth.user);
 
   const onClose = () => setIsOpen(false);
 

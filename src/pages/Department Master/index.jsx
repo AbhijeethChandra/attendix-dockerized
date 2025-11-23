@@ -7,7 +7,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import {
   useGetAllDepartmentQuery,
   useUpdateStatusDepartmentMutation,
-} from "../../app/features/department/departmentApi";
+} from "../../app/rtkQueries/departmentApi";
 import { MdEdit } from "react-icons/md";
 import { twMerge } from "tailwind-merge";
 

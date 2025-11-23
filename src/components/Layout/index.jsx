@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 import { Sidebar } from "./Sidebar.jsx";
 import { twMerge } from "tailwind-merge";
 import { useDispatch } from "react-redux";
-import { toggleSidebar } from "@/app/features/theme/themeSlice";
+import { toggleSidebar } from "@/app/slice/themeSlice.js";
 import { Header } from "./Header.jsx";
 import { Loading } from "../Common/Loading.jsx";
 

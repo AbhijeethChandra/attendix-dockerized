@@ -14,6 +14,7 @@ import {
 
 dayjs.extend(customParseFormat);
 
+// CommonInput Component
 export const CommonInput = ({
   type = "text",
   label,
@@ -128,29 +129,37 @@ export const CommonInput = ({
             />
           )}
         </div>
-      ) : (
-        type === "search" && (
-          <div
+      ) : type === "search" ? (
+        <div
+          className={twMerge(
+            "flex items-center border border-[var(--color-border-input)] rounded-md px-3 min-w-[200px] w-full py-1.5",
+            containerClass
+          )}
+        >
+          <MagnifyingGlassIcon
             className={twMerge(
-              "flex items-center border border-[var(--color-border-input)] rounded-md px-3 min-w-[350px] w-full py-1.5",
-              containerClass
+              "size-6 text-[var(--color-text-2)] mr-2",
+              searchIconClass
             )}
-          >
-            <MagnifyingGlassIcon
-              className={twMerge(
-                "size-6 text-[var(--color-text-2)] mr-2",
-                searchIconClass
-              )}
-            />
-            <input
-              {...props}
-              type="text"
-              id={props.name}
-              className={twMerge("flex-1 w-full outline-none", inputClass)}
-            />
-          </div>
-        )
-      )}
+          />
+          <input
+            {...props}
+            type="text"
+            id={props.name}
+            className={twMerge("flex-1 w-full outline-none", inputClass)}
+          />
+        </div>
+      ) : type === "time" ? (
+        <div className="relative w-full">
+          <input
+            type="time"
+            step="1"
+            {...props}
+            id={props.name}
+            className={twMerge(INPUTCLASS, inputClass)}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

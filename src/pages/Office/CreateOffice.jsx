@@ -4,15 +4,15 @@ import {
   useCreateOfficeMutation,
   useGetActiveOfficesQuery,
   useUpdateOfficeMutation,
-} from "@/app/features/office/officeApi";
+} from "@/app/rtkQueries/officeApi";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
 import {
   useGetCountriesQuery,
   useGetStatesQuery,
-} from "@/app/common/commonApi";
+} from "@/app/rtkQueries/commonApi";
 import { useEffect, useState } from "react";
-import { useGetActiveSectorQuery } from "@/app/features/sector/sectorApi";
+import { useGetActiveSectorQuery } from "@/app/rtkQueries/sectorApi";
 import toast from "react-hot-toast";
 
 const OFFICE_TYPE_OPTIONS = [
@@ -210,12 +210,14 @@ export const CreateOffice = (props) => {
         <div className="w-full flex gap-3 px-5 ">
           <button
             type="reset"
+            onClick={()=>setDetails(INITIAL_DETAILS)}
             className="button-1 w-full button-3 rounded-md py-1.5 px-3"
           >
             Reset
           </button>
           <button
             type="submit"
+            disabled={createApiRes.isLoading || editApiRes.isLoading}
             className="button-1 w-full rounded-md py-1.5 px-3"
           >
             {details.id ? "Update" : "Create"}

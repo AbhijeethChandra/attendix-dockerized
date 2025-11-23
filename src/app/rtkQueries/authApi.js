@@ -1,4 +1,4 @@
-import { authApiInstance } from "@/app/api";
+import { authApiInstance } from "@/app/apiInstance";
 
 const authApi = authApiInstance.injectEndpoints({
   endpoints: (builder) => ({

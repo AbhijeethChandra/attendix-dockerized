@@ -2,11 +2,11 @@ import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useGetAllDepartmentQuery } from "@/app/features/department/departmentApi";
+import { useGetAllDepartmentQuery } from "@/app/rtkQueries/departmentApi";
 import {
   useCreateDesignationMutation,
   useUpdateDesignationMutation,
-} from "@/app/features/designation/designationApi";
+} from "@/app/rtkQueries/designationApi";
 import { SearchBar } from "@/components/Common/SearchBar";
 import toast from "react-hot-toast";
 

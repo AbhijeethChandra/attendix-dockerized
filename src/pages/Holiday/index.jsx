@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { CreateHoliday } from "./CreateHoliday";
-import { useGetAllHolidayQuery } from "@/app/features/holiday/holidayApi";
-import { useUpdateHolidayMutation } from "@/app/features/holiday/holidayApi";
+import { useGetAllHolidayQuery } from "@/app/rtkQueries/holidayApi";
+import { useUpdateHolidayMutation } from "@/app/rtkQueries/holidayApi";
 import { twMerge } from "tailwind-merge";
 
 const Holiday = () => {

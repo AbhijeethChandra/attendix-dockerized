@@ -5,7 +5,7 @@ import { MdEdit } from "react-icons/md";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useGetAllGeolocationsQuery } from "@/app/features/geolocation/geolocationApi";
+import { useGetAllGeolocationsQuery } from "@/app/rtkQueries/geolocationApi";
 
 const GeoLocation = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge";
 import {
   useGetAllDesignationsQuery,
   useUpdateStatusDesignationMutation,
-} from "@/app/features/designation/designationApi";
+} from "@/app/rtkQueries/designationApi";
 import { useSelector } from "react-redux";
 
 const Designation = () => {

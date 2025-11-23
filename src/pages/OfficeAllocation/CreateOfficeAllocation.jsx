@@ -1,11 +1,10 @@
 import { Modal } from "@/components/Common/Modal";
 import { SearchBar } from "@/components/Common/SearchBar";
-import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { useState } from "react";
-import { useGetActiveOfficesQuery } from "@/app/features/office/officeApi";
+import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
 import { useSelector } from "react-redux";
-import { useGetOfficeActiveEmployeesQuery } from "@/app/features/employee/employeeApi";
-import { useCreateOfficeAllocationMutation } from "@/app/features/officeAllocation/officeAllocationApi";
+import { useGetOfficeActiveEmployeesQuery } from "@/app/rtkQueries/employeeApi";
+import { useCreateOfficeAllocationMutation } from "@/app/rtkQueries/officeAllocationApi";
 
 const INITIAL_DETAILS = {
   userId: "",

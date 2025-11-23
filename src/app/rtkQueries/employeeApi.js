@@ -1,4 +1,4 @@
-import { apiInstance } from "@/app/api";
+import { apiInstance } from "@/app/apiInstance";
 
 const employeeApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({

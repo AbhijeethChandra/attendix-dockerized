@@ -4,7 +4,7 @@ import { FaUserSlash } from "react-icons/fa";
 import { LuUserX } from "react-icons/lu";
 import { RiUser2Fill } from "react-icons/ri";
 import { DashCard } from "./components/DashCard";
-import { useGetDashboardCountsQuery } from "@/app/features/dashboard/dashboardApi";
+import { useGetDashboardCountsQuery } from "@/app/rtkQueries/dashboardApi";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
 
