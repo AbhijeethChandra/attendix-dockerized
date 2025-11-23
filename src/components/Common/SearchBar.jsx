@@ -92,7 +92,7 @@ export const SearchBar = (props) => {
         <ComboboxOptions
           transition
           className={twMerge(
-            "absolute left-0 top-full w-fit max-w-[200px] overflow-x-auto mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible border border-[var(--color-border-input)] z-[2]",
+            "absolute left-0 top-full w-fit max-w-[200px] overflow-x-auto max-h-48 mt-2 rounded-lg shadow-lg bg-white p-1 empty:invisible border border-[var(--color-border-input)] z-[2]",
             "transition duration-100 ease-in data-leave:data-closed:opacity-0",
             optionMenuClass
           )}

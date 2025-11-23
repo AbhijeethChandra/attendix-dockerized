@@ -65,7 +65,6 @@ export const CreateShift = (props) => {
 
   const handleChange = (e) => {
     const { name, value } = e?.target || {};
-    console.log(name, value);
     setDetails((prev) => ({
       ...prev,
       [name]: value,
@@ -106,7 +105,6 @@ export const CreateShift = (props) => {
   };
 
   const handleRemoveBreakTime = (index) => {
-    console.log(index);
     let tempShiftBreaks = [...details.shiftBreaks];
     tempShiftBreaks.splice(index, 1);
 
@@ -178,6 +176,7 @@ export const CreateShift = (props) => {
           <div className="grid grid-cols-4 gap-4">
             <CommonInput
               label="Shift Name"
+              required
               type="text"
               placeholder="Enter Shift Name"
               name="shiftName"
@@ -186,6 +185,7 @@ export const CreateShift = (props) => {
             />
             <CommonInput
               type="time"
+              required
               label="Shift From"
               format="24"
               placeholder="Enter Shift From"
@@ -195,6 +195,7 @@ export const CreateShift = (props) => {
             />
             <CommonInput
               type="time"
+              required
               label="Shift To"
               placeholder="Enter Shift To"
               name="shiftTo"
@@ -203,6 +204,7 @@ export const CreateShift = (props) => {
             />
             <CommonInput
               type="number"
+              required
               label="Break Time"
               placeholder="In minutes"
               name="breakTime"
@@ -211,6 +213,7 @@ export const CreateShift = (props) => {
             />
             <CommonInput
               type="number"
+              required
               label="Working Hours"
               placeholder="In Hour"
               name="workingTime"

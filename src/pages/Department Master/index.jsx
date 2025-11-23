@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { CreateDepartment } from "./CreateDepartment";
@@ -13,9 +13,9 @@ import { twMerge } from "tailwind-merge";
 
 const Department = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state) => state.auth.user);
   const [searchText, setSearchText] = useState("");
-  const onClose = () => setIsOpen(false);
+
+  const user = useSelector((state) => state.auth.user);
 
   const {
     data: departmentData,
@@ -27,20 +27,22 @@ const Department = () => {
   const [updateStatusApi, updateStatusResult] =
     useUpdateStatusDepartmentMutation();
 
-  const departments = useCallback(() => {
-    if (departmentData?.data.length && !isError) {
-      return departmentData.data
-        .filter((data) =>
-          Object.values(data)
+  const departments =
+    departmentData?.data.length && !isError
+      ? departmentData.data
+          .filter((data) =>
+            Object.values(data)
               ?.join(" ")
               ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())        )
-        .map((data, index) => ({
-          other: { ...data },
-          tableData: { sl: index + 1, deptname: data.deptname },
-        }));
-    } else return [];
-  }, [departmentData, searchText, isError]);
+              ?.includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: { ...data },
+            tableData: { sl: index + 1, deptname: data.deptname },
+          }))
+      : [];
+
+  const onClose = () => setIsOpen(false);
 
   const handleStatusUpdate = async (data) => {
     const updatedStatus = data.active === "Y" ? "N" : "Y";
@@ -69,7 +71,7 @@ const Department = () => {
       <CustomTable1
         {...{
           isLoading,
-          datas: departments(),
+          datas: departments,
           columns: ["Sl.No", "Department Name", "Status", "Actions"],
           actions: [
             [

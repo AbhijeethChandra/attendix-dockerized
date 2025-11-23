@@ -13,10 +13,9 @@ import { useSelector } from "react-redux";
 
 const Designation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useSelector((state) => state.auth.user);
   const [searchText, setSearchText] = useState("");
 
-  const onClose = () => setIsOpen(false);
+  const user = useSelector((state) => state.auth.user);
 
   const {
     data: designationsData,
@@ -32,9 +31,7 @@ const Designation = () => {
     designationsData?.data.length && !isError
       ? designationsData.data
           .filter((data) =>
-            data.designame
-              .toLowerCase()
-              .includes(searchText.toLowerCase())
+            data.designame.toLowerCase().includes(searchText.toLowerCase())
           )
           .map((data, index) => ({
             other: {
@@ -43,10 +40,12 @@ const Designation = () => {
             tableData: {
               sl: index + 1,
               designame: data.designame,
-              department: data.department
+              department: data.department,
             },
           }))
       : [];
+
+  const onClose = () => setIsOpen(false);
 
   const handleStatusUpdate = async (data) => {
     const updatedStatus = data.active === "Y" ? "N" : "Y";

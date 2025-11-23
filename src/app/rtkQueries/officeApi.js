@@ -18,7 +18,7 @@ const officeApi = apiInstance.injectEndpoints({
     }),
     getOffice: builder.query({
       query: (id) => ({
-        url: `/office/getById?Id=${id}`,
+        url: `/office/getById?id=${id}`,
         method: "GET",
       }),
     }),

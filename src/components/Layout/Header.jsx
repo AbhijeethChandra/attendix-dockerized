@@ -2,10 +2,7 @@ import { BellAlertIcon, UserCircleIcon } from "@heroicons/react/16/solid";
 import { CommonInput } from "../Common/CommonInput";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLogoutApiMutation } from "@/app/rtkQueries/authApi";
-import {
-  handleLogoutSlice,
-  handleOfficeUpdate,
-} from "@/app/slice/authSlice";
+import { handleLogoutSlice, handleOfficeUpdate } from "@/app/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetOfficesQuery,
@@ -57,19 +54,19 @@ export const Header = () => {
     } else return [];
   }, [officesData]);
 
-  useEffect(() => {
-    if (!office?.id && officesData?.data?.length > 0) {
-      const defaultOffice = officesData.data[0];
-      dispatch(
-        handleOfficeUpdate({
-          id: defaultOffice.id,
-          officeName: defaultOffice.officeName,
-          name: defaultOffice.officeName,
-          value: defaultOffice.id,
-        })
-      );
-    }
-  }, [officesData, office]);
+  // useEffect(() => {
+  //   if (!office?.id && office?.id === null && officesData?.data?.length > 0) {
+  //     const defaultOffice = officesData.data[0];
+  //     dispatch(
+  //       handleOfficeUpdate({
+  //         id: defaultOffice.id,
+  //         officeName: defaultOffice.officeName,
+  //         name: defaultOffice.officeName,
+  //         value: defaultOffice.id,
+  //       })
+  //     );
+  //   }
+  // }, [officesData, office]);
 
   useEffect(() => {
     const handleClickOutside = (event, ref, parentRef) => {
