@@ -35,7 +35,7 @@ export const Header = () => {
   const {
     data: unreadNotificationsData,
     isLoading: isUnreadNotificationsLoading,
-  } = useGetUnreadNotificationsQuery(user.id ? user.id : skipToken);
+  } = useGetUnreadNotificationsQuery(user.id ? user.staffId : skipToken);
 
   const unreadNotificationsCount = useCallback(() => {
     if (unreadNotificationsData?.data?.length > 0) {

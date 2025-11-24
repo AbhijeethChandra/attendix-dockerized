@@ -6,7 +6,7 @@ const INITIAL_USER = {
   refreshToken: "",
   otpTokenId: "",
   loginDetails: { email: "" },
-  office: null,
+  office: {},
 };
 
 const authSlice = createSlice({

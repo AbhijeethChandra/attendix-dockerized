@@ -24,7 +24,7 @@ const LeaveType = () => {
     isError,
     refetch,
   } = useGetOfficeLeaveQuery(
-    { tenantId: user.tenant_id, officeId: office.id } ?? skipToken
+    { tenantId: user.tenant_id, officeId: office?.id } ?? skipToken
   );
 
   const [updateStatusApi, updateStatusResult] = useUpdateStatusLeaveMutation();
