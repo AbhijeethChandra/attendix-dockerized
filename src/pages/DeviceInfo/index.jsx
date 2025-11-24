@@ -1,19 +1,59 @@
+import { useGetAllDeviceInfoQuery } from "@/app/features/deviceinfo/deviceinfoApi";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const DeviceIn = () => {
+  const user = useSelector((state) => state.auth.user);
+  const office = useSelector((state) => state.auth.office);
+  const [searchText, setSearchText] = useState("");
+
+  const {
+    data: deviceinfoData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAllDeviceInfoQuery({
+    tenantId: user.tenant_id ?? skipToken,
+    officeId: office?.id ?? skipToken,
+  });
+
+  const deviceinfo =
+    deviceinfoData?.data?.length && !isError
+      ? deviceinfoData.data
+          .filter((data) =>
+            data?.officeName?.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: {
+              ...data,
+            },
+            tableData: {
+              sl: index + 1,
+              officeName: data.officeName,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              geoRadius: data.geoRadius,
+            },
+          }))
+      : [];
   return (
     <div>
       <HeadingComp heading="Device Info" iconToShow={[]} />
       <CustomTable1
-        className="table-2"
-        columns={[
-          "Sl.No",
-          "Employee Name",
-          "Device Info",
-          "App Version",
-          "Office Name",
-        ]}
+        {...{
+          isLoading: isLoading,
+          datas: deviceinfo,
+          columns: [
+            "Sl.No",
+            "Employee Name",
+            "Device Info",
+            "App Version",
+            "Office Name",
+          ],
+        }}
       />
     </div>
   );
