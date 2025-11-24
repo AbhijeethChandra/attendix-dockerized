@@ -1,20 +1,60 @@
+import { useGetAllLeaveRequestQuery } from "@/app/features/leaverequest/leaverequestAPI";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const LeaveReq = () => {
+  const user = useSelector((state) => state.auth.user);
+  const office = useSelector((state) => state.auth.office);
+  const [searchText, setSearchText] = useState("");
+  const {
+    data: leaverequestData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAllLeaveRequestQuery({
+    tenantId: user.tenant_id ?? skipToken,
+    officeId: office?.id ?? skipToken,
+  });
+
+  const leaverequest =
+    leaverequestData?.data?.length && !isError
+      ? leaverequestData.data
+          .filter((data) =>
+            data?.officeName?.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: {
+              ...data,
+            },
+            tableData: {
+              sl: index + 1,
+              officeName: data.officeName,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              geoRadius: data.geoRadius,
+            },
+          }))
+      : [];
+
   return (
     <div>
       <HeadingComp heading="Leave Request" iconToShow={[]} />
       <CustomTable1
-        className="table-2"
-        columns={[
-          "Sl.No",
-          "Employee Name",
-          "Office",
-          "Leave Category",
-          "Leave Type",
-          "Request Date",
-        ]}
+        {...{
+          isLoading: isLoading,
+          datas: leaverequest,
+          columns: [
+            "Sl.No",
+            "Employee Name",
+            "Office",
+            "Leave Category",
+            "Leave Type",
+            "Request Date",
+          ],
+        }}
       />
     </div>
   );
