@@ -1,7 +1,8 @@
 import { useLottie } from "lottie-react";
 import loadingAnimation from "@/assets/lotties/loading.json";
+import { twMerge } from "tailwind-merge";
 
-export const Loading = () => {
+export const Loading = ({ className }) => {
   const { View } = useLottie({
     animationData: loadingAnimation,
     loop: true,
@@ -11,6 +12,13 @@ export const Loading = () => {
     },
   });
   return (
-    <div className="h-full w-full flex justify-center items-center">{View}</div>
+    <div
+      className={twMerge(
+        "h-full w-full flex justify-center items-center",
+        className
+      )}
+    >
+      {View}
+    </div>
   );
 };

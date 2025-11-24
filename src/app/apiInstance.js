@@ -10,7 +10,6 @@ import {
 const handleApiError = (error, api) => {
   const status = error?.originalStatus || error.status;
   const errorMessage = error?.data?.message || "";
-  console.log(error.data);
   // error.data = JSON.parse(error.data);
   let message =
     error?.data?.message || error?.data?.errorCode || "Request failed";
@@ -110,5 +109,5 @@ export const authApiInstance = makeApiInstance({
 export const apiInstance = makeApiInstance({
   reducerPath: "api",
   baseQuery: errorWrapper(reauthWrapper(rawBaseQueryApi)),
-  tagTypes: ["dashboard"],
+  tagTypes: ["dashboard","weekend","shift","office","role","staff","shiftOverride","attendance","report","holiday","leave"],
 });

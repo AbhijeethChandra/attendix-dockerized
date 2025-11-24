@@ -7,6 +7,7 @@ import { DashCard } from "./components/DashCard";
 import { useGetDashboardCountsQuery } from "@/app/rtkQueries/dashboardApi";
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { HeadingComp } from "@/components/Common/HeadingComp";
 
 const data = [
   {
@@ -53,18 +54,16 @@ export const Dashboard = () => {
      user?.tenant_id || office?.id
     ? { officeId: office?.id ? office.id : null, tenantId: user.tenant_id }
     : skipToken
+    // ,{
+    //   refetchOnMountOrArgChange: true,
+    // }
   );
 
-  console.log(isLoading, isError);
-
-  console.log(dashboardData);
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-[var(--color-text-1)]">
-        Dashboard
-      </h1>
+      <HeadingComp heading="Dashboard" hideSearch={true} iconToShow={[]} />
 
-      <div className="grid grid-cols-4 py-5 gap-3">
+      <div className="grid grid-cols-4 pb-5 gap-3">
         {!isLoading ? (
           data.map((item, index) => (
             <DashCard

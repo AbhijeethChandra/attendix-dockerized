@@ -31,7 +31,7 @@ const Sector = () => {
   const sectors = useCallback(() => {
     if (sectorsData?.data.length && !isError) {
       return sectorsData.data
-        .filter((sector) =>
+        .filter((data) =>
           Object.values(data)
             ?.join(" ")
             ?.toLowerCase()

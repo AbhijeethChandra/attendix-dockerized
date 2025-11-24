@@ -50,23 +50,27 @@ export const Header = () => {
         value: office.id,
         id: office.id,
       }));
-      return [{ name: "All Offices", value: null }, ...options];
+      return [{ name: "All Offices", value: null, id: null }, ...options];
     } else return [];
   }, [officesData]);
 
-  // useEffect(() => {
-  //   if (!office?.id && office?.id === null && officesData?.data?.length > 0) {
-  //     const defaultOffice = officesData.data[0];
-  //     dispatch(
-  //       handleOfficeUpdate({
-  //         id: defaultOffice.id,
-  //         officeName: defaultOffice.officeName,
-  //         name: defaultOffice.officeName,
-  //         value: defaultOffice.id,
-  //       })
-  //     );
-  //   }
-  // }, [officesData, office]);
+  useEffect(() => {
+    if (
+      !office?.id &&
+      office.name !== "All Offices" &&
+      officesData?.data?.length > 0
+    ) {
+      const defaultOffice = officesData.data[0];
+      dispatch(
+        handleOfficeUpdate({
+          id: defaultOffice.id,
+          officeName: defaultOffice.officeName,
+          name: defaultOffice.officeName,
+          value: defaultOffice.id,
+        })
+      );
+    }
+  }, [officesData, office]);
 
   useEffect(() => {
     const handleClickOutside = (event, ref, parentRef) => {

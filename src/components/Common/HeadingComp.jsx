@@ -7,6 +7,7 @@ import {
   TableCellsIcon,
 } from "@heroicons/react/16/solid";
 import { CommonInput } from "./CommonInput";
+import { TbReload } from "react-icons/tb";
 
 export const HeadingComp = (props) => {
   const {
@@ -15,6 +16,7 @@ export const HeadingComp = (props) => {
     HeadingIcon,
     iconToShow = ["list", "filter", "sort"],
     listType,
+    refetch,
     hideSearch = false,
     setListType,
     CreateButton,
@@ -51,6 +53,14 @@ export const HeadingComp = (props) => {
         <h2 className="text-md text-[var(--color-text-1)]">{subHeading}</h2>
       </div>
       <div className="flex  gap-5">
+        {refetch && (
+          <div className="flex items-center">
+            <TbReload
+              onClick={refetch}
+              className="text-[var(--color-icon-2)] size-5 cursor-pointer"
+            />
+          </div>
+        )}
         <div className="flex items-center gap-4">
           {!hideSearch && (
             <CommonInput
