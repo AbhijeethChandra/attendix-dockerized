@@ -5,7 +5,7 @@ const leaveApi = apiInstance.injectEndpoints({
     getAllLeaveRequest: builder.query({
       query: ({ tenantId }) => ({
         url: `/leave-request/tenant/${tenantId}`,
-        method: "GET"
+        method: "GET",
       }),
     }),
     leaveRequestStatusUpdate: builder.mutation({
@@ -19,8 +19,23 @@ const leaveApi = apiInstance.injectEndpoints({
         },
       }),
     }),
+    leaveDayviseReport: builder.query({
+      query: ({ tenantId, officeId, fromDate, toDate }) => ({
+        url: `/leave-request/day-wise-report`,
+        params: {
+          tenantId,
+          officeId,
+          fromDate,
+          toDate,
+        },
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllLeaveRequestQuery, useLeaveRequestStatusUpdateMutation } =
-  leaveApi;
+export const {
+  useGetAllLeaveRequestQuery,
+  useLeaveRequestStatusUpdateMutation,
+  useLeaveDayviseReportQuery,
+} = leaveApi;

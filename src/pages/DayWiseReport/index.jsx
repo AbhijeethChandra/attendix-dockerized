@@ -154,9 +154,9 @@ const DayWiseRep = () => {
   return (
     <div>
       <HeadingComp
-        refetch={refetch}
         heading="Day Wise Report"
         iconToShow={[]}
+        refetch={refetch}
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
       />

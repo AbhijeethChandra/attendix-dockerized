@@ -75,6 +75,7 @@ const LeaveReq = () => {
         iconToShow={[]}
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
+        refetch={refetch}
       />
       <CustomTable1
         {...{

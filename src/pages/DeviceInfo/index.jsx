@@ -6,18 +6,16 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const DeviceIn = () => {
-  const user = useSelector((state) => state.auth.user);
-  const office = useSelector((state) => state.auth.office);
   const [searchText, setSearchText] = useState("");
 
+  const user = useSelector((state) => state.auth.user);
   const {
     data: deviceinfoData,
     isLoading,
     isError,
     refetch,
   } = useGetAllDeviceInfoQuery({
-    tenantId: user.tenant_id ?? skipToken,
-    officeId: office?.id ?? skipToken,
+    tenantId: user.tenant_id,
   });
 
   const deviceinfo =
@@ -32,16 +30,16 @@ const DeviceIn = () => {
             },
             tableData: {
               sl: index + 1,
+              username: data.username,
+              deviceInfo: data.deviceInfo,
+              appVersion: data.appVersion,
               officeName: data.officeName,
-              latitude: data.latitude,
-              longitude: data.longitude,
-              geoRadius: data.geoRadius,
             },
           }))
       : [];
   return (
     <div>
-      <HeadingComp heading="Device Info" iconToShow={[]} />
+      <HeadingComp refetch={refetch} heading="Device Info" iconToShow={[]} />
       <CustomTable1
         {...{
           isLoading: isLoading,
