@@ -14,7 +14,7 @@ import {
 const Office = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
-  
+
   const user = useSelector((state) => state.auth.user);
 
   const onClose = () => setIsOpen(false);
@@ -70,6 +70,7 @@ const Office = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Office Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

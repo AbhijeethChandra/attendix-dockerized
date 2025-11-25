@@ -51,6 +51,7 @@ const WeekendMas = () => {
     data: weekendData,
     isFetching: weekendLoading,
     isError: weekendError,
+    refetch,
   } = useGetWeekendByShiftQuery(
     office?.id && details?.shiftId
       ? {
@@ -156,7 +157,6 @@ const WeekendMas = () => {
       else await createApi(submitData);
       setDetails(INITIAL_DETAILS);
       refetch();
-      onClose();
       toast.success("Weekend saved successfully");
     } catch (err) {
       console.log("Error creating Weekend:", err);
@@ -206,8 +206,9 @@ const WeekendMas = () => {
             Reset
           </button>
           <button
-          disabled={shiftLoading || weekendLoading}
-          className="button-1 rounded px-3 py-1">
+            disabled={shiftLoading || weekendLoading}
+            className="button-1 rounded px-3 py-1"
+          >
             {details.id ? "Update" : "Save"}
           </button>
         </div>

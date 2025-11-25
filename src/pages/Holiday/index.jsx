@@ -75,6 +75,7 @@ const Holiday = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Holiday"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}
