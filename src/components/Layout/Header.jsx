@@ -12,6 +12,7 @@ import { TbLockCode } from "react-icons/tb";
 import { IoMdLogOut } from "react-icons/io";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { SearchBar } from "../Common/SearchBar";
+import { IoIosArrowDropdown } from "react-icons/io";
 
 export const Header = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -173,11 +174,7 @@ export const Header = () => {
             </div>
           )}
         </div>
-        <div
-          onClick={toggleProfileMenu}
-          ref={profileMenuParentRef}
-          className="cursor-pointer flex gap-2 items-center justfy-center"
-        >
+        <div className="flex gap-2 items-center justfy-center">
           <UserCircleIcon className="size-8 cursor-pointer text-[var(--color-icon-1)]" />
           <div className="flex flex-col">
             <span className="font-medium text-[var(--color-text-3)]">
@@ -188,6 +185,11 @@ export const Header = () => {
             </span>
           </div>
         </div>
+        <IoIosArrowDropdown
+          ref={profileMenuParentRef}
+          onClick={toggleProfileMenu}
+          className="size-3 text-[var(--color-icon-1)] cursor-pointer"
+        />
         {isProfileMenuOpen && (
           <div
             ref={profileMenuRef}
