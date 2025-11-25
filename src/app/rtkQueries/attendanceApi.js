@@ -16,10 +16,23 @@ const attendancerequestApi = apiInstance.injectEndpoints({
         body: { remarks },
       }),
     }),
+    attendanceSummaryReport: builder.query({
+      query: ({ tenantId, officeId, fromDate, toDate }) => ({
+        url: `/attendance/summary`,
+        params: {
+          tenantId,
+          officeId,
+          fromDate,
+          toDate,
+        },
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useGetAllattendanceRequestQuery,
   useAttendanceStatusUpdateMutation,
+  useAttendanceSummaryReportQuery,
 } = attendancerequestApi;

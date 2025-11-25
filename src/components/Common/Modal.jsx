@@ -50,7 +50,7 @@ export const Modal = ({
               {dialogTitle && (
                 <div
                   className={twMerge(
-                    "flex rounded-t-md justify-between items-center bg-[var(--color-bg-1)] p-2 px-5",
+                    "flex rounded-t-md justify-between gap-5 items-center bg-[var(--color-bg-1)] p-2 px-5",
                     dialogTitleClass
                   )}
                 >

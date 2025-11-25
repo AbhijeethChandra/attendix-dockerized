@@ -70,7 +70,7 @@ export const Dashboard = () => {
   );
 
   const data = !office?.id ? dashboardData2?.data : dashboardData?.data;
-
+  console.log(isError, isError2);
   return (
     <div>
       <HeadingComp heading="Dashboard" hideSearch={true} iconToShow={[]} />
@@ -81,7 +81,7 @@ export const Dashboard = () => {
             <DashCard
               key={index}
               title={item.title}
-              value={data[item?.name] || item.value}
+              value={data ? data[item?.name] : item.value}
               icon={item.icon}
               isLoading={isLoading || isLoading2}
             />

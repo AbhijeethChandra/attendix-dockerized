@@ -5,15 +5,15 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
-import { useLeaveDayviseReportQuery } from "@/app/rtkQueries/leaveApi";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
+import { useAttendanceSummaryReportQuery } from "@/app/rtkQueries/attendanceApi";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().startOf("month").format("YYYY-MM-DD"),
   toDate: dayjs().endOf("month").format("YYYY-MM-DD"),
 };
 
-const LeaveRep = () => {
+const SummaryReport = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
   const [searchText, setSearchText] = useState("");
 
@@ -25,7 +25,7 @@ const LeaveRep = () => {
     isFetching: isLoading,
     isError,
     refetch,
-  } = useLeaveDayviseReportQuery({
+  } = useAttendanceSummaryReportQuery({
     tenantId: user.tenant_id ?? skipToken,
     officeId: office?.id ?? skipToken,
     fromDate: details.fromDate,
@@ -47,25 +47,16 @@ const LeaveRep = () => {
             },
             tableData: {
               sl: index + 1,
-              status:
-                data.status === "APPROVED" ? (
-                  <CheckCircleIcon className="size-5 text-[var(--color-icon-success)]" />
-                ) : (
-                  <CheckCircleIcon className="size-5 text-[var(--color-icon-error)]" />
-                ),
+              staffName: data.staffName,
               officeName: data.officeName,
-              employee: data.employee,
-              officeName: data.officeName,
-              leaveCategoryName: data.leaveCategoryName,
-              leaveType: data.leaveType,
-              session: data.session,
-              requestReason: data.requestReason,
-              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
-              approvedDate: data.approvedDate
-                ? dayjs(data.approvedDate).format("DD MMM YYYY")
-                : "-",
-              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
-              decisionReason: data.decisionReason,
+              departmentName: data.departmentName,
+              shiftName: data.shiftName,
+              shiftFrom: data.shiftFrom,
+              shiftTo: data.shiftTo,
+              totalWorkingDays: data.totalWorkingDays,
+              totalPresentDays: data.presentDays,
+              totalLeaveDays: data.absentDays,
+              totalLateDays: data.lateDays,
             },
           }))
       : [];
@@ -83,7 +74,7 @@ const LeaveRep = () => {
   return (
     <div>
       <HeadingComp
-        heading="Leave Report"
+        heading="Summary Report"
         iconToShow={[]}
         refetch={refetch}
         searchValue={searchText}
@@ -107,17 +98,16 @@ const LeaveRep = () => {
           containerClass: "max-h-[calc(100vh-13.5rem)]",
           columns: [
             "Sl.No",
-            "Status",
-            "Employee",
+            "Employee Name",
             "Office",
-            "Leave Category",
-            "Leave Type",
-            "Session",
-            "Request Reason",
-            "Request Date",
-            "Approved Date",
-            "Applied Date",
-            "Decision Reason",
+            "Department",
+            "Shift Name",
+            "Shift From",
+            "Shift To",
+            "Total Working Days",
+            "Total Present Days",
+            "Total Absent Days",
+            "Total Late Days",
           ],
         }}
       />
@@ -125,4 +115,4 @@ const LeaveRep = () => {
   );
 };
 
-export default LeaveRep;
+export default SummaryReport;

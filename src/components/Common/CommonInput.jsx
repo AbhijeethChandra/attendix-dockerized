@@ -127,7 +127,7 @@ export const CommonInput = ({
           }
           clearIcon={null}
           className={twMerge(
-            "date-picker w-full z-20 flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-input)] rounded-md p-1.5 cursor-pointer",
+            "date-picker w-full z-10 flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-input)] rounded-md p-1.5 cursor-pointer",
             inputClass
           )}
         />

@@ -41,7 +41,7 @@ export const AppRoutes = () => {
     },
   ];
 
-  const router = createBrowserRouter(routes);
+  const router = createBrowserRouter(routes, { basename: "/attprov2" });
 
   return <RouterProvider router={router} />;
 };

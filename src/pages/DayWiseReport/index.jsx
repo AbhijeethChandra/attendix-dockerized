@@ -10,6 +10,8 @@ import { IoMdLogIn } from "react-icons/io";
 import { SearchBar } from "@/components/Common/SearchBar";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { useGetActiveDepartmentsQuery } from "@/app/rtkQueries/departmentApi";
+import { EyeIcon } from "@heroicons/react/16/solid";
+import { ViewDayWise } from "./ViewDayWise";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
@@ -20,6 +22,7 @@ const INITIAL_DETAILS = {
 const DayWiseRep = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
   const [searchText, setSearchText] = useState("");
+  const [viewDayWise, setViewDayWise] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
@@ -72,6 +75,12 @@ const DayWiseRep = () => {
             tableData: {
               sl: index + 1,
               staffName: data.staffName,
+              view: (
+                <EyeIcon
+                  onClick={() => setViewDayWise(data)}
+                  className="size-5 text-[var(--color-header)] cursor-pointer"
+                />
+              ),
               officeName: data.officeName,
               departmentName: data.departmentName,
               shift: data?.shift?.shiftName,
@@ -81,39 +90,48 @@ const DayWiseRep = () => {
               shiftTo: data?.shift?.shiftTo
                 ? dayjs(data?.shift?.shiftTo, "HH:mm").format("HH:mm A")
                 : "-",
-              date: <span className="text-nowrap">{dayjs(data.date).format("DD MMM YYYY")}</span>,
-              checkInTime:<span className="text-nowrap">{
-                <div className="flex gap-2 flex-nowrap">
-                  <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                  {dayjs(data.checkInTime).format("DD MMM YYYY")}
-                </div>
-            }</span>,
-              checkOutTime: <span className="text-nowrap">{
-                <div className="flex gap-2 flex-nowrap">
-                  <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                  {dayjs(data.checkOutTime).format("DD MMM YYYY")}
-                </div>
-            }</span>,
+              date: (
+                <span className="text-nowrap">
+                  {dayjs(data.date).format("DD MMM YYYY")}
+                </span>
+              ),
+              checkInTime: (
+                <span className="text-nowrap">
+                  {
+                    <div className="flex gap-2 flex-nowrap">
+                      <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
+                      {dayjs(data.checkInTime).format("DD MMM YYYY")}
+                    </div>
+                  }
+                </span>
+              ),
+              checkOutTime: (
+                <span className="text-nowrap">
+                  {
+                    <div className="flex gap-2 flex-nowrap">
+                      <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
+                      {dayjs(data.checkOutTime).format("DD MMM YYYY")}
+                    </div>
+                  }
+                </span>
+              ),
               workingHours: data.workingHours,
               breaks: data.breaks.length ? (
                 <div className="flex gap-2 flex-wrap max-w-[300px] max-h-[80px] overflow-x-auto">
                   {data.breaks?.map((brk, index) => (
-                    <>
-                      <div
-                        className="rounded-full p-1 bg-[var(--color-header)]/30 items-center text-nowrap flex gap-2 flex-nowrap"
-                        key={index}
-                      >
+                    <div
+                      key={index}
+                      className="flex gap-2 flex-nowrap border border-[var(--color-border-1)] rounded-md p-2"
+                    >
+                      <div className="flex gap-2 flex-nowrap">
                         <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
                         {dayjs(brk.breakInTime).format("HH:mm A")}
                       </div>
-                      <div
-                        className="rounded-full p-1 bg-[var(--color-header)]/30 items-center text-nowrap flex gap-2 flex-nowrap"
-                        key={index}
-                      >
+                      <div className="flex gap-2 flex-nowrap">
                         <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
                         {dayjs(brk.breakOutTime).format("HH:mm A")}
                       </div>
-                    </>
+                    </div>
                   ))}
                 </div>
               ) : (
@@ -188,6 +206,7 @@ const DayWiseRep = () => {
           columns: [
             "Sl.No",
             "Employee",
+            "View",
             "Office",
             "Department",
             "Shfit Name",
@@ -201,6 +220,13 @@ const DayWiseRep = () => {
             "Shift Start Margin",
             "Shift End Margin",
           ],
+        }}
+      />
+      <ViewDayWise
+        {...{
+          isOpen: viewDayWise,
+          onClose: () => setViewDayWise(false),
+          data: viewDayWise,
         }}
       />
     </div>

@@ -21,6 +21,7 @@ const DayWiseRep = lazy(() => import("@/pages/DayWiseReport"));
 const EmployeeWiseRep = lazy(() => import("@/pages/EmployeeWiseReport"));
 const LeaveRep = lazy(() => import("@/pages/LeaveReport"));
 const DeviceIn = lazy(() => import("@/pages/DeviceInfo"));
+const SummaryReport = lazy(() => import("@/pages/SummaryReport"));
 
 export const PrivateRoutes = [
   { index: true, element: <Navigate to="dashboard" /> },
@@ -42,6 +43,7 @@ export const PrivateRoutes = [
   { path: "shift-override", element: <ShiftOver /> },
   { path: "day-wise-report", element: <DayWiseRep /> },
   { path: "employee-wise-report", element: <EmployeeWiseRep /> },
+  { path: "summary-report", element: <SummaryReport /> },
   { path: "leave-report", element: <LeaveRep /> },
   { path: "device-info", element: <DeviceIn /> },
 ];

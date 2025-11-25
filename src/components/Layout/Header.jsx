@@ -36,7 +36,7 @@ export const Header = () => {
   const {
     data: unreadNotificationsData,
     isLoading: isUnreadNotificationsLoading,
-  } = useGetUnreadNotificationsQuery(user.id ? user.staffId : skipToken);
+  } = useGetUnreadNotificationsQuery(user.staffId ? user.staffId : skipToken);
 
   const unreadNotificationsCount = useCallback(() => {
     if (unreadNotificationsData?.data?.length > 0) {
@@ -150,7 +150,7 @@ export const Header = () => {
           {isNotificationOpen && (
             <div
               ref={notificationRef}
-              className="p-4 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] space-y-2 rounded absolute top-10 right-2 max-h-80 w-80 overflow-y-auto scrollbar-hidden"
+              className="z-[10] p-4 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] space-y-2 rounded absolute top-10 right-2 max-h-80 w-80 overflow-y-auto scrollbar-hidden"
             >
               {unreadNotificationsData?.data?.length > 0 ? (
                 unreadNotificationsData.data.map((notification) => (
