@@ -150,7 +150,7 @@ export const Header = () => {
           {isNotificationOpen && (
             <div
               ref={notificationRef}
-              className="z-[10] p-4 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] space-y-2 rounded absolute top-10 right-2 max-h-80 w-80 overflow-y-auto scrollbar-hidden"
+              className="z-[20] p-4 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] space-y-2 rounded absolute top-10 right-2 max-h-80 w-80 overflow-y-auto scrollbar-hidden"
             >
               {unreadNotificationsData?.data?.length > 0 ? (
                 unreadNotificationsData.data.map((notification) => (
@@ -158,7 +158,7 @@ export const Header = () => {
                     key={notification.id}
                     className="border-b border-[var(--color-border-1)] last:border-0 pb-2"
                   >
-                    <div className="font-medium text-[var(--color-text-1)]">
+                    <div className="text-sm text-[var(--color-text-1)]">
                       {notification.notifyContent}
                     </div>
                     <div className="text-sm text-[var(--color-text-2)]">

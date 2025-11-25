@@ -6,6 +6,7 @@ import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 export const ViewDayWise = (props) => {
   const { isOpen, onClose, data } = props;
   const [checkInLocation, setCheckInLocation] = useState("");
+  const [checkOutLocation, setCheckOutLocation] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -13,6 +14,7 @@ export const ViewDayWise = (props) => {
   }, [data]);
 
   const getLocation = async () => {
+    console.log(data);
     setLoading(true);
     try {
       const resp = await fetch(
@@ -22,8 +24,17 @@ export const ViewDayWise = (props) => {
           data.checkInLongitude +
           "&zaddressdetails=1"
       );
+      const resp2 = await fetch(
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+          data.checkOutLatitude +
+          "&lon=" +
+          data.checkOutLongitude +
+          "&zaddressdetails=1"
+      );
       const value = await resp.json();
+      const value2 = await resp2.json();
       setCheckInLocation(value.display_name);
+      setCheckOutLocation(value2.display_name);
     } catch (error) {
       console.log(error);
     } finally {
@@ -47,6 +58,8 @@ export const ViewDayWise = (props) => {
           <p>: {data?.staffName}</p>
           <p className="font-medium">Clock in Location</p>
           <p>: {loading ? "Loading..." : checkInLocation}</p>
+          <p className="font-medium">Clock out Location</p>
+          <p>: {loading ? "Loading..." : checkOutLocation}</p>
           <p className="font-medium">Office</p>
           <p>: {data?.officeName}</p>
           <p className="font-medium">Department</p>

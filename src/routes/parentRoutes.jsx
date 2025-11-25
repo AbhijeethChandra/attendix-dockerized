@@ -2,7 +2,7 @@ import { Layout } from "@/components/Layout";
 
 export const ParentRoutes = [
   {
-    roles: ["Admin", "Admin Manager", "Super Admin"],
+    roles: ["Admin", "Admin Manager", "Super Admin", "Manager"],
     routes: [
       {
         isLayout: true,
