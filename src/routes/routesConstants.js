@@ -1,5 +1,5 @@
 export const ROUTES_BY_ROLE = {
-  ['Admin']: [
+  ["Admin"]: [
     "dashboard",
     "sector-master",
     "office-master",
@@ -23,5 +23,15 @@ export const ROUTES_BY_ROLE = {
     "leave-report",
     "device-info",
   ],
-  user: ["dashboard"],
+  "Admin Manager": [
+    "dashboard",
+    "attendance-request",
+    "leave-request",
+    "reports",
+    "day-wise-report",
+    "holiday-master",
+    "employee-wise-report",
+    "leave-report",
+    "device-info",
+  ],
 };

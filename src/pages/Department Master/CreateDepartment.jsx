@@ -7,12 +7,15 @@ import {
   useUpdateDepartmentMutation,
 } from "../../app/rtkQueries/departmentApi";
 import toast from "react-hot-toast";
+
 const INITIAL_DETAILS = {
   deptname: "",
 };
+
 export const CreateDepartment = (props) => {
   const { isOpen, onClose, refetch } = props;
   const [details, setDetails] = useState(INITIAL_DETAILS);
+  
   const user = useSelector((state) => state.auth.user);
 
   const [createApi, createApiRes] = useCreateDepartmentMutation();

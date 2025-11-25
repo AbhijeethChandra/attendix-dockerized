@@ -10,13 +10,24 @@ const dashboardApi = apiInstance.injectEndpoints({
       }),
     }),
     getDashboardCounts: builder.query({
-      query: ({tenantId, officeId}) => {
-        return ({
-        url: `/dashboard/tenant?tenantId=${tenantId}&officeId=${officeId}&date=${dayjs().format(
-          "YYYY-MM-DD"
-        )}`,
+      query: ({ tenantId, officeId }) => {
+        return {
+          url: `/dashboard/summary`,
+          params: {
+            tenantId: tenantId,
+            officeId: officeId || undefined,
+            date: dayjs().format("YYYY-MM-DD"),
+          },
+          method: "GET",
+        };
+      },
+    }),
+    getDashboardCountsForAll: builder.query({
+      query: (tenantId) => ({
+        url: `/dashboard/tenant`,
+        params: { tenantId, date: dayjs().format("YYYY-MM-DD") },
         method: "GET",
-      })},
+      }),
     }),
     getUnreadNotifications: builder.query({
       query: (staffId) => ({
@@ -27,4 +38,9 @@ const dashboardApi = apiInstance.injectEndpoints({
   }),
 });
 
-export const { useGetOfficesQuery, useGetDashboardCountsQuery, useGetUnreadNotificationsQuery } = dashboardApi;
+export const {
+  useGetOfficesQuery,
+  useGetDashboardCountsQuery,
+  useGetDashboardCountsForAllQuery,
+  useGetUnreadNotificationsQuery,
+} = dashboardApi;

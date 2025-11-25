@@ -1,4 +1,4 @@
-import { apiInstance } from "@/app/api";
+import { apiInstance } from "@/app/apiInstance";
 
 const leavereportApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({

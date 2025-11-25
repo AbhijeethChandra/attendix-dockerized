@@ -16,13 +16,16 @@ ul {
 }
 
 .date-picker {
-  .react-date-picker__wrapper {
+  .react-date-picker__wrapper,
+  .react-daterange-picker__wrapper {
     border: none !important;
   }
-  .react-date-picker__calendar-button {
+  .react-date-picker__calendar-button,
+  .react-daterange-picker__calendar-button {
     padding: 0 !important;
   }
-  .react-date-picker__inputGroup__input {
+  .react-date-picker__inputGroup__input,
+  .react-daterange-picker__inputGroup__input {
     outline: none !important;
   }
 }

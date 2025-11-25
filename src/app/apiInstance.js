@@ -19,7 +19,7 @@ const handleApiError = (error, api) => {
     if (message === "Already Loggedin") {
       return;
     }
-    if (message === "Unauthorized: Invalid JWT Token,") {
+    if (message.includes("Unauthorized")) {
       api.dispatch(handleLogoutSlice());
       localStorage.clear();
     }
@@ -108,6 +108,6 @@ export const authApiInstance = makeApiInstance({
 // api uses reauth + error handling
 export const apiInstance = makeApiInstance({
   reducerPath: "api",
-  baseQuery: errorWrapper(reauthWrapper(rawBaseQueryApi)),
+  baseQuery: errorWrapper(rawBaseQueryApi),
   tagTypes: ["dashboard","weekend","shift","office","role","staff","shiftOverride","attendance","report","holiday","leave"],
 });

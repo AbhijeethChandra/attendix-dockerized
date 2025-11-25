@@ -3,7 +3,10 @@ import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import DatePicker from "react-date-picker";
+import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import {
   CalendarDaysIcon,
@@ -27,6 +30,7 @@ export const CommonInput = ({
   errorMessage,
   subLabel,
   searchIconClass = "",
+  labelContainerClass,
   ...props
 }) => {
   const [passwordType, setPasswordType] = useState("password");
@@ -43,7 +47,12 @@ export const CommonInput = ({
       className={twMerge("flex flex-col gap-2 gap-y-1 w-full", containerClass)}
     >
       {label && (
-        <div className="w-full flex justify-between">
+        <div
+          className={twMerge(
+            "w-full flex justify-between",
+            labelContainerClass
+          )}
+        >
           <label
             style={labelStyle}
             className={labelClass}
@@ -104,6 +113,21 @@ export const CommonInput = ({
           clearIcon={null}
           className={twMerge(
             "date-picker w-full flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-input)] rounded-md p-1.5 cursor-pointer",
+            inputClass
+          )}
+        />
+      ) : type === "daterange" ? (
+        <DateRangePicker
+          {...props}
+          id={props.name}
+          format="dd-MM-yyyy"
+          value={props.value || null}
+          calendarIcon={
+            <CalendarDaysIcon className="size-6 cursor-pointer shrink-0" />
+          }
+          clearIcon={null}
+          className={twMerge(
+            "date-picker w-full z-20 flex items-center justify-between bg-[var(--color-bg-2)] outline-1 outline-[var(--color-border-input)] rounded-md p-1.5 cursor-pointer",
             inputClass
           )}
         />

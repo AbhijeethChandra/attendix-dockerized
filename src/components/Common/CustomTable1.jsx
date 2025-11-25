@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import { Loading } from "./Loading";
 
 export const CustomTable1 = (props) => {
   const {
@@ -30,7 +31,7 @@ export const CustomTable1 = (props) => {
         </thead>
         <tbody>
           {isLoading || errorMessage ? (
-            <tr>
+            <tr style={{ height: "calc(7 * 2.5rem)" }}>
               <td
                 className={twMerge(
                   "text-center",
@@ -38,7 +39,7 @@ export const CustomTable1 = (props) => {
                 )}
                 colSpan={columns.length}
               >
-                {errorMessage ? errorMessage : "Loading, Please wait ..."}
+                {errorMessage ? errorMessage : <Loading />}
               </td>
             </tr>
           ) : datas && datas.length > 0 ? (
@@ -54,7 +55,7 @@ export const CustomTable1 = (props) => {
                 );
               }
               return (
-                <tr key={rowIndex}>
+                <tr key={rowIndex} style={{ height: "2.5rem" }}>
                   {rowElements}
                   {actions &&
                     actions.map((action, index) => (
@@ -73,7 +74,7 @@ export const CustomTable1 = (props) => {
               );
             })
           ) : (
-            <tr>
+            <tr style={{ height: "calc(7 * 2.5rem)" }}>
               <td className="text-center" colSpan={columns.length}>
                 No data available
               </td>

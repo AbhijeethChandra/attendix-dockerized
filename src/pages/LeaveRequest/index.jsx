@@ -1,29 +1,39 @@
-import { useGetAllLeaveRequestQuery } from "@/app/features/leaverequest/leaverequestAPI";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { LeaveReject } from "./LeaveReject";
+import { useGetAllLeaveRequestQuery, useLeaveRequestStatusUpdateMutation } from "@/app/rtkQueries/leaveApi";
+import dayjs from "dayjs";
 
 const LeaveReq = () => {
+  const [searchText, setSearchText] = useState("");
+  const [showReject, setShowReject] = useState(false);
+
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
-  const [searchText, setSearchText] = useState("");
+
   const {
-    data: leaverequestData,
+    data: leaveRequestData,
     isLoading,
     isError,
     refetch,
-  } = useGetAllLeaveRequestQuery({
-    tenantId: user.tenant_id ?? skipToken,
-    officeId: office?.id ?? skipToken,
-  });
+  } = useGetAllLeaveRequestQuery(user.tenant_id ?{
+    tenantId: user.tenant_id,
+  }:skipToken);
 
-  const leaverequest =
-    leaverequestData?.data?.length && !isError
-      ? leaverequestData.data
+  const [leaveRequestStatusUpdate, leaveRequestStatusUpdateRes] =
+    useLeaveRequestStatusUpdateMutation();
+
+  const leaveRequest =
+    leaveRequestData?.data?.length && !isError
+      ? leaveRequestData.data
           .filter((data) =>
-            data?.officeName?.toLowerCase().includes(searchText.toLowerCase())
+            Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
           )
           .map((data, index) => ({
             other: {
@@ -31,21 +41,45 @@ const LeaveReq = () => {
             },
             tableData: {
               sl: index + 1,
+              employee: data.employee,
               officeName: data.officeName,
-              latitude: data.latitude,
-              longitude: data.longitude,
-              geoRadius: data.geoRadius,
+              leaveCategoryName: data.leaveCategoryName,
+              leaveType: data.leaveType,
+              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
+              createdDate: dayjs(data.createdDate).format("DD MMM YYYY"),
+              requestReason: data.requestReason,
             },
           }))
       : [];
 
+  const handleSubmit = async (data) => {
+    try {
+      const submitData = {
+        userId: user.id,
+        ...data,
+      };
+
+      await leaveRequestStatusUpdate(submitData).unwrap();
+      setShowReject(false);
+      refetch();
+      toast.success(`Leave request processed successfully`);
+    } catch (err) {
+      console.log("Error updating status:", err);
+    }
+  };
+
   return (
     <div>
-      <HeadingComp heading="Leave Request" iconToShow={[]} />
+      <HeadingComp
+        heading="Leave Request"
+        iconToShow={[]}
+        searchValue={searchText}
+        onSearchChange={(e) => setSearchText(e.target.value)}
+      />
       <CustomTable1
         {...{
           isLoading: isLoading,
-          datas: leaverequest,
+          datas: leaveRequest,
           columns: [
             "Sl.No",
             "Employee Name",
@@ -53,7 +87,42 @@ const LeaveReq = () => {
             "Leave Category",
             "Leave Type",
             "Request Date",
+            "Apllied Date",
+            "Reason",
+            "Actions"
           ],
+          actions: [
+            [
+              ({ data }) => (
+                <div className="flex gap-2 ">
+                  <button
+                    onClick={() =>
+                      setShowReject({ id: data.id, action: "REJECTED" })
+                    }
+                    className="button-1 button-inactive px-3 py-1 rounded"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleSubmit({ requestId: data.id, action: "APPROVED" })
+                    }
+                    className="button-1 button-active px-3 py-1 rounded mr-2"
+                  >
+                    Approve
+                  </button>
+                </div>
+              ),
+            ],
+          ],
+        }}
+      />
+      <LeaveReject
+        {...{
+          isOpen: showReject,
+          onClose: () => setShowReject(false),
+          isLoading: leaveRequestStatusUpdateRes.isLoading,
+          onSubmit: handleSubmit,
         }}
       />
     </div>

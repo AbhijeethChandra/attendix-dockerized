@@ -1,4 +1,4 @@
-import { useGetAllDeviceInfoQuery } from "@/app/features/deviceinfo/deviceinfoApi";
+import { useGetAllDeviceInfoQuery } from "@/app/rtkQueries/deviceinfoApi";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";

@@ -1,14 +1,22 @@
-import { useGetAllattendanceRequestQuery } from "@/app/features/attendancerequest/attendancerequestApi";
+import {
+  useAttendanceStatusUpdateMutation,
+  useGetAllattendanceRequestQuery,
+} from "@/app/rtkQueries/attendanceApi";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
+import dayjs from "dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { AttendanceReject } from "./AttendanceReject";
 
 const AttendanceReq = () => {
+  const [searchText, setSearchText] = useState("");
+  const [showReject, setShowReject] = useState(false);
+
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
-  const [searchText, setSearchText] = useState("");
+
   const {
     data: attendancerequestData,
     isLoading,
@@ -19,11 +27,17 @@ const AttendanceReq = () => {
     officeId: office?.id ?? skipToken,
   });
 
+  const [attendanceStatusUpdate, attendanceStatusUpdateRes] =
+    useAttendanceStatusUpdateMutation();
+
   const attendancerequest =
     attendancerequestData?.data?.length && !isError
       ? attendancerequestData.data
           .filter((data) =>
-            data?.officeName?.toLowerCase().includes(searchText.toLowerCase())
+            Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
           )
           .map((data, index) => ({
             other: {
@@ -31,17 +45,40 @@ const AttendanceReq = () => {
             },
             tableData: {
               sl: index + 1,
+              employee: data.employee,
+              locationText: data.locationText,
               officeName: data.officeName,
-              latitude: data.latitude,
-              longitude: data.longitude,
-              geoRadius: data.geoRadius,
+              createdAt: dayjs(data.createdAt).format("DD MMM YYYY"),
+              requestTime: dayjs(data.requestTime).format("HH:mm A"),
             },
           }))
       : [];
 
+  const handleSubmit = async (data) => {
+    try {
+      const submitData = {
+        userId: user.id,
+        ...data,
+      };
+
+      await attendanceStatusUpdate(submitData).unwrap();
+      setShowReject(false);
+      refetch();
+      toast.success(`Attendance request processed successfully`);
+    } catch (err) {
+      console.log("Error updating status:", err);
+    }
+  };
+
   return (
     <div>
-      <HeadingComp heading="Attendance Request" iconToShow={[]} />
+      <HeadingComp
+        refetch={refetch}
+        heading="Attendance Request"
+        iconToShow={[]}
+        searchValue={searchText}
+        onSearchChange={(e) => setSearchText(e.target.value)}
+      />
       <CustomTable1
         {...{
           isLoading: isLoading,
@@ -53,7 +90,41 @@ const AttendanceReq = () => {
             "Office",
             "Date",
             "Request Time",
+            "Actions",
           ],
+
+          actions: [
+            [
+              ({ data }) => (
+                <div className="flex gap-2 ">
+                  <button
+                    onClick={() =>
+                      setShowReject({ id: data.id, action: "REJECT" })
+                    }
+                    className="button-1 button-inactive px-3 py-1 rounded"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleSubmit({ requestId: data.id, action: "APPROVE" })
+                    }
+                    className="button-1 button-active px-3 py-1 rounded mr-2"
+                  >
+                    Approve
+                  </button>
+                </div>
+              ),
+            ],
+          ],
+        }}
+      />
+      <AttendanceReject
+        {...{
+          isOpen: showReject,
+          onClose: () => setShowReject(false),
+          isLoading: attendanceStatusUpdateRes.isLoading,
+          onSubmit: handleSubmit,
         }}
       />
     </div>

@@ -11,6 +11,7 @@ export const AppRoutes = () => {
   let routes = [];
 
   const pathByRole = ROUTES_BY_ROLE[user.role.name] || [];
+
   let routesWithParent = [];
 
   ParentRoutes.filter((parentRoute) =>
@@ -29,7 +30,6 @@ export const AppRoutes = () => {
   if (layoutRouteIndex !== -1) {
     routesWithParent[layoutRouteIndex].children = childRoutes;
   }
-
   routes = [
     {
       element: (
