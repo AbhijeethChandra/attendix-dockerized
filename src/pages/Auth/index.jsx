@@ -6,6 +6,7 @@ import { useLogoutAllApiMutation } from "@/app/rtkQueries/authApi";
 import { useDispatch } from "react-redux";
 import { handleLoginSlice } from "@/app/slice/authSlice";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -34,7 +35,12 @@ export const Login = () => {
     try {
       const resp = await loginApi(loginData).unwrap();
       if (resp.success) {
-        console.log("Login successful:", resp);
+        const role = resp.data.user.role.name;
+
+        if(!/(Admin|Admin Manager|Super Admin|Manager)/.test(role)){
+          toast.error("You do not have access to this application");
+          return;
+        }
         dispatch(handleLoginSlice({
           user: resp.data.user,
           accessToken: resp.data.accessToken,

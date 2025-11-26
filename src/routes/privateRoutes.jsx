@@ -25,6 +25,7 @@ const LeaveRep = lazy(() => import("@/pages/LeaveReport"));
 const AbsentRep = lazy(() => import("@/pages/AbsentReport"));
 const DeviceIn = lazy(() => import("@/pages/DeviceInfo"));
 const SummaryReport = lazy(() => import("@/pages/SummaryReport"));
+const MasterUpload = lazy(() => import("@/pages/MasterUpload"));
 
 export const PrivateRoutes = [
   { index: true, element: <Navigate to="dashboard" /> },
@@ -52,4 +53,5 @@ export const PrivateRoutes = [
   { path: "leave-report", element: <LeaveRep /> },
   { path: "absent-report", element: <AbsentRep /> },
   { path: "device-info", element: <DeviceIn /> },
+  { path: "master-upload", element: <MasterUpload /> },
 ];

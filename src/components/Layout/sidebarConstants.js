@@ -24,6 +24,8 @@ export const ALL_SIDEBAR_LIST = [
   { Icon: null, name: "Shift Master", path: "shift-master" },
   { Icon: null, name: "Leave Type", path: "leave-type" },
   { Icon: null, name: "Weekend Master", path: "weekend-master" },
+  { Icon: null, name: "Upload Master", path: "master-upload" },
+
   {
     Icon: CalendarDateRangeIcon,
     name: "Attendance Requests",
@@ -57,6 +59,7 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "shift-master", parent: 2 },
     { name: "leave-type", parent: 2 },
     { name: "weekend-master", parent: 2 },
+    { name: "master-upload", parent: 2 },
     { name: "attendance-request", id: 3 },
     { name: "leave-request", id: 4 },
     { name: "shift", id: 5 },

@@ -23,8 +23,8 @@ const Holiday = () => {
     isError,
     refetch,
   } = useGetAllHolidayQuery({
-    tenantId: user.tenant_id ,
-    officeId: office?.id ,
+    tenantId: user.tenant_id,
+    officeId: office?.id,
   });
 
   const [updateStatusApi, updateStatusApiResult] = useUpdateHolidayMutation();
@@ -86,7 +86,8 @@ const Holiday = () => {
       <CustomTable1
         {...{
           isLoading: isLoading,
-          errorMessage: office?.id ? null : "Please select an office",
+          errorMessage:
+            !isError && office?.id > -1 ? null : "Please select an office",
           datas: holidays,
           columns: [
             "Sl.No",
