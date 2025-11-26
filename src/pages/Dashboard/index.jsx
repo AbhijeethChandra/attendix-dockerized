@@ -30,7 +30,7 @@ const DASHBOARD_CARD_ITEMS = [
   {
     title: "Absent Today",
     name: "absentToday",
-    path: "/leave-report",
+    path: "/absent-report",
     value: "0",
     icon: FaUserSlash,
   },

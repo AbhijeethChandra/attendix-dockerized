@@ -9,8 +9,8 @@ import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useAttendanceSummaryReportQuery } from "@/app/rtkQueries/attendanceApi";
 
 const INITIAL_DETAILS = {
-  fromDate: dayjs().startOf("month").format("YYYY-MM-DD"),
-  toDate: dayjs().endOf("month").format("YYYY-MM-DD"),
+  fromDate: dayjs().format("YYYY-MM-DD"),
+  toDate: dayjs().format("YYYY-MM-DD"),
 };
 
 const SummaryReport = () => {

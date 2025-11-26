@@ -24,6 +24,8 @@ const INITIAL_DETAILS = {
   graceMargin: "",
   shiftType: "FIXED",
   overNightShift: false,
+  halfDayMinutes: "",
+  fullDayMinutes: "",
   shiftBreaks: [
     {
       breakStartFrom: "",
@@ -219,6 +221,24 @@ export const CreateShift = (props) => {
               name="workingTime"
               onChange={handleChange}
               value={details.workingTime}
+            />
+            <CommonInput
+              type="number"
+              required
+              label="Half Day Minutes"
+              placeholder="In minutes"
+              name="halfDayMinutes"
+              onChange={handleChange}
+              value={details.halfDayMinutes}
+            />
+            <CommonInput
+              type="number"
+              required
+              label="Full Day Minutes"
+              placeholder="In minutes"
+              name="fullDayMinutes"
+              onChange={handleChange}
+              value={details.fullDayMinutes}
             />
           </div>
 

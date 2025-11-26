@@ -22,6 +22,7 @@ const ShiftOver = lazy(() => import("@/pages/ShiftOverride"));
 const DayWiseRep = lazy(() => import("@/pages/DayWiseReport"));
 const EmployeeWiseRep = lazy(() => import("@/pages/EmployeeWiseReport"));
 const LeaveRep = lazy(() => import("@/pages/LeaveReport"));
+const AbsentRep = lazy(() => import("@/pages/AbsentReport"));
 const DeviceIn = lazy(() => import("@/pages/DeviceInfo"));
 const SummaryReport = lazy(() => import("@/pages/SummaryReport"));
 
@@ -49,5 +50,6 @@ export const PrivateRoutes = [
   { path: "employee-wise-report", element: <EmployeeWiseRep /> },
   { path: "summary-report", element: <SummaryReport /> },
   { path: "leave-report", element: <LeaveRep /> },
+  { path: "absent-report", element: <AbsentRep /> },
   { path: "device-info", element: <DeviceIn /> },
 ];

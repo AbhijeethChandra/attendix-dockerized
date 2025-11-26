@@ -31,6 +31,18 @@ const leaveApi = apiInstance.injectEndpoints({
         method: "GET",
       }),
     }),
+    leaveReport: builder.query({
+      query: ({ tenantId, officeId, fromDate, toDate }) => ({
+        url: `/leave-request/leave-report`,
+        params: {
+          tenantId,
+          officeId,
+          fromDate,
+          toDate,
+        },
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -38,4 +50,5 @@ export const {
   useGetAllLeaveRequestQuery,
   useLeaveRequestStatusUpdateMutation,
   useLeaveDayviseReportQuery,
+  useLeaveReportQuery,
 } = leaveApi;

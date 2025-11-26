@@ -20,7 +20,7 @@ const Role = () => {
 
   const {
     data: roleData,
-    isLoading,
+    isFetching: isLoading,
     isError,
     refetch,
   } = useGetAllRolesQuery(user.tenant_id ?? skipToken);
@@ -67,6 +67,7 @@ const Role = () => {
       <HeadingComp
         heading="Role Master"
         iconToShow={[]}
+        refetch={refetch}
         handleButtonClick={() => setIsOpen(true)}
         createButtonText="Create Role"
         searchValue={searchText}

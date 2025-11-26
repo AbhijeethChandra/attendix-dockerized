@@ -37,6 +37,7 @@ export const ALL_SIDEBAR_LIST = [
   { Icon: null, name: "Day Wise Report", path: "day-wise-report" },
   { Icon: null, name: "Employee Wise Report", path: "employee-wise-report" },
   { Icon: null, name: "Summary Report", path: "summary-report" },
+  { Icon: null, name: "Absent Report", path: "absent-report" },
   { Icon: null, name: "Leave Report", path: "leave-report" },
   { Icon: DeviceTabletIcon, name: "Device Info", path: "device-info" },
 ];
@@ -66,9 +67,10 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "employee-wise-report", parent: 6 },
     { name: "leave-report", parent: 6 },
     { name: "summary-report", parent: 6 },
+    { name: "absent-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
-    ["Manager"]: [
+  ["Manager"]: [
     { name: "dashboard", id: 1 },
     { name: "control-panel", id: 2 },
     { name: "sector-master", parent: 2 },
@@ -93,9 +95,10 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "employee-wise-report", parent: 6 },
     { name: "leave-report", parent: 6 },
     { name: "summary-report", parent: 6 },
+    { name: "absent-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
-    ["Super Admin"]: [
+  ["Super Admin"]: [
     { name: "control-panel", id: 2 },
     { name: "tenant-master", parent: 2 },
     { name: "role-master", parent: 2 },
@@ -109,9 +112,10 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "employee-wise-report", parent: 6 },
     { name: "leave-report", parent: 6 },
     { name: "summary-report", parent: 6 },
+    { name: "absent-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
-   ["Admin Manager"]: [
+  ["Admin Manager"]: [
     { name: "dashboard", id: 1 },
     { name: "attendance-request", id: 3 },
     { name: "leave-request", id: 4 },
@@ -120,6 +124,7 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "employee-wise-report", parent: 6 },
     { name: "summary-report", parent: 6 },
     { name: "leave-report", parent: 6 },
+    { name: "absent-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
 };
