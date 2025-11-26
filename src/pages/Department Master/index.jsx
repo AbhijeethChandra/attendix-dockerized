@@ -61,6 +61,7 @@ const Department = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Department Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

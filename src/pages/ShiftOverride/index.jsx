@@ -53,6 +53,7 @@ const ShiftOver = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Shift Override"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

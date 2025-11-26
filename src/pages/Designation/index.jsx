@@ -64,6 +64,7 @@ const Designation = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Designation Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

@@ -72,6 +72,7 @@ const Shift = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Shift Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

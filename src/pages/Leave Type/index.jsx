@@ -67,6 +67,7 @@ const LeaveType = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Leave Type"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

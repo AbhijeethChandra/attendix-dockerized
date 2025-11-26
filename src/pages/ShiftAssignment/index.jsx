@@ -57,6 +57,7 @@ const ShiftAss = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Shift Assignment"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

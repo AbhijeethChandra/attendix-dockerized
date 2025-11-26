@@ -61,6 +61,7 @@ const Sector = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Sector Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

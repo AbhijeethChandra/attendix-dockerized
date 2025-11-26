@@ -10,7 +10,7 @@ import { useGetAllGeolocationsQuery } from "@/app/rtkQueries/geolocationApi";
 const GeoLocation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
-  
+
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
 
@@ -52,6 +52,7 @@ const GeoLocation = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Geo Location"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

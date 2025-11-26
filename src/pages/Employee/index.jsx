@@ -78,6 +78,7 @@ const Employee = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Employee Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}

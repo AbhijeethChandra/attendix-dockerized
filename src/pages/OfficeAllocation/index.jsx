@@ -56,6 +56,7 @@ const OfficeAllocationAllocation = () => {
   return (
     <div>
       <HeadingComp
+        refetch={refetch}
         heading="Office Allocation"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}
