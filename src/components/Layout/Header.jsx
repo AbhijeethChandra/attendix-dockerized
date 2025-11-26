@@ -93,11 +93,15 @@ export const Header = () => {
         value: office.id,
         id: office.id,
       }));
-      return [{ name: "All Tenants", value: null, id: null }, ...options];
+      return [...options];
     } else return [];
   }, [tenantData]);
 
   useEffect(() => {
+    if (!user.tenant_id && tenantData?.data?.length > 0) {
+      const defaultTenant = tenantData.data[0];
+      dispatch(handleTenantUpdate(defaultTenant.id));
+    }
     if (
       !office?.id &&
       office?.name !== "All Offices" &&
@@ -113,7 +117,7 @@ export const Header = () => {
         })
       );
     }
-  }, [officesData, office]);
+  }, [officesData, tenantData]);
 
   useEffect(() => {
     const handleClickOutside = (event, ref, parentRef) => {
@@ -219,8 +223,6 @@ export const Header = () => {
     }
   };
 
-  console.log(location)
-
   return (
     <div className="px-5 h-16 flex justify-between items-center bg-[var(--color-header)]">
       <div className="flex gap-4 flex-1">
@@ -236,18 +238,19 @@ export const Header = () => {
             />
           </div>
         )}
-        {user?.role?.name !== "Super Admin" || location.pathname === "/employee-master" &&  (
-          <div className="w-[25%]">
-            <SearchBar
-              value={office?.id}
-              placeholder="Please office"
-              containerClass={`bg-[var(--color-bg-2)] border-none`}
-              onChange={handleOfficeChange}
-              options={officesOptions()}
-              optionMenuClass="z-90"
-            />
-          </div>
-        )}
+        {(user?.role?.name !== "Super Admin" ||
+          location.pathname === "/employee-master") && (
+            <div className="w-[25%]">
+              <SearchBar
+                value={office?.id}
+                placeholder="Please office"
+                containerClass={`bg-[var(--color-bg-2)] border-none`}
+                onChange={handleOfficeChange}
+                options={officesOptions()}
+                optionMenuClass="z-90"
+              />
+            </div>
+          )}
       </div>
       <div className="flex gap-6 items-center">
         <div ref={notificationParentRef} className="relative">
