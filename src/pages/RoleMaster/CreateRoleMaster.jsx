@@ -54,7 +54,7 @@ export const CreateRoleMaster = (props) => {
       onClose();
       toast.success(`Role ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
-      console.log("Error creating sector:", err);
+      console.log("Error creating Role:", err);
     }
   };
 
@@ -63,7 +63,7 @@ export const CreateRoleMaster = (props) => {
       {...{
         isOpen: Boolean(isOpen),
         onClose,
-        dialogTitle: "Create Sector",
+        dialogTitle: "Create RoleS",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
