@@ -1,30 +1,32 @@
 import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
-import {
-  useCreateSectorMutation,
-  useUpdateSectorMutation,
-} from "@/app/rtkQueries/sectorApi";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import {
+  useCreateTenantMutation,
+  useUpdateTenantMutation,
+} from "@/app/rtkQueries/tenantApi";
 
 const INITIAL_DETAILS = {
-  sectorName: "",
+  tenantName: "",
+  email: "",
+  phone: "",
 };
 
 export const CreateTenantMaster = (props) => {
   const { isOpen, onClose, refetch } = props;
   const [details, setDetails] = useState(INITIAL_DETAILS);
-  const user = useSelector((state) => state.auth.user);
 
-  const [createApi, createApiRes] = useCreateSectorMutation();
-  const [editApi, editApiRes] = useUpdateSectorMutation();
+  const [createApi, createApiRes] = useCreateTenantMutation();
+  const [editApi, editApiRes] = useUpdateTenantMutation();
 
   useEffect(() => {
     if (typeof isOpen === "object" && isOpen !== null) {
       setDetails({
         id: isOpen.id,
-        sectorName: isOpen.sectorName,
+        tenantName: isOpen.tenantName,
+        email: isOpen.email,
+        phone: isOpen.phone,
       });
     } else {
       setDetails(INITIAL_DETAILS);
@@ -44,7 +46,6 @@ export const CreateTenantMaster = (props) => {
     try {
       const submitData = {
         ...details,
-        tenantId: user.tenant_id,
         active: "Y",
       };
 
@@ -54,10 +55,10 @@ export const CreateTenantMaster = (props) => {
       refetch();
       onClose();
       toast.success(
-        `Sector ${details.id ? "updated" : "created"} successfully`
+        `Tenant ${details.id ? "updated" : "created"} successfully`
       );
     } catch (err) {
-      console.log("Error creating sector:", err);
+      console.log("Error creating tenant:", err);
     }
   };
 
@@ -66,7 +67,7 @@ export const CreateTenantMaster = (props) => {
       {...{
         isOpen: Boolean(isOpen),
         onClose,
-        dialogTitle: "Create Sector",
+        dialogTitle: "Create Tenant",
         panelClass: "min-w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
@@ -79,11 +80,29 @@ export const CreateTenantMaster = (props) => {
           <CommonInput
             type="text"
             required
-            name="sectorName"
-            value={details.sectorName}
+            name="tenantName"
+            value={details.tenantName}
             onChange={handleChange}
-            label="Sector Name"
-            placeholder="Enter Sector Name"
+            label="Tenant Name"
+            placeholder="Enter tenant Name"
+          />
+          <CommonInput
+            type="email"
+            required
+            name="email"
+            value={details.email}
+            onChange={handleChange}
+            label="Email"
+            placeholder="Enter email"
+          />
+          <CommonInput
+            type="number"
+            required
+            name="phone"
+            value={details.phone}
+            onChange={handleChange}
+            label="Phone Number"
+            placeholder="Enter phone number"
           />
         </div>
         <div className="w-full flex gap-3">
