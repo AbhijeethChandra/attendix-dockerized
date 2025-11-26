@@ -7,11 +7,11 @@ import { MdEdit } from "react-icons/md";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { twMerge } from "tailwind-merge";
 import {
-  useGetAllSectorQuery,
-  useUpdateStatusSectorMutation,
-} from "@/app/rtkQueries/sectorApi";
+  useGetAllRolesQuery,
+  // useUpdateRoleMutation,
+} from "@/app/rtkQueries/rolemasterApi";
 
-const Sector = () => {
+const Role = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const [searchText, setSearchText] = useState("");
@@ -19,18 +19,15 @@ const Sector = () => {
   const onClose = () => setIsOpen(false);
 
   const {
-    data: sectorsData,
+    data: roleData,
     isLoading,
     isError,
     refetch,
-  } = useGetAllSectorQuery(user.tenant_id ?? skipToken);
-
-  const [updateStatusApi, updateStatusApiResult] =
-    useUpdateStatusSectorMutation();
-
-  const sectors = useCallback(() => {
-    if (sectorsData?.data.length && !isError) {
-      return sectorsData.data
+  } = useGetAllRolesQuery(user.tenant_id ?? skipToken);
+  // const [updateStatusApi, updateStatusApiResult] = useUpdateRoleMutation();
+  const role = useCallback(() => {
+    if (roleData?.data.length && !isError) {
+      return roleData.data
         .filter((data) =>
           Object.values(data)
             ?.join(" ")
@@ -39,25 +36,31 @@ const Sector = () => {
         )
         .map((data, index) => ({
           other: { ...data },
-          tableData: { sl: index + 1, sectorName: data.sectorName },
+          tableData: {
+            sl: index + 1,
+            name: data.name,
+            // description: data.description,
+          },
         }));
     } else return [];
-  }, [sectorsData, searchText, isError]);
+  }, [roleData, searchText, isError]);
 
-  const handleSectorStatus = async (data) => {
-    const updatedStatus = data.active === "Y" ? "N" : "Y";
-    const submitData = {
-      id: data.id,
-      active: updatedStatus,
-      tenantId: user.tenant_id,
-    };
-    try {
-      await updateStatusApi(submitData).unwrap();
-      refetch();
-    } catch (err) {
-      console.log("Error updating sector status:", err);
-    }
-  };
+  // const handleRoleStatus = async (data) => {
+  //   const updatedStatus = data.active === "Y" ? "N" : "Y";
+  //   const submitData = {
+  //     id: data.id,
+  //     active: updatedStatus,
+  //     name: data.name,
+  //     description: data.description,
+  //     tenantId: user.tenant_id,
+  //   };
+  //   try {
+  //     await updateStatusApi(submitData).unwrap();
+  //     refetch();
+  //   } catch (err) {
+  //     console.log("Error updating Role status:", err);
+  //   }
+  // };
 
   return (
     <div>
@@ -72,26 +75,26 @@ const Sector = () => {
       <CustomTable1
         {...{
           isLoading,
-          datas: sectors(),
-          columns: ["Sl.No", "Sector Name", "Status", "Actions"],
+          datas: role(),
+          columns: ["Sl.No", "Role Name", "Actions"],
           actions: [
-            [
-              ({ data }) => {
-                const isActive = data.active === "Y";
-                return (
-                  <button
-                    disabled={updateStatusApiResult.isLoading}
-                    onClick={() => handleSectorStatus(data)}
-                    className={twMerge(
-                      "button-1 rounded-md px-2 py-0.5 button-inactive text-md font-medium",
-                      isActive && "button-active"
-                    )}
-                  >
-                    {isActive ? "Active" : "Inactive"}
-                  </button>
-                );
-              },
-            ],
+            // [
+            //   ({ data }) => {
+            //     const isActive = data.active === "Y";
+            //     return (
+            //       <button
+            //         disabled={updateStatusApiResult.isLoading}
+            //         onClick={() => handleRoleStatus(data)}
+            //         className={twMerge(
+            //           "button-1 rounded-md px-2 py-0.5 button-inactive text-md font-medium",
+            //           isActive && "button-active"
+            //         )}
+            //       >
+            //         {isActive ? "Active" : "Inactive"}
+            //       </button>
+            //     );
+            //   },
+            // ],
             [
               ({ data }) => (
                 <MdEdit
@@ -108,4 +111,4 @@ const Sector = () => {
   );
 };
 
-export default Sector;
+export default Role;
