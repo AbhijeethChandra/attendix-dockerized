@@ -1,10 +1,14 @@
 import React, { useState, useRef } from "react";
 import { FaUpload, FaDownload, FaFile, FaTimes } from "react-icons/fa";
 import myExcel from "../../assets/files/download.xlsx";
+import { useMasterSaveMutation } from "@/app/rtkQueries/fileUploadApi";
+import toast from "react-hot-toast";
 
 const MasterUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [uploadFileApi, uploadFileApiRes] = useMasterSaveMutation();
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
@@ -24,18 +28,33 @@ const MasterUpload = () => {
     }
   };
 
-  const handleSave = () => {
-    if (selectedFile) {
-      console.log("Saving file:", selectedFile.name);
-      // Add your file upload logic here
-      alert(`File "${selectedFile.name}" ready to upload!`);
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!selectedFile) return;
+    console.log("Uploading file:", selectedFile);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      // formData.append("validateOnly", true); // for testing if the api works.
+
+      await uploadFileApi(formData).unwrap();
+      toast.success("File uploaded successfully");
+      setSelectedFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
     }
   };
 
   return (
     <div>
       <div className="flex items-center justify-center p-4">
-        <div className="w-full max-w-2xl rounded-2xl shadow-xl p-8">
+        <form
+          onSubmit={handleSave}
+          className="w-full max-w-2xl rounded-2xl shadow-xl p-8"
+        >
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-[var(--color-text-1)] mb-2">
               Upload Your Files
@@ -61,11 +80,12 @@ const MasterUpload = () => {
 
           {/* Hidden file input */}
           <input
+            required
             ref={fileInputRef}
             type="file"
             onChange={handleFileSelect}
             className="hidden"
-            accept=".xlsx,.xls,.csv"
+            accept=".xlsx"
           />
 
           {/* Upload Area */}
@@ -96,6 +116,7 @@ const MasterUpload = () => {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={handleRemoveFile}
                 className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
               >
@@ -105,17 +126,17 @@ const MasterUpload = () => {
           )}
 
           {/* Save Button */}
-          <div
-            onClick={handleSave}
-            className={`cursor-pointer rounded-md flex mt-6 ${
+          <button
+            type="submit"
+            className={`cursor-pointer w-full rounded-md flex mt-6 ${
               selectedFile ? "button-1" : "opacity-50 pointer-events-none"
             }`}
           >
             <label className="cursor-pointer w-full px-2 py-1.5 text-center text-md font-semibold font-medium">
               save File
             </label>
-          </div>
-        </div>
+          </button>
+        </form>
       </div>
     </div>
   );

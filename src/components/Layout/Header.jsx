@@ -82,7 +82,7 @@ export const Header = () => {
         value: office.id,
         id: office.id,
       }));
-      return [{ name: "All Offices", value: null, id: null }, ...options];
+      return [{ name: "All Offices", value: 0, id: 0 }, ...options];
     } else return [];
   }, [officesData]);
 
