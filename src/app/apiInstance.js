@@ -2,10 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_API_URL, BASE_AUTH_URL } from "../config";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
-import {
-  handleLogoutSlice,
-  handleRefreshToken,
-} from "./slice/authSlice";
+import { handleLogoutSlice, handleRefreshToken } from "./slice/authSlice";
 
 const handleApiError = (error, api) => {
   const status = error?.originalStatus || error.status;
@@ -46,6 +43,59 @@ const rawBaseQueryAuth = fetchBaseQuery({
   baseUrl: BASE_AUTH_URL,
   prepareHeaders,
 });
+
+// Wrapper to trim all string values in the request body
+const trimStringsWrapper = (baseQuery) => async (args, api, extra) => {
+  // Function to recursively trim strings in objects/arrays
+  const trimStrings = (obj) => {
+    if (typeof obj === "string") {
+      return obj.trim();
+    }
+    if (Array.isArray(obj)) {
+      return obj.map(trimStrings);
+    }
+    if (obj !== null && typeof obj === "object") {
+      return Object.keys(obj).reduce((acc, key) => {
+        acc[key] = trimStrings(obj[key]);
+        return acc;
+      }, {});
+    }
+    return obj;
+  };
+
+  // Handle FormData separately
+  const trimFormData = (formData) => {
+    const newFormData = new FormData();
+
+    for (const [key, value] of formData.entries()) {
+      // Only trim if it's a string, keep Files/Blobs as-is
+      if (typeof value === "string") {
+        newFormData.append(key, value.trim());
+      } else {
+        newFormData.append(key, value);
+      }
+    }
+
+    return newFormData;
+  };
+
+  // Transform the request body if it exists
+  if (args.body) {
+    if (args.body instanceof FormData) {
+      args = {
+        ...args,
+        body: trimFormData(args.body),
+      };
+    } else {
+      args = {
+        ...args,
+        body: trimStrings(args.body),
+      };
+    }
+  }
+
+  return baseQuery(args, api, extra);
+};
 
 //wrapper for Re authentication.
 const reauthWrapper = (baseQuery) => async (args, api, extra) => {
@@ -108,6 +158,18 @@ export const authApiInstance = makeApiInstance({
 // api uses reauth + error handling
 export const apiInstance = makeApiInstance({
   reducerPath: "api",
-  baseQuery: errorWrapper(rawBaseQueryApi),
-  tagTypes: ["dashboard","weekend","shift","office","role","staff","shiftOverride","attendance","report","holiday","leave"],
+  baseQuery: errorWrapper(trimStringsWrapper(rawBaseQueryApi)),
+  tagTypes: [
+    "dashboard",
+    "weekend",
+    "shift",
+    "office",
+    "role",
+    "staff",
+    "shiftOverride",
+    "attendance",
+    "report",
+    "holiday",
+    "leave",
+  ],
 });

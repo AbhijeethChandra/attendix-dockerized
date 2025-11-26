@@ -71,7 +71,6 @@ export const CreateOfficeAllocation = (props) => {
 
       setDetails(INITIAL_DETAILS);
       refetch();
-      // onClose();
       toast.success("Office Allocation saved successfully");
     } catch (err) {
       console.log("Error creating Office Allocation:", err);
@@ -84,7 +83,7 @@ export const CreateOfficeAllocation = (props) => {
         isOpen,
         onClose,
         dialogTitle: "Office Allocation",
-        panelClass: "w-[calc(100vw-60vw)]",
+        panelClass: "w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
     >
@@ -111,10 +110,6 @@ export const CreateOfficeAllocation = (props) => {
             label="Offices"
             placeholder="Select Offices"
           />
-          {/* <div className="flex-1 col-span-2">
-            <h1 className="font-semibold mb-3">Allocation Table {}</h1>
-            <CustomTable1 columns={["Employee Name", "Office", "Location"]} />
-          </div> */}
         </div>
 
         <div className="w-full flex gap-3">

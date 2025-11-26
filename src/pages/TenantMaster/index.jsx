@@ -69,6 +69,7 @@ const TenantMaster = () => {
         createButtonText="Create Tenant"
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
+        refetch={refetch}
       />
       <CustomTable1
         {...{

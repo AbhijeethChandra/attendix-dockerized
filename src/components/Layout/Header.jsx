@@ -82,6 +82,9 @@ export const Header = () => {
         value: office.id,
         id: office.id,
       }));
+      if (user.role.name === "Super Admin") {
+        return options;
+      }
       return [{ name: "All Offices", value: null, id: null }, ...options];
     } else return [];
   }, [officesData]);
@@ -102,6 +105,7 @@ export const Header = () => {
       const defaultTenant = tenantData.data[0];
       dispatch(handleTenantUpdate(defaultTenant.id));
     }
+    console.log(office.id, officesData?.data, office.name);
     if (
       !office?.id &&
       office?.name !== "All Offices" &&
@@ -240,17 +244,17 @@ export const Header = () => {
         )}
         {(user?.role?.name !== "Super Admin" ||
           location.pathname === "/employee-master") && (
-            <div className="w-[25%]">
-              <SearchBar
-                value={office?.id}
-                placeholder="Please office"
-                containerClass={`bg-[var(--color-bg-2)] border-none`}
-                onChange={handleOfficeChange}
-                options={officesOptions()}
-                optionMenuClass="z-90"
-              />
-            </div>
-          )}
+          <div className="w-[25%]">
+            <SearchBar
+              value={office?.id}
+              placeholder="Please office"
+              containerClass={`bg-[var(--color-bg-2)] border-none`}
+              onChange={handleOfficeChange}
+              options={officesOptions()}
+              optionMenuClass="z-90"
+            />
+          </div>
+        )}
       </div>
       <div className="flex gap-6 items-center">
         <div ref={notificationParentRef} className="relative">

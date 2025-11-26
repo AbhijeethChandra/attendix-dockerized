@@ -20,6 +20,7 @@ const INITIAL_DETAILS = {
   holidayName: "",
   isOptional: false,
   isGlobal: false,
+  offices: [],
 };
 
 export const CreateHoliday = (props) => {
@@ -39,12 +40,14 @@ export const CreateHoliday = (props) => {
   const [editApi, editApiRes] = useUpdateHolidayMutation();
 
   const officesOptions = offices?.data
-    ? offices?.data.map((data) => ({
-        id: data.id,
-        name: data.officeName,
-        label: data.officeName,
-        value: data.id,
-      }))
+    ? [{ officeName: "All Offices", id: "all" }, ...offices.data]?.map(
+        (data) => ({
+          id: data.id,
+          name: data.officeName,
+          label: data.officeName,
+          value: data.id,
+        })
+      )
     : [];
 
   useEffect(() => {
@@ -80,15 +83,47 @@ export const CreateHoliday = (props) => {
     }));
   };
 
+  const handleSelectChange = (value, name) => {
+    if (value[value.length - 1] === "all") {
+      if (value.length === officesOptions.length) {
+        value = [];
+      } else
+        value = officesOptions
+          .filter((opt) => opt.value !== "all")
+          .map((opt) => opt.value);
+    }
+    setDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const submitData = {
-        ...details,
-        tenantId: user.tenant_id,
-        officeId: office.id,
-        active: "Y",
-      };
+      let submitData = [];
+
+      if (details.id) {
+        submitData = {
+          ...details,
+          tenantId: user.tenant_id,
+          active: "Y",
+        };
+      } else {
+        for (const officeId of details.offices) {
+          submitData.push({
+            tenantId: user.tenant_id,
+            officeId: officeId,
+            holidayDate: details.holidayDate,
+            holidayName: details.holidayName,
+            isOptional: details.isOptional,
+            isGlobal: details.isGlobal,
+            active: "Y",
+          });
+        }
+      }
+
+      // return console.log("submitData", submitData);
 
       if (details.id) await editApi(submitData).unwrap();
       else await createApi(submitData).unwrap();
@@ -96,9 +131,9 @@ export const CreateHoliday = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Geo Location saved successfully");
+      toast.success("Holiday saved successfully");
     } catch (err) {
-      console.log("Error creating Geo Location:", err);
+      console.log("Error creating Holiday:", err);
     }
   };
 
@@ -108,7 +143,7 @@ export const CreateHoliday = (props) => {
         isOpen: Boolean(isOpen),
         onClose,
         dialogTitle: "Create Holiday",
-        panelClass: "min-w-[calc(100vw-70vw)]",
+        panelClass: "w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
     >
@@ -116,7 +151,19 @@ export const CreateHoliday = (props) => {
         onSubmit={handleSubmit}
         className="h-[calc(100vh-5rem)] w-full flex flex-col gap-5 px-5 py-3 overflow-y-auto flex flex-col justify-between"
       >
-        <div className="space-y-5 flex-1">
+        <div className="space-y-5 flex-1 gap-x-4 content-start">
+          {!details.id && details.id !== 0 && (
+            <SearchBar
+              required
+              multiple
+              containerClass="flex-wrap"
+              onChange={(value) => handleSelectChange(value, "offices")}
+              value={details.offices}
+              options={officesOptions}
+              label="Offices"
+              placeholder="Select Offices"
+            />
+          )}
           <CommonInput
             required
             onChange={handleChange}

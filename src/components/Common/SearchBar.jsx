@@ -60,7 +60,7 @@ export const SearchBar = (props) => {
             <ComboboxButton className="flex-non items-center ">
               <MagnifyingGlassIcon
                 className={twMerge(
-                  "size-6 text-[var(--color-text-2)] mr-2",
+                  "size-6 text-[var(--color-text-2)]",
                   iconClass
                 )}
               />
@@ -68,7 +68,7 @@ export const SearchBar = (props) => {
 
             <ComboboxInput
               required={required && !(multiple && value?.length)}
-              className={twMerge("flex-1 outline-none", inputClass)}
+              className={twMerge("flex-1 outline-none overflow-x-auto", inputClass)}
               displayValue={(data) =>
                 options.find((opt) => opt.value === data)?.name
               }

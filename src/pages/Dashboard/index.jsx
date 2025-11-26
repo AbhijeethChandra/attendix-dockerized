@@ -16,30 +16,35 @@ const DASHBOARD_CARD_ITEMS = [
   {
     title: "Total Employees",
     name: "totalEmployees",
+    path: "/employee-wise-report",
     value: "0",
     icon: FaUsersLine,
   },
   {
     title: "Present Today",
     name: "presentToday",
+    path: "/day-wise-report",
     value: "0",
     icon: MdCoPresent,
   },
   {
     title: "Absent Today",
     name: "absentToday",
+    path: "/leave-report",
     value: "0",
     icon: FaUserSlash,
   },
   {
     title: "Attendance Requests",
     name: "punchRequestToday",
+    path: "/attendance-request",
     value: "0",
     icon: LuUserX,
   },
   {
     title: "Leave Requests",
     name: "leaveRequest",
+    path: "/leave-request",
     value: "0",
     icon: RiUser2Fill,
   },
@@ -70,7 +75,7 @@ export const Dashboard = () => {
   );
 
   const data = !office?.id ? dashboardData2?.data : dashboardData?.data;
-  
+
   return (
     <div>
       <HeadingComp heading="Dashboard" hideSearch={true} iconToShow={[]} />
@@ -84,6 +89,7 @@ export const Dashboard = () => {
               value={data ? data[item?.name] || item.value : item.value}
               icon={item.icon}
               isLoading={isLoading || isLoading2}
+              path={item.path}
             />
           ))
         ) : (

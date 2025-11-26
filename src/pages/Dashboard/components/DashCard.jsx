@@ -1,9 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 export const DashCard = (props) => {
-  const { title, value, icon: Icon, isLoading } = props;
+  const { title, value, icon: Icon, isLoading, path } = props;
+
+  const navigate = useNavigate();
+
   return (
-    <div className="cursor-pointer flex justify-between items-center p-2 rounded-md border border-[var(--color-border-2)] bg-[var(--color-bg-2)] hover:shadow-lg shadow-[black]/10 transition-shadow">
+    <div
+      onClick={() => navigate(path)}
+      className="cursor-pointer flex justify-between items-center p-2 rounded-md border border-[var(--color-border-2)] bg-[var(--color-bg-2)] hover:shadow-lg shadow-[black]/10 transition-shadow"
+    >
       <div>
         <h2 className="text-md text-[var(--color-text-2)]">{title}</h2>
         <h1 className="text-2xl font-semibold text-[var(--color-text-1)]">

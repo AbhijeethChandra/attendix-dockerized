@@ -54,6 +54,7 @@ const LeaveReq = () => {
 
   const handleSubmit = async (data) => {
     try {
+      console.log({data})
       const submitData = {
         userId: user.id,
         ...data,
@@ -106,7 +107,7 @@ const LeaveReq = () => {
                   </button>
                   <button
                     onClick={() =>
-                      handleSubmit({ requestId: data.id, action: "APPROVED" })
+                      handleSubmit({remarks:"", requestId: data.id, action: "APPROVED" })
                     }
                     className="button-1 button-active px-3 py-1 rounded mr-2"
                   >

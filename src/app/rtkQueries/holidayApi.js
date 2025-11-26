@@ -4,7 +4,7 @@ const holidayApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({
     createHoliday: builder.mutation({
       query: (data) => ({
-        url: "/holiday",
+        url: "/holiday/bulk",
         method: "POST",
         body: data,
       }),
