@@ -24,6 +24,7 @@ const EmployeeWiseRep = lazy(() => import("@/pages/EmployeeWiseReport"));
 const LeaveRep = lazy(() => import("@/pages/LeaveReport"));
 const DeviceIn = lazy(() => import("@/pages/DeviceInfo"));
 const SummaryReport = lazy(() => import("@/pages/SummaryReport"));
+const MasterUpload = lazy(() => import("@/pages/MasterUpload"));
 
 export const PrivateRoutes = [
   { index: true, element: <Navigate to="dashboard" /> },
@@ -50,4 +51,5 @@ export const PrivateRoutes = [
   { path: "summary-report", element: <SummaryReport /> },
   { path: "leave-report", element: <LeaveRep /> },
   { path: "device-info", element: <DeviceIn /> },
+  { path: "master-upload", element: <MasterUpload /> },
 ];

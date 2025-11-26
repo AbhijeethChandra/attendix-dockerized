@@ -24,6 +24,8 @@ export const ALL_SIDEBAR_LIST = [
   { Icon: null, name: "Shift Master", path: "shift-master" },
   { Icon: null, name: "Leave Type", path: "leave-type" },
   { Icon: null, name: "Weekend Master", path: "weekend-master" },
+  { Icon: null, name: "Upload Master", path: "master-upload" },
+
   {
     Icon: CalendarDateRangeIcon,
     name: "Attendance Requests",
@@ -56,6 +58,7 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "shift-master", parent: 2 },
     { name: "leave-type", parent: 2 },
     { name: "weekend-master", parent: 2 },
+    { name: "master-upload", parent: 2 },
     { name: "attendance-request", id: 3 },
     { name: "leave-request", id: 4 },
     { name: "shift", id: 5 },
@@ -68,7 +71,7 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "summary-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
-    ["Manager"]: [
+  ["Manager"]: [
     { name: "dashboard", id: 1 },
     { name: "control-panel", id: 2 },
     { name: "sector-master", parent: 2 },
@@ -95,7 +98,7 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "summary-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
-    ["Super Admin"]: [
+  ["Super Admin"]: [
     { name: "control-panel", id: 2 },
     { name: "tenant-master", parent: 2 },
     { name: "role-master", parent: 2 },
@@ -111,7 +114,7 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "summary-report", parent: 6 },
     { name: "device-info", id: 7 },
   ],
-   ["Admin Manager"]: [
+  ["Admin Manager"]: [
     { name: "dashboard", id: 1 },
     { name: "attendance-request", id: 3 },
     { name: "leave-request", id: 4 },

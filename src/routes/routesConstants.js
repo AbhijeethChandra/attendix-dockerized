@@ -23,8 +23,9 @@ export const ROUTES_BY_ROLE = {
     "summary-report",
     "leave-report",
     "device-info",
+    "master-upload",
   ],
-    ["Manager"]: [
+  ["Manager"]: [
     "dashboard",
     "sector-master",
     "office-master",
@@ -49,7 +50,7 @@ export const ROUTES_BY_ROLE = {
     "leave-report",
     "device-info",
   ],
-    ["Super Admin"]: [
+  ["Super Admin"]: [
     "dashboard",
     "sector-master",
     "office-master",
