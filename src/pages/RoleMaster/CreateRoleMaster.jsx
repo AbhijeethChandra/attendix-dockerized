@@ -1,15 +1,13 @@
 import { Modal } from "@/components/Common/Modal";
 import { CommonInput } from "@/components/Common/CommonInput";
-import {
-  useCreateSectorMutation,
-  useUpdateSectorMutation,
-} from "@/app/rtkQueries/sectorApi";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useCreateRoleMutation, useUpdateRoleMutation } from "@/app/rtkQueries/rolemasterApi";
 
 const INITIAL_DETAILS = {
-  sectorName: "",
+  name: "",
+  description: "",
 };
 
 export const CreateRoleMaster = (props) => {
@@ -17,14 +15,15 @@ export const CreateRoleMaster = (props) => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
   const user = useSelector((state) => state.auth.user);
 
-  const [createApi, createApiRes] = useCreateSectorMutation();
-  const [editApi, editApiRes] = useUpdateSectorMutation();
+  const [createApi, createApiRes] = useCreateRoleMutation();
+  const [editApi, editApiRes] = useUpdateRoleMutation();
 
   useEffect(() => {
     if (typeof isOpen === "object" && isOpen !== null) {
       setDetails({
         id: isOpen.id,
-        sectorName: isOpen.sectorName,
+        name: isOpen.name,
+        description: isOpen.description,
       });
     } else {
       setDetails(INITIAL_DETAILS);
@@ -53,9 +52,7 @@ export const CreateRoleMaster = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success(
-        `Sector ${details.id ? "updated" : "created"} successfully`
-      );
+      toast.success(`Role ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating sector:", err);
     }
@@ -79,11 +76,20 @@ export const CreateRoleMaster = (props) => {
           <CommonInput
             type="text"
             required
-            name="sectorName"
-            value={details.sectorName}
+            name="name"
+            value={details.name}
             onChange={handleChange}
-            label="Sector Name"
-            placeholder="Enter Sector Name"
+            label="Role Name"
+            placeholder="Enter Role Name"
+          />
+          <CommonInput
+            type="text"
+            required
+            name="description"
+            value={details.description}
+            onChange={handleChange}
+            label="description"
+            placeholder="Enter description"
           />
         </div>
         <div className="w-full flex gap-3">
@@ -95,7 +101,7 @@ export const CreateRoleMaster = (props) => {
             Reset
           </button>
           <button
-            disabled={createApiRes.isLoading || editApiRes.isLoading}
+            disabled={createApiRes.isLoading || editApiRes?.isLoading}
             type="submit"
             className="button-1 w-full rounded-md py-1.5 px-3"
           >
