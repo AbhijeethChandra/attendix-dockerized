@@ -11,6 +11,7 @@ import {
 } from "@/app/rtkQueries/holidayApi";
 import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
 import dayjs from "dayjs";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const INITIAL_DETAILS = {
   tenantId: "",

@@ -51,6 +51,11 @@ const authSlice = createSlice({
 
       return state;
     },
+    handleTenantUpdate: (state, action) => {
+      state.user = { ...state.user, tenant_id: action.payload };
+
+      return state;
+    },
   },
 });
 
@@ -61,6 +66,7 @@ export const {
   handleRefreshToken,
   handleUserUpdate,
   handleOfficeUpdate,
+  handleTenantUpdate,
 } = authSlice.actions;
 
 export default authSlice.reducer;

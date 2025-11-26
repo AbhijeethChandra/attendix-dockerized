@@ -5,6 +5,7 @@ import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
 import { useSelector } from "react-redux";
 import { useGetOfficeActiveEmployeesQuery } from "@/app/rtkQueries/employeeApi";
 import { useCreateOfficeAllocationMutation } from "@/app/rtkQueries/officeAllocationApi";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const INITIAL_DETAILS = {
   userId: "",

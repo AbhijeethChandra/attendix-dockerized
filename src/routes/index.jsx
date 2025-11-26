@@ -5,12 +5,14 @@ import { ROUTES_BY_ROLE } from "./routesConstants";
 import { PublicRoutes } from "./publicRoutes";
 import { ErrorBoundary } from "@/components/Common/ErrorBoundary";
 import { useSelector } from "react-redux";
+import { SIDEBAR_LIST_BY_ROLE } from "@/components/Layout/sidebarConstants";
 
 export const AppRoutes = () => {
   const user = useSelector((state) => state.auth.user);
   let routes = [];
 
-  const pathByRole = ROUTES_BY_ROLE[user.role.name] || [];
+  const pathByRole =
+    SIDEBAR_LIST_BY_ROLE[user.role.name]?.flatMap((item) => item.name) || [];
 
   let routesWithParent = [];
 
@@ -41,7 +43,7 @@ export const AppRoutes = () => {
     },
   ];
 
-  const router = createBrowserRouter(routes, { basename: "/attprov2" });
+  const router = createBrowserRouter(routes);
 
   return <RouterProvider router={router} />;
 };

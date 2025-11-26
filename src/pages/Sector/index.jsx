@@ -28,21 +28,20 @@ const Sector = () => {
   const [updateStatusApi, updateStatusApiResult] =
     useUpdateStatusSectorMutation();
 
-  const sectors = useCallback(() => {
-    if (sectorsData?.data.length && !isError) {
-      return sectorsData.data
-        .filter((data) =>
-          Object.values(data)
-            ?.join(" ")
-            ?.toLowerCase()
-            ?.includes(searchText.toLowerCase())
-        )
-        .map((data, index) => ({
-          other: { ...data },
-          tableData: { sl: index + 1, sectorName: data.sectorName },
-        }));
-    } else return [];
-  }, [sectorsData, searchText, isError]);
+  const sectors =
+    sectorsData?.data.length && !isError
+      ? sectorsData.data
+          .filter((data) =>
+            Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
+          .map((data, index) => ({
+            other: { ...data },
+            tableData: { sl: index + 1, sectorName: data.sectorName },
+          }))
+      : [];
 
   const handleSectorStatus = async (data) => {
     const updatedStatus = data.active === "Y" ? "N" : "Y";
@@ -72,7 +71,7 @@ const Sector = () => {
       <CustomTable1
         {...{
           isLoading,
-          datas: sectors(),
+          datas: sectors,
           columns: ["Sl.No", "Sector Name", "Status", "Actions"],
           actions: [
             [

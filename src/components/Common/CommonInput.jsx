@@ -14,6 +14,8 @@ import {
   EyeIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/16/solid";
+import { Checkbox } from "@headlessui/react";
+import { FaCheck } from "react-icons/fa6";
 
 dayjs.extend(customParseFormat);
 
@@ -183,6 +185,15 @@ export const CommonInput = ({
             className={twMerge(INPUTCLASS, inputClass)}
           />
         </div>
+      ) : type === "checkbox" ? (
+        <Checkbox
+          checked={props.value}
+          className="group block size-4.5 rounded cursor-pointer border data-checked:border-0 bg-white data-checked:bg-blue-500"
+          id={props.id}
+          onChange={props.onChange}
+        >
+          <FaCheck className="size-4.5 text-white opacity-0 group-data-checked:opacity-100 p-0.5" />
+        </Checkbox>
       ) : null}
     </div>
   );

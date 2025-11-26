@@ -1,56 +1,48 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
-import { MdEdit } from "react-icons/md";
-import { useState } from "react";
+import { CreateTenantMaster } from "./CreateTenant";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
+import { MdEdit } from "react-icons/md";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { CreateHoliday } from "./CreateHoliday";
-import { useGetAllHolidayQuery } from "@/app/rtkQueries/holidayApi";
-import { useUpdateHolidayMutation } from "@/app/rtkQueries/holidayApi";
 import { twMerge } from "tailwind-merge";
+import {
+  useGetAllSectorQuery,
+  useUpdateStatusSectorMutation,
+} from "@/app/rtkQueries/sectorApi";
 
-const Holiday = () => {
+const TenantMaster = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  const office = useSelector((state) => state.auth.office);
   const [searchText, setSearchText] = useState("");
 
   const onClose = () => setIsOpen(false);
 
   const {
-    data: holidayData,
+    data: sectorsData,
     isLoading,
     isError,
     refetch,
-  } = useGetAllHolidayQuery({
-    tenantId: user.tenant_id ,
-    officeId: office?.id ,
-  });
+  } = useGetAllSectorQuery(user.tenant_id ?? skipToken);
 
-  const [updateStatusApi, updateStatusApiResult] = useUpdateHolidayMutation();
+  const [updateStatusApi, updateStatusApiResult] =
+    useUpdateStatusSectorMutation();
 
-  const holidays =
-    holidayData?.data.length && !isError
-      ? holidayData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
-          .map((data, index) => ({
-            other: {
-              ...data,
-            },
-            tableData: {
-              sl: index + 1,
-              holidayDate: data.holidayDate,
-              holidayName: data.holidayName,
-              isGlobal: data.isGlobal ? "ENABLED" : "DISABLED",
-              isOptional: data.isOptional ? "ENABLED" : "DISABLED",
-            },
-          }))
-      : [];
+  const sectors = useCallback(() => {
+    if (sectorsData?.data.length && !isError) {
+      return sectorsData.data
+        .filter((data) =>
+          Object.values(data)
+            ?.join(" ")
+            ?.toLowerCase()
+            ?.includes(searchText.toLowerCase())
+        )
+        .map((data, index) => ({
+          other: { ...data },
+          tableData: { sl: index + 1, sectorName: data.sectorName },
+        }));
+    } else return [];
+  }, [sectorsData, searchText, isError]);
 
   const handleSectorStatus = async (data) => {
     const updatedStatus = data.active === "Y" ? "N" : "Y";
@@ -58,11 +50,6 @@ const Holiday = () => {
       id: data.id,
       active: updatedStatus,
       tenantId: user.tenant_id,
-      officeId: data.officeId,
-      holidayDate: data.holidayDate,
-      holidayName: data.holidayName,
-      isOptional: data.isOptional,
-      isGlobal: data.isGlobal,
     };
     try {
       await updateStatusApi(submitData).unwrap();
@@ -75,27 +62,18 @@ const Holiday = () => {
   return (
     <div>
       <HeadingComp
-        heading="Holiday"
+        heading="Tenant Master"
         iconToShow={[]}
         handleButtonClick={() => setIsOpen(true)}
-        createButtonText="Create Holiday"
+        createButtonText="Create Tenant"
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
       <CustomTable1
         {...{
-          isLoading: isLoading,
-          errorMessage: office?.id ? null : "Please select an office",
-          datas: holidays,
-          columns: [
-            "Sl.No",
-            "Holiday Name",
-            "Holiday Date",
-            "Global Holiday",
-            "Optional Holiday",
-            "Status",
-            "Actions",
-          ],
+          isLoading,
+          datas: sectors(),
+          columns: ["Sl.No", "Sector Name", "Status", "Actions"],
           actions: [
             [
               ({ data }) => {
@@ -125,9 +103,9 @@ const Holiday = () => {
           ],
         }}
       />
-      <CreateHoliday {...{ isOpen, onClose, refetch }} />
+      <CreateTenantMaster {...{ isOpen, onClose, refetch }} />
     </div>
   );
 };
 
-export default Holiday;
+export default TenantMaster;

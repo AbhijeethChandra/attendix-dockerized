@@ -2,21 +2,36 @@ import { BellAlertIcon, UserCircleIcon } from "@heroicons/react/16/solid";
 import { CommonInput } from "../Common/CommonInput";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLogoutApiMutation } from "@/app/rtkQueries/authApi";
-import { handleLogoutSlice, handleOfficeUpdate } from "@/app/slice/authSlice";
+import {
+  handleLogoutSlice,
+  handleOfficeUpdate,
+  handleTenantUpdate,
+} from "@/app/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetOfficesQuery,
   useGetUnreadNotificationsQuery,
+  useUpdateAllNotificationsReadStatusMutation,
+  useUpdateNotificationReadStatusMutation,
 } from "@/app/rtkQueries/dashboardApi";
 import { TbLockCode } from "react-icons/tb";
 import { IoMdLogOut } from "react-icons/io";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { SearchBar } from "../Common/SearchBar";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
+import {
+  useGetAllTenantQuery,
+  useGetTenantQuery,
+} from "@/app/rtkQueries/tenantApi";
+import { useLocation } from "react-router";
 
 export const Header = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [selectAllNotifications, setSelectAllNotifications] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
@@ -26,9 +41,11 @@ export const Header = () => {
   const notificationRef = useRef(null);
   const notificationParentRef = useRef(null);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [logoutApi, logoutApiResult] = useLogoutApiMutation();
 
+  //queries
   const { data: officesData, isLoading: isOfficeLoading } = useGetOfficesQuery(
     user.tenant_id ? user.tenant_id : skipToken
   );
@@ -36,7 +53,21 @@ export const Header = () => {
   const {
     data: unreadNotificationsData,
     isLoading: isUnreadNotificationsLoading,
+    refetch: refetchUnreadNotifications,
   } = useGetUnreadNotificationsQuery(user.staffId ? user.staffId : skipToken);
+
+  const {
+    data: tenantData,
+    isLoading: isTenantLoading,
+    refetch: refetchTenantData,
+  } = useGetAllTenantQuery(user.role.name !== "Super Admin" && skipToken);
+
+  //mutations
+  const [readNotificationApi, readNotificationApiResult] =
+    useUpdateNotificationReadStatusMutation();
+
+  const [readAllNotificationApi, readAllNotificationApiResult] =
+    useUpdateAllNotificationsReadStatusMutation();
 
   const unreadNotificationsCount = useCallback(() => {
     if (unreadNotificationsData?.data?.length > 0) {
@@ -55,10 +86,21 @@ export const Header = () => {
     } else return [];
   }, [officesData]);
 
+  const tenantOptions = useCallback(() => {
+    if (tenantData?.data?.length > 0) {
+      let options = tenantData.data.map((office) => ({
+        name: office.tenantName,
+        value: office.id,
+        id: office.id,
+      }));
+      return [{ name: "All Tenants", value: null, id: null }, ...options];
+    } else return [];
+  }, [tenantData]);
+
   useEffect(() => {
     if (
       !office?.id &&
-      office.name !== "All Offices" &&
+      office?.name !== "All Offices" &&
       officesData?.data?.length > 0
     ) {
       const defaultOffice = officesData.data[0];
@@ -115,23 +157,97 @@ export const Header = () => {
     }
   };
 
-  const handleTenantChange = (value) => {
+  const handleOfficeChange = (value) => {
     const options = officesOptions();
     const selectedOffice = options.find((office) => office.value === value);
     dispatch(handleOfficeUpdate(selectedOffice));
   };
 
+  const handleTenantChange = (value) => {
+    const options = tenantOptions();
+    const selectedTenant = options.find((tenant) => tenant.value === value);
+    dispatch(handleTenantUpdate(value));
+  };
+
+  const confirmToast = () => {
+    setIsNotificationOpen(false);
+    toast.custom(
+      (t) => (
+        <div className="bg-gray-100 p-3 shadow-md rounded min-w-[250px]">
+          <h3 className="text-lg text-center">Mark all as read?</h3>
+          <div className="flex gap-2 mt-2 items-center justify-center">
+            <button
+              className="button-1 rounded-md px-3 py-1"
+              onClick={() => {
+                handleReadNotifications();
+                toast.dismiss(t.id);
+              }}
+            >
+              Yes
+            </button>
+
+            <button
+              className="button-1 button-3 rounded-md px-3 py-1"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      ),
+      { duration: Infinity }
+    );
+  };
+
+  const handleReadNotifications = async (id) => {
+    try {
+      if (unreadNotificationsData?.data?.length == 0 || !selectAllNotifications)
+        return;
+      let resp;
+      if (id) {
+        resp = await readNotificationApi({ notificationId: id }).unwrap();
+      } else {
+        resp = await readAllNotificationApi({
+          staffId: user.staffId,
+        }).unwrap();
+      }
+      if (resp.success) {
+        refetchUnreadNotifications();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  console.log(location)
+
   return (
     <div className="px-5 h-16 flex justify-between items-center bg-[var(--color-header)]">
-      <div className="w-[35%]">
-        <SearchBar
-          value={office?.id}
-          placeholder="Please choose your company"
-          containerClass={`bg-[var(--color-bg-2)] border-none`}
-          onChange={handleTenantChange}
-          options={officesOptions()}
-          optionMenuClass="z-90"
-        />
+      <div className="flex gap-4 flex-1">
+        {user?.role?.name === "Super Admin" && (
+          <div className="w-[25%]">
+            <SearchBar
+              value={user?.tenant_id}
+              placeholder="Please tenant"
+              containerClass={`bg-[var(--color-bg-2)] border-none`}
+              onChange={handleTenantChange}
+              options={tenantOptions()}
+              optionMenuClass="z-90"
+            />
+          </div>
+        )}
+        {user?.role?.name !== "Super Admin" || location.pathname === "/employee-master" &&  (
+          <div className="w-[25%]">
+            <SearchBar
+              value={office?.id}
+              placeholder="Please office"
+              containerClass={`bg-[var(--color-bg-2)] border-none`}
+              onChange={handleOfficeChange}
+              options={officesOptions()}
+              optionMenuClass="z-90"
+            />
+          </div>
+        )}
       </div>
       <div className="flex gap-6 items-center">
         <div ref={notificationParentRef} className="relative">
@@ -150,27 +266,65 @@ export const Header = () => {
           {isNotificationOpen && (
             <div
               ref={notificationRef}
-              className="z-[20] p-4 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] space-y-2 rounded absolute top-10 right-2 max-h-80 w-80 overflow-y-auto scrollbar-hidden"
+              className="z-[20] p-1 bg-[var(--color-bg-2)] shadow-[-5px_5px_5px_rgba(0,0,0,0.1)] rounded absolute top-10 right-2 w-80"
             >
-              {unreadNotificationsData?.data?.length > 0 ? (
-                unreadNotificationsData.data.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className="border-b border-[var(--color-border-1)] last:border-0 pb-2"
-                  >
-                    <div className="text-sm text-[var(--color-text-1)]">
-                      {notification.notifyContent}
-                    </div>
-                    <div className="text-sm text-[var(--color-text-2)]">
-                      {notification.message}
-                    </div>
+              {unreadNotificationsData?.data?.length > 0 && (
+                <div className="flex gap-3 p-3  justify-between items-center border-b border-[var(--color-border-1)]">
+                  <div className="flex gap-2">
+                    <CommonInput
+                      type="checkbox"
+                      value={selectAllNotifications}
+                      onChange={setSelectAllNotifications}
+                      name="selectAllNotifications"
+                      placeholder="Search Notifications"
+                      containerClass="w-fit justify-center"
+                    />
+                    <label htmlFor="selectAllNotifications">Select All</label>
                   </div>
-                ))
-              ) : (
-                <div className="text-[var(--color-text-2)]">
-                  No new notifications
+                  {selectAllNotifications && (
+                    <MdDelete
+                      onClick={confirmToast}
+                      className="size-5 text-[var(--color-icon-error)] cursor-pointer"
+                    />
+                  )}
                 </div>
               )}
+
+              <div className="overflow-y-auto scrollbar-hidden p-3 max-h-80 space-y-2">
+                {unreadNotificationsData?.data?.length > 0 ? (
+                  unreadNotificationsData.data.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className="relative group p-3 rounded shadow-md hover:bg-[var(--color-bg-1)] cursor-pointer space-y-1"
+                    >
+                      <div className="font-semibold text-[var(--color-text-1)] flex justify-between">
+                        {notification.subject}
+                        <div className="text-xs group-hover:visible invisible text-[var(--color-text-3)]">
+                          <MdDelete
+                            onClick={() =>
+                              handleReadNotifications(notification.id)
+                            }
+                            className="size-5 text-[var(--color-icon-error)] cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                      <div className="text-sm text-[var(--color-text-1)]">
+                        {notification.notifyContent}
+                      </div>
+                      <div className="text-sm text-[var(--color-text-2)]">
+                        Date :
+                        {dayjs(notification.notifyTime).format(
+                          "YYYY-MM-DD hh:mm A"
+                        )}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-[var(--color-text-2)]">
+                    No new notifications
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

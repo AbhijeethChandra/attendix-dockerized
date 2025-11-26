@@ -38,7 +38,7 @@ export const SearchBar = (props) => {
         });
 
   return (
-    <div className={twMerge("flex flex-col gap-1.5 w-full", className)}>
+    <div className={twMerge("flex flex-col gap-1.5 w-full ", className)}>
       {label && <label className={labelClass}>{label}</label>}
 
       <Combobox

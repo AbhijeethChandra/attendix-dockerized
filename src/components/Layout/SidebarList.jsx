@@ -109,7 +109,7 @@ export const SidebarList = (props) => {
             <Disclosures
               key={index}
               parentRef={sidebarListRef}
-              buttonClass="pe-5"
+              buttonClass="pe-5 cursor-pointer"
               {...{ HeadingComponent: ListComponent }}
             >
               <div className="flex flex-col h-fit">

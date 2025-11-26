@@ -35,6 +35,20 @@ const dashboardApi = apiInstance.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateNotificationReadStatus: builder.mutation({
+      query: ({ notificationId }) => ({
+        url: `/notification/update-read-status`,
+        params: { notificationId },
+        method: "PUT",
+      }),
+    }),
+    updateAllNotificationsReadStatus: builder.mutation({
+      query: ({ staffId }) => ({
+        url: `/notification/update-all-status`,
+        params: { staffId },
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -43,4 +57,6 @@ export const {
   useGetDashboardCountsQuery,
   useGetDashboardCountsForAllQuery,
   useGetUnreadNotificationsQuery,
+  useUpdateNotificationReadStatusMutation,
+  useUpdateAllNotificationsReadStatusMutation,
 } = dashboardApi;
