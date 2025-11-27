@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const DeviceIn = () => {
   const [searchText, setSearchText] = useState("");
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const user = useSelector((state) => state.auth.user);
   const {
@@ -36,6 +37,20 @@ const DeviceIn = () => {
               officeName: data.officeName,
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
   return (
     <div>
@@ -43,6 +58,8 @@ const DeviceIn = () => {
       <CustomTable1
         {...{
           isLoading: isLoading,
+          sort: sort,
+          setSort: setSort,
           datas: deviceinfo,
           columns: [
             "Sl.No",
