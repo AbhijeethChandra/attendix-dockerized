@@ -16,6 +16,7 @@ const AttendanceReq = () => {
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const {
     data: attendancerequestData,
@@ -52,6 +53,20 @@ const AttendanceReq = () => {
               requestTime: dayjs(data.punchTime).format("hh:mm A"),
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const handleSubmit = async (data) => {
@@ -82,6 +97,8 @@ const AttendanceReq = () => {
       <CustomTable1
         {...{
           isLoading: isLoading,
+          sort: sort,
+          setSort: setSort,
           datas: attendancerequest,
           columns: [
             "Sl.No",

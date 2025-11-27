@@ -17,6 +17,7 @@ const ShiftAss = () => {
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const onClose = () => setIsOpen(false);
 
@@ -49,10 +50,28 @@ const ShiftAss = () => {
               officeName: data.officeName,
               staffName: data.staffName,
               shiftName: data.shiftName,
-              effectiveFrom: data.effectiveFrom ? dayjs(data.effectiveFrom).format("DD-MM-YYYY") : "-",
-              effectiveTo: data.effectiveTo ? dayjs(data.effectiveTo).format("DD-MM-YYYY") : "-",
+              effectiveFrom: data.effectiveFrom
+                ? dayjs(data.effectiveFrom).format("DD-MM-YYYY")
+                : "-",
+              effectiveTo: data.effectiveTo
+                ? dayjs(data.effectiveTo).format("DD-MM-YYYY")
+                : "-",
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   return (
@@ -69,6 +88,8 @@ const ShiftAss = () => {
       <CustomTable1
         {...{
           isLoading: isLoading,
+          sort: sort,
+          setSort: setSort,
           errorMessage: office?.id ? null : "Please select an office",
           datas: shiftAssign,
           columns: [

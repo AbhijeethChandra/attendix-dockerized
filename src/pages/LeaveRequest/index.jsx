@@ -4,8 +4,11 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { LeaveReject } from "./LeaveReject";
-import { useGetAllLeaveRequestQuery, useLeaveRequestStatusUpdateMutation } from "@/app/rtkQueries/leaveApi";
-import dayjs from "@/utils/dayjs";;
+import {
+  useGetAllLeaveRequestQuery,
+  useLeaveRequestStatusUpdateMutation,
+} from "@/app/rtkQueries/leaveApi";
+import dayjs from "@/utils/dayjs";
 
 const LeaveReq = () => {
   const [searchText, setSearchText] = useState("");
@@ -13,15 +16,20 @@ const LeaveReq = () => {
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const {
     data: leaveRequestData,
     isLoading,
     isError,
     refetch,
-  } = useGetAllLeaveRequestQuery(user.tenant_id ?{
-    tenantId: user.tenant_id,
-  }:skipToken);
+  } = useGetAllLeaveRequestQuery(
+    user.tenant_id
+      ? {
+          tenantId: user.tenant_id,
+        }
+      : skipToken
+  );
 
   const [leaveRequestStatusUpdate, leaveRequestStatusUpdateRes] =
     useLeaveRequestStatusUpdateMutation();
@@ -50,11 +58,25 @@ const LeaveReq = () => {
               requestReason: data.requestReason,
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const handleSubmit = async (data) => {
     try {
-      console.log({data})
+      console.log({ data });
       const submitData = {
         userId: user.id,
         ...data,
@@ -81,6 +103,8 @@ const LeaveReq = () => {
       <CustomTable1
         {...{
           isLoading: isLoading,
+          sort: sort,
+          setSort: setSort,
           datas: leaveRequest,
           columns: [
             "Sl.No",
@@ -91,7 +115,7 @@ const LeaveReq = () => {
             "Request Date",
             "Apllied Date",
             "Reason",
-            "Actions"
+            "Actions",
           ],
           actions: [
             [
@@ -107,7 +131,11 @@ const LeaveReq = () => {
                   </button>
                   <button
                     onClick={() =>
-                      handleSubmit({remarks:"", requestId: data.id, action: "APPROVED" })
+                      handleSubmit({
+                        remarks: "",
+                        requestId: data.id,
+                        action: "APPROVED",
+                      })
                     }
                     className="button-1 button-active px-3 py-1 rounded mr-2"
                   >
