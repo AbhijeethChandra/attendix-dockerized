@@ -45,7 +45,7 @@ export const CreateEmployee = (props) => {
   const { data: employees } = useGetOfficeEmployeesQuery(
     {
       tenantId: user.tenant_id,
-      officeId: office.id,
+      officeId: 0,
     } ?? skipToken
   );
 
