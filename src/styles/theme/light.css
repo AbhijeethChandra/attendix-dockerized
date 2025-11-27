@@ -7,15 +7,15 @@
 
   --color-button-border-1: #bbf7d0;
   --color-button-border-2: #93c5fd;
-  --color-button-border-active: #5df200;
-  --color-button-border-inactive: #ff0000;
+  --color-button-border-active: #079454;
+  --color-button-border-inactive: #e70000;
 
   --color-button-text: #ffffff;
   --color-button-text-2: #020203;
   --color-button-text-3: #d31510;
   --color-button-text-4: #21448f;
-  --color-button-active: rgba(98, 255, 0, 0.23);
-  --color-button-inactive: #ff00003b;
+  --color-button-active: #0794543d;
+  --color-button-inactive: #ff000032;
 
   --color-icon-1: white;
   --color-icon-2: #1575b2;
@@ -25,6 +25,7 @@
   --color-bg-1: #eeeeee;
   --color-bg-2: #ffffff;
   --color-bg-3: #f7f3ea;
+  --color-bg-4: #f6f6f6;
   --color-bg-warning: #e5e848;
 
   --color-hover: #1575b2;
@@ -37,11 +38,11 @@
   --color-text-1: #2d2b2b;
   --color-text-2: #636363;
   --color-text-3: #ffffff;
-  --color-text-4: #6b7280;
+  --color-text-4: #1d1d1d;
   --color-text-5: #006aac;
   --color-text-active-2: #135052;
-  --color-text-success: #007a4d;
-  --color-text-success-2: #22c55e;
+  --color-text-success: #008252;
+  --color-text-success-2: #006f299d;
 
   --color-text-h1: #282828;
   --color-text-sub-h1: #66696d;
@@ -114,13 +115,20 @@
     color: var(--color-text-4);
     font-weight: 500;
 
+    tbody {
+      tr:hover {
+        background-color: var(--color-bg-4);
+      }
+    }
+
     thead {
       th {
-        background-color: var(--color-bg-1);
+        background-color: var(--color-bg-4);
         text-align: left;
-        padding: 15px;
-        border-right: 1px solid var(--color-border-2);
-        border-bottom: 1px solid var(--color-border-2);
+        padding: 10px 15px;
+        text-wrap: nowrap;
+        /* border-right: 1px solid var(--color-border-2); */
+        /* border-bottom: 1px solid var(--color-border-2); */
         font-weight: 500;
         z-index: 1;
       }

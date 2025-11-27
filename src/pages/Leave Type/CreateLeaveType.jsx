@@ -79,7 +79,7 @@ export const CreateLeaveType = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Leave Type saved successfully");
+      toast.success(`Leave Type ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Leave Type:", err);
     }

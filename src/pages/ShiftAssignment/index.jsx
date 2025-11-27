@@ -9,6 +9,7 @@ import {
   useGetShiftAssignByStaffQuery,
   useGetShiftAssignQuery,
 } from "@/app/rtkQueries/shiftAssignApi";
+import dayjs from "@/utils/dayjs";
 
 const ShiftAss = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,8 +49,8 @@ const ShiftAss = () => {
               officeName: data.officeName,
               staffName: data.staffName,
               shiftName: data.shiftName,
-              effectiveFrom: data.effectiveFrom,
-              effectiveTo: data.effectiveTo,
+              effectiveFrom: data.effectiveFrom ? dayjs(data.effectiveFrom).format("DD-MM-YYYY") : "-",
+              effectiveTo: data.effectiveTo ? dayjs(data.effectiveTo).format("DD-MM-YYYY") : "-",
             },
           }))
       : [];

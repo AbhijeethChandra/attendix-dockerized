@@ -131,7 +131,7 @@ export const CreateHoliday = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Holiday saved successfully");
+      toast.success(`Holiday ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Holiday:", err);
     }

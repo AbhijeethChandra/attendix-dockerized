@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { handleLoginSlice } from "@/app/slice/authSlice";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import loginbg from "@/assets/images/loginbg.jpg";
 
 export const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -15,7 +16,7 @@ export const Login = () => {
   });
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [loginApi, { isLoading, isError, data }] = useLoginApiMutation();
 
@@ -37,16 +38,18 @@ export const Login = () => {
       if (resp.success) {
         const role = resp.data.user.role.name;
 
-        if(!/(Admin|Admin Manager|Super Admin|Manager)/.test(role)){
+        if (!/(Admin|Admin Manager|Super Admin|Manager)/.test(role)) {
           toast.error("You do not have access to this application");
           return;
         }
-        dispatch(handleLoginSlice({
-          user: resp.data.user,
-          accessToken: resp.data.accessToken,
-          refreshToken: resp.data.refreshToken,
-          username: resp.data.user.username,
-        }))
+        dispatch(
+          handleLoginSlice({
+            user: resp.data.user,
+            accessToken: resp.data.accessToken,
+            refreshToken: resp.data.refreshToken,
+            username: resp.data.user.username,
+          })
+        );
         navigate("/dashboard");
       }
     } catch (err) {
@@ -72,64 +75,75 @@ export const Login = () => {
   };
 
   return (
-    <form
-      onSubmit={handleLogin}
-      style={{
-        background: "#1575B2",
-        background:
-          "linear-gradient(180deg,rgba(21, 117, 178, 1) 0%, rgba(255, 255, 255, 1) 100%)",
-      }}
-      className="h-screen w-full flex items-center justify-center"
-    >
+    <div className="h-screen w-full flex">
       <div
+        className="hidden lg:flex lg:w-1/2 bg-cover bg-center bg-no-repeat bg-[var(--color-bg-1)] rounded-e-[4rem]"
         style={{
-          background: "white",
-          borderRadius: "16px",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-          backdropFilter: "blur(5px)",
-          WebkitBackdropFilter: "blur(5px)",
+          backgroundImage: `url(${loginbg})`,
         }}
-        className="rounded-md w-[400px] h-[500px] flex flex-col items-center gap-4 text-[var(--color-text-1)] px-10"
-      >
-        <img
-          className="mx-auto mt-10 mb-2"
-          style={{ width: "200px" }}
-          src={logoWithName}
-          alt="mail_logo"
-        />
-        <div className="text-center text-[var(--color-header)] text-2xl font-semibold">
-          Welcome
-        </div>
-
-        <div>Please Login</div>
-
-        <CommonInput
-          name="username"
-          required
-          value={loginData.username}
-          onChange={handleChange}
-          type="text"
-          label="Username"
-          placeholder="Username"
-        />
-        <CommonInput
-          name="password"
-          required
-          value={loginData.password}
-          onChange={handleChange}
-          type="password"
-          label="Password"
-          placeholder="Password"
-        />
-
-        <button
-          disabled={isLoading}
-          type="submit"
-          className="bg-[#1575B2]/80 cursor-pointer w-full py-2 rounded-md text-white font-medium mt-4 hover:opacity-50 transition"
+      ></div>
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8">
+        <form
+          onSubmit={handleLogin}
+          className="w-full max-w-md flex flex-col gap-6"
         >
-          Login
-        </button>
+          <div className="text-center mb-8">
+            <img
+              className="mx-auto mb-8"
+              style={{ width: "180px" }}
+              src={logoWithName}
+              alt="Attendix Logo"
+            />
+            <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+              Welcome
+            </h1>
+            <p className="text-gray-500 text-sm">Please logIn to continue</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-gray-700">Email</label>
+            <CommonInput
+              name="username"
+              required
+              value={loginData.username}
+              onChange={handleChange}
+              type="text"
+              placeholder="Enter your email"
+              className="border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <CommonInput
+              name="password"
+              required
+              value={loginData.password}
+              onChange={handleChange}
+              type="password"
+              placeholder="Enter your password"
+              className="border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          {/* <div className="text-right">
+            <a href="#" className="text-sm text-[#1575B2] hover:underline">
+              Forgot password?
+            </a>
+          </div> */}
+          <button
+            disabled={isLoading}
+            type="submit"
+            className="bg-[#1575B2] cursor-pointer w-full py-3 rounded-md text-white font-medium hover:bg-[#1575B2]/90 transition disabled:opacity-50"
+          >
+            {isLoading ? "Logging in..." : "Log in"}
+          </button>
+          <div className="text-center text-xs text-gray-500 mt-8">
+            Powered by
+            <br />
+            <span className="font-medium">CI Cloud IT Ventures</span>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };

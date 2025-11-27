@@ -2,7 +2,7 @@ import { useGetAllEmployeeWiseReportQuery } from "@/app/rtkQueries/employeewiser
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
@@ -12,12 +12,23 @@ import { CommonInput } from "@/components/Common/CommonInput";
 import { useGetActiveDepartmentsQuery } from "@/app/rtkQueries/departmentApi";
 import { EyeIcon } from "@heroicons/react/16/solid";
 import { ViewEmployeeWise } from "./ViewEmployeeWiseReport";
+import { useExcelExport } from "@/hooks/useExcelDownload";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
   toDate: dayjs().format("YYYY-MM-DD"),
   departmentId: undefined,
 };
+
+const EXCEL_COLUMNS = [
+  "Employee",
+  "Department",
+  "Date",
+  "Clock-In",
+  "Clock-Out",
+  "Working Hours",
+  "Breaks",
+];
 
 const EmployeeWiseRep = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
@@ -72,6 +83,24 @@ const EmployeeWiseRep = () => {
             other: {
               ...data,
             },
+            excelData: {
+              staffName: data.staffName,
+              departmentName: data.departmentName,
+              date: dayjs(data.date).format("DD MMM YYYY"),
+              checkInTime: dayjs(data.checkInTime).format("DD MMM YYYY"),
+              checkOutTime: dayjs(data.checkOutTime).format("DD MMM YYYY"),
+              workingHours: data.workingHours,
+              breaks: data.breaks.length
+                ? data.breaks
+                    ?.map(
+                      (brk, index) =>
+                        `${dayjs(brk.breakInTime).format("hh:mm A")} - ${dayjs(
+                          brk.breakOutTime
+                        ).format("hh:mm A")}`
+                    )
+                    .join(", ")
+                : "No breaks",
+            },
             tableData: {
               sl: index + 1,
               staffName: data.staffName,
@@ -123,6 +152,16 @@ const EmployeeWiseRep = () => {
           }))
       : [];
 
+  const { DownloadButton } = useExcelExport(
+    EXCEL_COLUMNS,
+    employeewisereport.map((item) => item.excelData),
+    {
+      fileName: "EmployeeWiseReport",
+      sheetName: "EmployeeWiseReport",
+      buttonText: "Download Report",
+    }
+  );
+
   useEffect(() => {
     if (departmentOptions.length > 0 && details.departmentId === undefined) {
       setDetails((prev) => ({
@@ -133,8 +172,8 @@ const EmployeeWiseRep = () => {
   }, [departmentOptions]);
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayjs(date[0]).format("DD-MM-YYYY") : undefined;
+    const toDate = date ? dayjs(date[1]).format("DD-MM-YYYY") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,
@@ -158,25 +197,27 @@ const EmployeeWiseRep = () => {
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
-      <div className="flex gap-5 mb-3">
-        <SearchBar
-          options={departmentOptions}
-          value={details.departmentId}
-          onChange={handleSelect}
-          placeholder="Select Department"
-          className="w-[30%]"
-        />
-        <CommonInput
-          type="daterange"
-          labelContainerClass="w-fit"
-          containerClass="flex-row items-center w-fit"
-          labelClass="text-nowrap"
-          label="Date Range"
-          onChange={handleDateChange}
-          rangeDivider="to"
-          name="date"
-          value={[details.fromDate, details.toDate]}
-        />
+      <div className="flex gap-5 justify-between mb-3">
+        <div className="flex gap-5">
+          <SearchBar
+            options={departmentOptions}
+            value={details.departmentId}
+            onChange={handleSelect}
+            placeholder="Select Department"
+          />
+          <CommonInput
+            type="daterange"
+            labelContainerClass="w-fit"
+            containerClass="flex-row items-center w-fit"
+            labelClass="text-nowrap"
+            label="Date Range"
+            onChange={handleDateChange}
+            rangeDivider="to"
+            name="date"
+            value={[details.fromDate, details.toDate]}
+          />
+        </div>
+        <DownloadButton />
       </div>
       <CustomTable1
         {...{

@@ -80,7 +80,7 @@ export const CreateDesignation = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Designation saved successfully");
+      toast.success(`Designation ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Designation:", err);
     }

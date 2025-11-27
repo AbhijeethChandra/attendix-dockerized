@@ -157,7 +157,7 @@ export const CreateEmployee = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success(`Employee saved successfully`);
+      toast.success(`Employee ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Geo Location:", err);
     }

@@ -148,12 +148,12 @@ export const CreateShift = (props) => {
         active: "Y",
       };
 
-      if (details.id) await editApi(submitData);
-      else await createApi(submitData);
+      if (details.id) await editApi(submitData).unwrap();
+      else await createApi(submitData).unwrap();
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Office saved successfully");
+      toast.success(`Office ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Office:", err);
     }
