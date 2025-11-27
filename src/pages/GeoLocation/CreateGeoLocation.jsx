@@ -115,6 +115,8 @@ export const CreateGeoLocation = (props) => {
             required
             onChange={handleChange}
             name="geoRadius"
+            min="1"
+            step="1"
             value={details.geoRadius}
             type="number"
             label="Radius (in meters)"
@@ -142,7 +144,7 @@ export const CreateGeoLocation = (props) => {
         <div className="w-full flex gap-3">
           <button
             type="reset"
-            onClick={()=>setDetails(INITIAL_DETAILS)}
+            onClick={() => setDetails(INITIAL_DETAILS)}
             className="button-1 w-full button-3 rounded-md py-1.5 px-3"
           >
             Reset

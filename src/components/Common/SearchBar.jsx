@@ -52,7 +52,7 @@ export const SearchBar = (props) => {
       >
         <div
           className={twMerge(
-            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[5px] w-full",
+            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[5px] w-full overflow-y-auto scrollbar-hidden",
             containerClass
           )}
         >
@@ -68,7 +68,7 @@ export const SearchBar = (props) => {
 
             <ComboboxInput
               required={required && !(multiple && value?.length)}
-              className={twMerge("flex-1 outline-none overflow-x-auto", inputClass)}
+              className={twMerge("flex-1 outline-none overflow-y-auto", inputClass)}
               displayValue={(data) =>
                 options.find((opt) => opt.value === data)?.name
               }
