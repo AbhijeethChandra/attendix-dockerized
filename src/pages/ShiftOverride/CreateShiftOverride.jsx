@@ -134,7 +134,7 @@ export const CreateShiftOver = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Shift override saved successfully");
+      toast.success(`Shift override ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Shift override:", err);
     }

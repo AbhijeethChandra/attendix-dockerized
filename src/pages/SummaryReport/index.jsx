@@ -68,7 +68,8 @@ const SummaryReport = () => {
               shiftTo: data.shiftTo,
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
-              totalLeaveDays: data.absentDays,
+              totalAbsentDays: data.absentDays,
+              totalLeaveDays: data.totalLeaveDays,
               totalLateDays: data.lateDays,
             },
             tableData: {
@@ -81,7 +82,8 @@ const SummaryReport = () => {
               shiftTo: data.shiftTo,
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
-              totalLeaveDays: data.absentDays,
+              totalAbsentDays: data.absentDays,
+              totalLeaveDays: data.totalLeaveDays,
               totalLateDays: data.lateDays,
             },
           }))
@@ -98,8 +100,8 @@ const SummaryReport = () => {
   );
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayjs(date[0]).format("DD-MM-YYYY") : undefined;
+    const toDate = date ? dayjs(date[1]).format("DD-MM-YYYY") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,
@@ -120,7 +122,7 @@ const SummaryReport = () => {
         <CommonInput
           type="daterange"
           labelContainerClass="w-fit"
-          containerClass="flex-row items-center w-fit mb-3"
+          containerClass="flex-row items-center w-fit"
           labelClass="text-nowrap"
           label="Date Range"
           onChange={handleDateChange}
@@ -146,6 +148,7 @@ const SummaryReport = () => {
             "Total Working Days",
             "Total Present Days",
             "Total Absent Days",
+            "Total Leave Days",
             "Total Late Days",
           ],
         }}

@@ -15,6 +15,7 @@ const Sector = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const [searchText, setSearchText] = useState("");
+  const [sort, setSort] = useState({name: "", order: "ASC", field: ""});
 
   const onClose = () => setIsOpen(false);
 
@@ -41,6 +42,16 @@ const Sector = () => {
             other: { ...data },
             tableData: { sl: index + 1, sectorName: data.sectorName },
           }))
+          .sort((a,b)=>{
+            if(sort.name && sort.field){
+              const fieldA = a.tableData ? a.tableData[sort.field] : a[sort.field];
+              const fieldB = b.tableData ? b.tableData[sort.field] : b[sort.field];
+              if(fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if(fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const handleSectorStatus = async (data) => {
@@ -72,6 +83,8 @@ const Sector = () => {
       <CustomTable1
         {...{
           isLoading,
+          sort: sort,
+          setSort: setSort,
           datas: sectors,
           columns: ["Sl.No", "Sector Name", "Status", "Actions"],
           actions: [

@@ -153,11 +153,12 @@ const WeekendMas = () => {
         daysList: daysList,
       };
 
-      if (details.id) await editApi(submitData);
-      else await createApi(submitData);
+      if (details.id) await editApi(submitData).unwrap();
+      else await createApi(submitData).unwrap();
       setDetails(INITIAL_DETAILS);
+      setDaysList(INITIAL_DAYS_LIST);
       refetch();
-      toast.success("Weekend saved successfully");
+      toast.success(`Weekend ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Weekend:", err);
     }
