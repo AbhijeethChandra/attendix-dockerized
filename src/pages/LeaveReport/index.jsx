@@ -110,8 +110,8 @@ const LeaveRep = () => {
   );
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayjs(date[0]).format("DD-MM-YYYY") : undefined;
+    const toDate = date ? dayjs(date[1]).format("DD-MM-YYYY") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,
@@ -129,19 +129,17 @@ const LeaveRep = () => {
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
       <div className="flex gap-5 justify-between mb-3">
-        <div className="flex gap-5">
-          <CommonInput
-            type="daterange"
-            labelContainerClass="w-fit"
-            containerClass="flex-row items-center w-fit mb-3"
-            labelClass="text-nowrap"
-            label="Date Range"
-            onChange={handleDateChange}
-            rangeDivider="to"
-            name="date"
-            value={[details.fromDate, details.toDate]}
-          />
-        </div>
+        <CommonInput
+          type="daterange"
+          labelContainerClass="w-fit"
+          containerClass="flex-row items-center w-fit"
+          labelClass="text-nowrap"
+          label="Date Range"
+          onChange={handleDateChange}
+          rangeDivider="to"
+          name="date"
+          value={[details.fromDate, details.toDate]}
+        />
         <DownloadButton />
       </div>
       <CustomTable1

@@ -1,5 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { Loading } from "./Loading";
+import { IoChevronDown } from "react-icons/io5";
 
 export const CustomTable1 = (props) => {
   const {
@@ -10,7 +11,24 @@ export const CustomTable1 = (props) => {
     isLoading,
     errorMessage,
     containerClass,
+    sort,
+    setSort,
   } = props;
+
+  const handleSortClick = (col,index) => {
+    let order = "ASC";
+    if (sort?.name === col && sort?.order === "ASC") {
+      order = "DESC";
+    }
+    setSort({
+      name: col,
+      order: order,
+      field:
+        datas.flatMap(x=>x.tableData).length > 0
+          ? Object.keys(datas[0].tableData)[index] || ""
+          : "",
+    });
+  };
 
   return (
     <div
@@ -24,7 +42,20 @@ export const CustomTable1 = (props) => {
           {columns && (
             <tr>
               {columns.map((col, index) => (
-                <th key={index}>{col}</th>
+                <th key={index} onClick={() => handleSortClick(col,index)}>
+                  <div className="flex gap-3 items-center cursor-pointer">
+                    {col}
+                    <IoChevronDown
+                      className={
+                        sort?.name === col
+                          ? sort?.order === "ASC"
+                            ? "rotate-180"
+                            : ""
+                          : "invisible"
+                      }
+                    />
+                  </div>
+                </th>
               ))}
             </tr>
           )}

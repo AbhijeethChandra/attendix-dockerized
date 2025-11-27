@@ -1,4 +1,5 @@
 import { CheckIcon, MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { IoChevronDown } from "react-icons/io5";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
@@ -56,16 +57,7 @@ export const SearchBar = (props) => {
             containerClass
           )}
         >
-          <div className="flex gap-2">
-            <ComboboxButton className="flex-non items-center ">
-              <MagnifyingGlassIcon
-                className={twMerge(
-                  "size-6 text-[var(--color-text-2)]",
-                  iconClass
-                )}
-              />
-            </ComboboxButton>
-
+          <div className="flex gap-2 px-2">
             <ComboboxInput
               required={required && !(multiple && value?.length)}
               className={twMerge("flex-1 outline-none overflow-y-auto", inputClass)}
@@ -76,6 +68,14 @@ export const SearchBar = (props) => {
               onChange={(event) => setQuery(event.target.value)}
               {...rest}
             />
+            <ComboboxButton className="flex-non items-center ">
+              <IoChevronDown
+                className={twMerge(
+                  "size-6 text-[var(--color-text-2)]",
+                  iconClass
+                )}
+              />
+            </ComboboxButton>
           </div>
 
           {value?.length > 0 && (

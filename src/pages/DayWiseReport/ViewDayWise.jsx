@@ -1,5 +1,5 @@
 import { Modal } from "@/components/Common/Modal";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import React, { useEffect, useState } from "react";
 import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 
@@ -16,25 +16,22 @@ export const ViewDayWise = (props) => {
   const getLocation = async () => {
     console.log(data);
     setLoading(true);
+    const API_KEY = "AIzaSyA2ByTI0YP6ipiKuqrFAuGyxa-qFIsqFCY"
     try {
       const resp = await fetch(
-        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
-          data.checkInLatitude +
-          "&lon=" +
-          data.checkInLongitude +
-          "&zaddressdetails=1"
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.checkInLatitude},${data.checkInLongitude}&key=${API_KEY}`
       );
       const resp2 = await fetch(
-        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
-          data.checkOutLatitude +
-          "&lon=" +
-          data.checkOutLongitude +
-          "&zaddressdetails=1"
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.checkOutLatitude},${data.checkOutLongitude}&key=${API_KEY}`
       );
       const value = await resp.json();
       const value2 = await resp2.json();
-      setCheckInLocation(value.display_name);
-      setCheckOutLocation(value2.display_name);
+      setCheckInLocation(
+        `${value.address.city},${value.address.state} ${value.address.state}`
+      );
+      setCheckOutLocation(
+        `${value2.address.city}, ${value2.address.state}  ${value2.address.state}`
+      );
     } catch (error) {
       console.log(error);
     } finally {

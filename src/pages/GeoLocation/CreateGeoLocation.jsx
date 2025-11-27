@@ -81,7 +81,7 @@ export const CreateGeoLocation = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Geo Location saved successfully");
+      toast.success(`Geo Location ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Geo Location:", err);
     }

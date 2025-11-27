@@ -126,7 +126,7 @@ export const CreateShiftAss = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success("Shift Assignment saved successfully");
+      toast.success(`Shift Assignment ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Shift Assignment:", err);
     }

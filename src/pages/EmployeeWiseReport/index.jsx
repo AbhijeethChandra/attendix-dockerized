@@ -172,8 +172,8 @@ const EmployeeWiseRep = () => {
   }, [departmentOptions]);
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayjs(date[0]).format("DD-MM-YYYY") : undefined;
+    const toDate = date ? dayjs(date[1]).format("DD-MM-YYYY") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,
@@ -198,13 +198,12 @@ const EmployeeWiseRep = () => {
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
       <div className="flex gap-5 justify-between mb-3">
-        <div className="flex gap-5 mb-3">
+        <div className="flex gap-5">
           <SearchBar
             options={departmentOptions}
             value={details.departmentId}
             onChange={handleSelect}
             placeholder="Select Department"
-            className="w-[30%]"
           />
           <CommonInput
             type="daterange"

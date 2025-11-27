@@ -1,7 +1,7 @@
 import { MdCoPresent } from "react-icons/md";
 import { FaUsersLine } from "react-icons/fa6";
 import { FaUserSlash } from "react-icons/fa";
-import { LuUserX } from "react-icons/lu";
+import { RiUserAddFill } from "react-icons/ri";
 import { RiUser2Fill } from "react-icons/ri";
 import { DashCard } from "./components/DashCard";
 import {
@@ -11,12 +11,13 @@ import {
 import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { HeadingComp } from "@/components/Common/HeadingComp";
-
 const DASHBOARD_CARD_ITEMS = [
   {
     title: "Total Employees",
     name: "totalEmployees",
     path: "/employee-wise-report",
+    iconContainerClass: "bg-[blue]/10",
+    iconClass: "text-[blue]",
     value: "0",
     icon: FaUsersLine,
   },
@@ -24,6 +25,8 @@ const DASHBOARD_CARD_ITEMS = [
     title: "Present Today",
     name: "presentToday",
     path: "/day-wise-report",
+    iconContainerClass: "bg-[#079455]/10",
+    iconClass: "text-[#079455]",
     value: "0",
     icon: MdCoPresent,
   },
@@ -31,6 +34,8 @@ const DASHBOARD_CARD_ITEMS = [
     title: "Absent Today",
     name: "absentToday",
     path: "/absent-report",
+    iconContainerClass: "bg-[red]/10",
+    iconClass: "text-[red]",
     value: "0",
     icon: FaUserSlash,
   },
@@ -38,13 +43,17 @@ const DASHBOARD_CARD_ITEMS = [
     title: "Attendance Requests",
     name: "punchRequestToday",
     path: "/attendance-request",
+    iconContainerClass: "bg-[#1575b2]/10",
+    iconClass: "text-[#1575b2]",
     value: "0",
-    icon: LuUserX,
+    icon: RiUserAddFill,
   },
   {
     title: "Leave Requests",
     name: "leaveRequest",
     path: "/leave-request",
+    iconContainerClass: "bg-[orange]/10",
+    iconClass: "text-[orange]",
     value: "0",
     icon: RiUser2Fill,
   },
@@ -80,7 +89,7 @@ export const Dashboard = () => {
     <div>
       <HeadingComp heading="Dashboard" hideSearch={true} iconToShow={[]} />
 
-      <div className="grid grid-cols-4 pb-5 gap-3">
+      <div className="grid grid-cols-4 pb-5 gap-7">
         {!isLoading && !isLoading2 ? (
           DASHBOARD_CARD_ITEMS?.map((item, index) => (
             <DashCard
@@ -90,6 +99,8 @@ export const Dashboard = () => {
               icon={item.icon}
               isLoading={isLoading || isLoading2}
               path={item.path}
+              iconContainerClass={item.iconContainerClass}
+              iconClass={item.iconClass}
             />
           ))
         ) : (

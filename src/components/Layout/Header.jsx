@@ -228,10 +228,10 @@ export const Header = () => {
   };
 
   return (
-    <div className="px-5 h-16 flex justify-between items-center bg-[var(--color-header)]">
-      <div className="flex gap-4 flex-1">
+    <div className="px-5 h-16 flex gap-4 justify-end items-center bg-[var(--color-header)]">
+      <div className="flex gap-4 ">
         {user?.role?.name === "Super Admin" && (
-          <div className="w-[25%]">
+          <div className="w-full">
             <SearchBar
               value={user?.tenant_id}
               placeholder="Please tenant"
@@ -244,7 +244,7 @@ export const Header = () => {
         )}
         {(user?.role?.name !== "Super Admin" ||
           location.pathname === "/employee-master") && (
-          <div className="w-[25%]">
+          <div className="w-full">
             <SearchBar
               value={office?.id}
               placeholder="Please office"

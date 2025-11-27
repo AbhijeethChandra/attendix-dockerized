@@ -71,7 +71,7 @@ export const CreateOfficeAllocation = (props) => {
 
       setDetails(INITIAL_DETAILS);
       refetch();
-      toast.success("Office Allocation saved successfully");
+      toast.success(`Office Allocation ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Office Allocation:", err);
     }
