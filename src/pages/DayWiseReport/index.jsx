@@ -2,7 +2,7 @@ import { useGetAllDayWiseReportQuery } from "@/app/rtkQueries/daywisereportApi";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
@@ -12,12 +12,47 @@ import { CommonInput } from "@/components/Common/CommonInput";
 import { useGetActiveDepartmentsQuery } from "@/app/rtkQueries/departmentApi";
 import { EyeIcon } from "@heroicons/react/16/solid";
 import { ViewDayWise } from "./ViewDayWise";
+import { useExcelExport } from "@/hooks/useExcelDownload";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
   toDate: dayjs().format("YYYY-MM-DD"),
   departmentId: undefined,
 };
+
+const TABLE_COLUMNS = [
+  "Sl.No",
+  "Employee",
+  "View",
+  "Office",
+  "Department",
+  "Shfit Name",
+  "Shift From",
+  "Shift To",
+  "Date",
+  "Clock-In",
+  "Clock-Out",
+  "Working Hours",
+  "Breaks",
+  "Shift Start Margin",
+  "Shift End Margin",
+];
+
+const EXCEL_COLUMNS = [
+  "Employee",
+  "Office",
+  "Department",
+  "Shfit Name",
+  "Shift From",
+  "Shift To",
+  "Date",
+  "Clock-In",
+  "Clock-Out",
+  "Working Hours",
+  "Breaks",
+  "Shift Start Margin",
+  "Shift End Margin",
+];
 
 const DayWiseRep = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
@@ -71,6 +106,32 @@ const DayWiseRep = () => {
           .map((data, index) => ({
             other: {
               ...data,
+            },
+            excelData: {
+              staffName: data.staffName,
+              officeName: data.officeName,
+              departmentName: data.departmentName,
+              shift: data?.shift?.shiftName,
+              shiftFrom: data?.shift?.shiftFrom
+                ? dayjs(data?.shift?.shiftFrom, "HH:mm").format("HH:mm A")
+                : "-",
+              shiftTo: data?.shift?.shiftTo
+                ? dayjs(data?.shift?.shiftTo, "HH:mm").format("HH:mm A")
+                : "-",
+              date: dayjs(data.date).format("DD MMM YYYY"),
+              checkInTime: dayjs(data.checkInTime).format("DD MMM YYYY"),
+              checkOutTime: dayjs(data.checkOutTime).format("DD MMM YYYY"),
+              workingHours: data.workingHours,
+              breaks: data.breaks.length
+                ? data.breaks?.map(
+                    (brk, index) =>
+                      `${dayjs(brk.breakInTime).format("hh:mm A")} - ${dayjs(
+                        brk.breakOutTime
+                      ).format("hh:mm A")}`
+                  ).join(", ")
+                : "No breaks",
+              shiftStartMargin: data?.shift?.shiftStartMargin,
+              shiftEndMargin: data?.shift?.shiftEndMargin,
             },
             tableData: {
               sl: index + 1,
@@ -143,6 +204,16 @@ const DayWiseRep = () => {
           }))
       : [];
 
+  const { DownloadButton } = useExcelExport(
+    EXCEL_COLUMNS,
+    daywisereport.map((item) => item.excelData),
+    {
+      fileName: "DayWiseReport",
+      sheetName: "DayWiseReport",
+      buttonText: "Download Report",
+    }
+  );
+
   useEffect(() => {
     if (departmentOptions.length > 0 && details.departmentId === undefined) {
       setDetails((prev) => ({
@@ -178,48 +249,35 @@ const DayWiseRep = () => {
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
-      <div className="flex gap-5 mb-3">
-        <SearchBar
-          options={departmentOptions}
-          value={details.departmentId}
-          onChange={handleSelect}
-          placeholder="Select Department"
-          className="w-[30%]"
-        />
-        <CommonInput
-          type="daterange"
-          labelContainerClass="w-fit"
-          containerClass="flex-row items-center w-fit"
-          labelClass="text-nowrap"
-          label="Date Range"
-          onChange={handleDateChange}
-          rangeDivider="to"
-          name="date"
-          value={[details.fromDate, details.toDate]}
-        />
+      <div className="flex gap-5 justify-between mb-3">
+        <div className="flex gap-5">
+          <SearchBar
+            options={departmentOptions}
+            value={details.departmentId}
+            onChange={handleSelect}
+            placeholder="Select Department"
+            className="w-[30%]"
+          />
+          <CommonInput
+            type="daterange"
+            labelContainerClass="w-fit"
+            containerClass="flex-row items-center w-fit"
+            labelClass="text-nowrap"
+            label="Date Range"
+            onChange={handleDateChange}
+            rangeDivider="to"
+            name="date"
+            value={[details.fromDate, details.toDate]}
+          />
+        </div>
+        <DownloadButton />
       </div>
       <CustomTable1
         {...{
           isLoading: isLoading,
           datas: daywisereport,
           containerClass: "max-h-[calc(100vh-13.5rem)]",
-          columns: [
-            "Sl.No",
-            "Employee",
-            "View",
-            "Office",
-            "Department",
-            "Shfit Name",
-            "Shift From",
-            "Shift To",
-            "Date",
-            "Clock-In",
-            "Clock-Out",
-            "Working Hours",
-            "Breaks",
-            "Shift Start Margin",
-            "Shift End Margin",
-          ],
+          columns: TABLE_COLUMNS,
         }}
       />
       <ViewDayWise

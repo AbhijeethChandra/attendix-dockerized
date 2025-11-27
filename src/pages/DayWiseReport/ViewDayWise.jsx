@@ -1,5 +1,5 @@
 import { Modal } from "@/components/Common/Modal";
-import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";;
 import React, { useEffect, useState } from "react";
 import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 

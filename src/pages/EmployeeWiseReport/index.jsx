@@ -2,7 +2,7 @@ import { useGetAllEmployeeWiseReportQuery } from "@/app/rtkQueries/employeewiser
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";;
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";

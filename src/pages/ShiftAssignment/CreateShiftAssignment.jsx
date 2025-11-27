@@ -12,7 +12,7 @@ import {
 import { useGetOfficeEmployeesQuery } from "@/app/rtkQueries/employeeApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetAllOfficeActiveShiftsQuery } from "@/app/rtkQueries/shiftApi";
-import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";;
 
 const INITIAL_DETAILS = {
   tenantId: "",

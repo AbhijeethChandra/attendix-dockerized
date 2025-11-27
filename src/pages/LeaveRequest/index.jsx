@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { LeaveReject } from "./LeaveReject";
 import { useGetAllLeaveRequestQuery, useLeaveRequestStatusUpdateMutation } from "@/app/rtkQueries/leaveApi";
-import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";;
 
 const LeaveReq = () => {
   const [searchText, setSearchText] = useState("");

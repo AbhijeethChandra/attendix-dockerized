@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import DatePicker from "react-date-picker";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "react-date-picker/dist/DatePicker.css";
@@ -16,8 +14,6 @@ import {
 } from "@heroicons/react/16/solid";
 import { Checkbox } from "@headlessui/react";
 import { FaCheck } from "react-icons/fa6";
-
-dayjs.extend(customParseFormat);
 
 // CommonInput Component
 export const CommonInput = ({

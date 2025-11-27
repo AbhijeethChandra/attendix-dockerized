@@ -20,7 +20,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { SearchBar } from "../Common/SearchBar";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-import dayjs from "dayjs";
+import dayjs from "@/utils/dayjs";;
 import toast from "react-hot-toast";
 import {
   useGetAllTenantQuery,
