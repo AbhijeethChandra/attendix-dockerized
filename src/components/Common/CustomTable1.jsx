@@ -15,7 +15,7 @@ export const CustomTable1 = (props) => {
     setSort,
   } = props;
 
-  const handleSortClick = (col,index) => {
+  const handleSortClick = (col, index) => {
     let order = "ASC";
     if (sort?.name === col && sort?.order === "ASC") {
       order = "DESC";
@@ -24,11 +24,13 @@ export const CustomTable1 = (props) => {
       name: col,
       order: order,
       field:
-        datas.flatMap(x=>x.tableData).length > 0
+        datas.flatMap((x) => x.tableData).length > 0
           ? Object.keys(datas[0].tableData)[index] || ""
           : "",
     });
   };
+
+  console.log(sort)
 
   return (
     <div
@@ -42,7 +44,7 @@ export const CustomTable1 = (props) => {
           {columns && (
             <tr>
               {columns.map((col, index) => (
-                <th key={index} onClick={() => handleSortClick(col,index)}>
+                <th key={index} onClick={() => handleSortClick(col, index)}>
                   <div className="flex gap-3 items-center cursor-pointer">
                     {col}
                     <IoChevronDown

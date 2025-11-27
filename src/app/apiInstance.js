@@ -23,6 +23,7 @@ const handleApiError = (error, api) => {
     message = "Unauthorized. Please login again";
   } else if (status === "FETCH_ERROR")
     message = "Network issue. Check connection.";
+  toast.dismiss();
   toast.error(message);
 };
 

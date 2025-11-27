@@ -58,6 +58,7 @@ const DayWiseRep = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
   const [searchText, setSearchText] = useState("");
   const [viewDayWise, setViewDayWise] = useState(false);
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
@@ -123,12 +124,14 @@ const DayWiseRep = () => {
               checkOutTime: dayjs(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
-                ? data.breaks?.map(
-                    (brk, index) =>
-                      `${dayjs(brk.breakInTime).format("hh:mm A")} - ${dayjs(
-                        brk.breakOutTime
-                      ).format("hh:mm A")}`
-                  ).join(", ")
+                ? data.breaks
+                    ?.map(
+                      (brk, index) =>
+                        `${dayjs(brk.breakInTime).format("hh:mm A")} - ${dayjs(
+                          brk.breakOutTime
+                        ).format("hh:mm A")}`
+                    )
+                    .join(", ")
                 : "No breaks",
               shiftStartMargin: data?.shift?.shiftStartMargin,
               shiftEndMargin: data?.shift?.shiftEndMargin,
@@ -202,6 +205,20 @@ const DayWiseRep = () => {
               shiftEndMargin: data?.shift?.shiftEndMargin,
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const { DownloadButton } = useExcelExport(
@@ -224,8 +241,8 @@ const DayWiseRep = () => {
   }, [departmentOptions]);
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("DD-MM-YYYY") : undefined;
-    const toDate = date ? dayjs(date[1]).format("DD-MM-YYYY") : undefined;
+    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
+    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,
@@ -275,6 +292,8 @@ const DayWiseRep = () => {
         {...{
           isLoading: isLoading,
           datas: daywisereport,
+          sort: sort,
+          setSort: setSort,
           containerClass: "max-h-[calc(100vh-13.5rem)]",
           columns: TABLE_COLUMNS,
         }}

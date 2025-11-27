@@ -8,12 +8,15 @@ import { CreateHoliday } from "./CreateHoliday";
 import { useGetAllHolidayQuery } from "@/app/rtkQueries/holidayApi";
 import { useUpdateHolidayMutation } from "@/app/rtkQueries/holidayApi";
 import { twMerge } from "tailwind-merge";
+import dayjs from "@/utils/dayjs";
 
 const Holiday = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
+
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
-  const [searchText, setSearchText] = useState("");
 
   const onClose = () => setIsOpen(false);
 
@@ -44,12 +47,26 @@ const Holiday = () => {
             },
             tableData: {
               sl: index + 1,
-              holidayDate: data.holidayDate,
               holidayName: data.holidayName,
+              holidayDate: dayjs(data.holidayDate).format("DD-MM-YYYY"),
               isGlobal: data.isGlobal ? "ENABLED" : "DISABLED",
               isOptional: data.isOptional ? "ENABLED" : "DISABLED",
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const handleSectorStatus = async (data) => {
@@ -89,6 +106,8 @@ const Holiday = () => {
           errorMessage:
             !isError && office?.id > -1 ? null : "Please select an office",
           datas: holidays,
+          sort: sort,
+          setSort: setSort,
           columns: [
             "Sl.No",
             "Holiday Name",

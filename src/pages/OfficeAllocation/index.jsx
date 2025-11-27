@@ -10,6 +10,7 @@ import { useGetEmployeesOfficesQuery } from "@/app/rtkQueries/employeeApi";
 const OfficeAllocationAllocation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
@@ -51,6 +52,20 @@ const OfficeAllocationAllocation = () => {
                 : "",
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   return (
@@ -68,6 +83,8 @@ const OfficeAllocationAllocation = () => {
         {...{
           isLoading,
           datas: officeAllocations,
+          sort: sort,
+          setSort: setSort,
           columns: ["Sl.No", "Name", "Phone", "Mail", "Tenant Name", "Offices"],
           // actions: [
           //   [

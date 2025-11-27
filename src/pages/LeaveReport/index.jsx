@@ -31,6 +31,7 @@ const EXCEL_COLUMNS = [
 const LeaveRep = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
   const [searchText, setSearchText] = useState("");
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
@@ -97,6 +98,20 @@ const LeaveRep = () => {
               decisionReason: data.decisionReason,
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const { DownloadButton } = useExcelExport(
@@ -110,13 +125,23 @@ const LeaveRep = () => {
   );
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("DD-MM-YYYY") : undefined;
-    const toDate = date ? dayjs(date[1]).format("DD-MM-YYYY") : undefined;
-    setDetails((prev) => ({
-      ...prev,
-      fromDate: fromDate,
-      toDate: toDate,
-    }));
+    try {
+      const fromDate = date.length > 0
+        ? dayjs(date[0]).format("YYYY-MM-DD")
+        : undefined;
+      const toDate = date
+        ? dayjs(date[1]).format("YYYY-MM-DD")
+        : undefined;
+
+        console.log(toDate, fromDate);
+      setDetails((prev) => ({
+        ...prev,
+        fromDate: fromDate,
+        toDate: toDate,
+      }));
+    } catch (err) {
+      console.log("Date parse error:", err);
+    }
   };
 
   return (
@@ -146,6 +171,8 @@ const LeaveRep = () => {
         {...{
           isLoading: isLoading,
           datas: leaveReports,
+          sort: sort,
+          setSort: setSort,
           containerClass: "max-h-[calc(100vh-13.5rem)]",
           columns: [
             "Sl.No",
