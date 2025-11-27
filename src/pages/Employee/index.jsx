@@ -13,9 +13,11 @@ import {
 
 const Employee = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
+
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
-  const [searchText, setSearchText] = useState("");
 
   const onClose = () => setIsOpen(false);
 
@@ -58,6 +60,20 @@ const Employee = () => {
               geoSense: data.geoSense ? "ENABLED" : "DISABLED",
             },
           }))
+          .sort((a, b) => {
+            if (sort.name && sort.field) {
+              const fieldA = a.tableData
+                ? a.tableData[sort.field]
+                : a[sort.field];
+              const fieldB = b.tableData
+                ? b.tableData[sort.field]
+                : b[sort.field];
+              if (fieldA > fieldB) return sort.order === "ASC" ? -1 : 1;
+              if (fieldA < fieldB) return sort.order === "ASC" ? 1 : -1;
+              return 0;
+            }
+            return 0;
+          })
       : [];
 
   const handleStatusUpdate = async (data) => {
@@ -90,6 +106,8 @@ const Employee = () => {
         {...{
           isLoading,
           datas: employees,
+          sort: sort,
+          setSort: setSort,
           columns: [
             "Sl.No",
             "Name",
