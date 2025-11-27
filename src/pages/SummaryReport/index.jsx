@@ -1,17 +1,31 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useAttendanceSummaryReportQuery } from "@/app/rtkQueries/attendanceApi";
+import { useExcelExport } from "@/hooks/useExcelDownload";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
   toDate: dayjs().format("YYYY-MM-DD"),
 };
+
+const EXCEL_COLUMNS = [
+  "Employee Name",
+  "Office",
+  "Department",
+  "Shift Name",
+  "Shift From",
+  "Shift To",
+  "Total Working Days",
+  "Total Present Days",
+  "Total Absent Days",
+  "Total Late Days",
+];
 
 const SummaryReport = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
@@ -21,7 +35,7 @@ const SummaryReport = () => {
   const office = useSelector((state) => state.auth.office);
 
   const {
-    data: leaveReportData,
+    data: SummaryReportData,
     isFetching: isLoading,
     isError,
     refetch,
@@ -32,9 +46,9 @@ const SummaryReport = () => {
     toDate: details.toDate,
   });
 
-  const leaveReports =
-    leaveReportData?.data?.length && !isError
-      ? leaveReportData.data
+  const SummaryReports =
+    SummaryReportData?.data?.length && !isError
+      ? SummaryReportData.data
           .filter((data) =>
             Object.values(data)
               ?.join(" ")
@@ -44,6 +58,18 @@ const SummaryReport = () => {
           .map((data, index) => ({
             other: {
               ...data,
+            },
+            excelData: {
+              staffName: data.staffName,
+              officeName: data.officeName,
+              departmentName: data.departmentName,
+              shiftName: data.shiftName,
+              shiftFrom: data.shiftFrom,
+              shiftTo: data.shiftTo,
+              totalWorkingDays: data.totalWorkingDays,
+              totalPresentDays: data.presentDays,
+              totalLeaveDays: data.absentDays,
+              totalLateDays: data.lateDays,
             },
             tableData: {
               sl: index + 1,
@@ -60,6 +86,16 @@ const SummaryReport = () => {
             },
           }))
       : [];
+
+  const { DownloadButton } = useExcelExport(
+    EXCEL_COLUMNS,
+    SummaryReports.map((item) => item.excelData),
+    {
+      fileName: "SummaryReport",
+      sheetName: "SummaryReport",
+      buttonText: "Download Report",
+    }
+  );
 
   const handleDateChange = (date) => {
     const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
@@ -80,21 +116,24 @@ const SummaryReport = () => {
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
-      <CommonInput
-        type="daterange"
-        labelContainerClass="w-fit"
-        containerClass="flex-row items-center w-fit mb-3"
-        labelClass="text-nowrap"
-        label="Date Range"
-        onChange={handleDateChange}
-        rangeDivider="to"
-        name="date"
-        value={[details.fromDate, details.toDate]}
-      />
+      <div className="flex gap-5 justify-between mb-3">
+        <CommonInput
+          type="daterange"
+          labelContainerClass="w-fit"
+          containerClass="flex-row items-center w-fit mb-3"
+          labelClass="text-nowrap"
+          label="Date Range"
+          onChange={handleDateChange}
+          rangeDivider="to"
+          name="date"
+          value={[details.fromDate, details.toDate]}
+        />
+        <DownloadButton />
+      </div>
       <CustomTable1
         {...{
           isLoading: isLoading,
-          datas: leaveReports,
+          datas: SummaryReports,
           containerClass: "max-h-[calc(100vh-13.5rem)]",
           columns: [
             "Sl.No",

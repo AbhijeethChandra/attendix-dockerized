@@ -1,17 +1,32 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { useLeaveDayviseReportQuery } from "@/app/rtkQueries/leaveApi";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
+import { useExcelExport } from "@/hooks/useExcelDownload";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
   toDate: dayjs().format("YYYY-MM-DD"),
 };
+
+const EXCEL_COLUMNS = [
+  "Status",
+  "Employee",
+  "Office",
+  "Leave Category",
+  "Leave Type",
+  "Session",
+  "Request Reason",
+  "Request Date",
+  "Approved Date",
+  "Applied Date",
+  "Decision Reason",
+];
 
 const LeaveRep = () => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
@@ -45,6 +60,21 @@ const LeaveRep = () => {
             other: {
               ...data,
             },
+            excelData: {
+              status: data.status,
+              employee: data.employee,
+              officeName: data.officeName,
+              leaveCategoryName: data.leaveCategoryName,
+              leaveType: data.leaveType,
+              session: data.session,
+              requestReason: data.requestReason,
+              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
+              approvedDate: data.approvedDate
+                ? dayjs(data.approvedDate).format("DD MMM YYYY")
+                : "-",
+              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
+              decisionReason: data.decisionReason,
+            },
             tableData: {
               sl: index + 1,
               status:
@@ -53,7 +83,6 @@ const LeaveRep = () => {
                 ) : (
                   <CheckCircleIcon className="size-5 text-[var(--color-icon-error)]" />
                 ),
-              officeName: data.officeName,
               employee: data.employee,
               officeName: data.officeName,
               leaveCategoryName: data.leaveCategoryName,
@@ -69,6 +98,16 @@ const LeaveRep = () => {
             },
           }))
       : [];
+
+  const { DownloadButton } = useExcelExport(
+    EXCEL_COLUMNS,
+    leaveReports.map((item) => item.excelData),
+    {
+      fileName: "LeaveReport",
+      sheetName: "LeaveReport",
+      buttonText: "Download Report",
+    }
+  );
 
   const handleDateChange = (date) => {
     const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
@@ -89,17 +128,22 @@ const LeaveRep = () => {
         searchValue={searchText}
         onSearchChange={(e) => setSearchText(e.target.value)}
       />
-      <CommonInput
-        type="daterange"
-        labelContainerClass="w-fit"
-        containerClass="flex-row items-center w-fit mb-3"
-        labelClass="text-nowrap"
-        label="Date Range"
-        onChange={handleDateChange}
-        rangeDivider="to"
-        name="date"
-        value={[details.fromDate, details.toDate]}
-      />
+      <div className="flex gap-5 justify-between mb-3">
+        <div className="flex gap-5">
+          <CommonInput
+            type="daterange"
+            labelContainerClass="w-fit"
+            containerClass="flex-row items-center w-fit mb-3"
+            labelClass="text-nowrap"
+            label="Date Range"
+            onChange={handleDateChange}
+            rangeDivider="to"
+            name="date"
+            value={[details.fromDate, details.toDate]}
+          />
+        </div>
+        <DownloadButton />
+      </div>
       <CustomTable1
         {...{
           isLoading: isLoading,
