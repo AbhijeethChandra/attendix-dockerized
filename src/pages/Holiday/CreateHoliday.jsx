@@ -10,7 +10,7 @@ import {
   useUpdateHolidayMutation,
 } from "@/app/rtkQueries/holidayApi";
 import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 const INITIAL_DETAILS = {

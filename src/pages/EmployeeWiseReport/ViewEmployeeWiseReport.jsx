@@ -1,11 +1,12 @@
 import { Modal } from "@/components/Common/Modal";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import React, { useEffect, useState } from "react";
 import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 
 export const ViewEmployeeWise = (props) => {
   const { isOpen, onClose, data } = props;
   const [checkInLocation, setCheckInLocation] = useState("");
+  const [checkOutLocation, setCheckOutLocation] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,8 +23,17 @@ export const ViewEmployeeWise = (props) => {
           data.checkInLongitude +
           "&zaddressdetails=1"
       );
+      const resp2 = await fetch(
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+          data.checkOutLatitude +
+          "&lon=" +
+          data.checkOutLongitude +
+          "&zaddressdetails=1"
+      );
       const value = await resp.json();
+      const value2 = await resp2.json();
       setCheckInLocation(value.display_name);
+      setCheckOutLocation(value2.display_name);
     } catch (error) {
       console.log(error);
     } finally {
@@ -54,11 +64,11 @@ export const ViewEmployeeWise = (props) => {
         <div className="border border-[var(--color-border-1)] rounded-md p-3">
           <h3 className="font-semibold mb-3">Shift Details</h3>
           <div className="grid gap-y-3 grid-cols-[30%_1fr]">
-          <p className="font-medium">Clock in Location</p>
-          <p>: {loading ? "Loading..." : checkInLocation}</p>
-          <p className="font-medium">Clock out location</p>
-          <p>: {data?.clockOutLocation}</p>
-        </div>
+            <p className="font-medium">Clock in Location</p>
+            <p>: {loading ? "Loading..." : checkInLocation}</p>
+            <p className="font-medium">Clock out location</p>
+            <p>: {loading ? "Loading..." : checkOutLocation}</p>
+          </div>
         </div>
 
         <div className="border border-[var(--color-border-1)] rounded-md p-3">

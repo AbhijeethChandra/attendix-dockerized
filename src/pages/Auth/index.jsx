@@ -140,7 +140,7 @@ export const Login = () => {
           <div className="text-center text-xs text-gray-500 mt-8">
             Powered by
             <br />
-            <span className="font-medium">CI Cloud IT Ventures</span>
+            <span className="font-medium">GJ Globals IT Ventures</span>
           </div>
         </form>
       </div>

@@ -1,10 +1,12 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
-dayjs.extend(utc);
+// dayjs.extend(utc);
 
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-export default (...args) => dayjs.utc(...args);
+export const dayjsUtc = dayjs.extend(utc);
+
+export default (...args) => dayjs(...args);

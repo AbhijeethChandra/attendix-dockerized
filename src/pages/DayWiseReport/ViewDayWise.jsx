@@ -14,23 +14,29 @@ export const ViewDayWise = (props) => {
   }, [data]);
 
   const getLocation = async () => {
-    console.log(data);
     setLoading(true);
-    const API_KEY = "AIzaSyA2ByTI0YP6ipiKuqrFAuGyxa-qFIsqFCY"
     try {
       const resp = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.checkInLatitude},${data.checkInLongitude}&key=${API_KEY}`
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+          data.checkInLatitude +
+          "&lon=" +
+          data.checkInLongitude +
+          "&zaddressdetails=1"
       );
       const resp2 = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.checkOutLatitude},${data.checkOutLongitude}&key=${API_KEY}`
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+          data.checkOutLatitude +
+          "&lon=" +
+          data.checkOutLongitude +
+          "&zaddressdetails=1"
       );
       const value = await resp.json();
       const value2 = await resp2.json();
       setCheckInLocation(
-        `${value.address.city},${value.address.state} ${value.address.state}`
+        `${value.display_name}`
       );
       setCheckOutLocation(
-        `${value2.address.city}, ${value2.address.state}  ${value2.address.state}`
+        `${value2.display_name}`
       );
     } catch (error) {
       console.log(error);
