@@ -2,7 +2,7 @@ import { useGetAllEmployeeWiseReportQuery } from "@/app/rtkQueries/employeewiser
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayjs, { dayjsUtc } from "@/utils/dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
@@ -88,8 +88,8 @@ const EmployeeWiseRep = () => {
               staffName: data.staffName,
               departmentName: data.departmentName,
               date: dayjs(data.date).format("DD MMM YYYY"),
-              checkInTime: dayjs(data.checkInTime).format("DD MMM YYYY"),
-              checkOutTime: dayjs(data.checkOutTime).format("DD MMM YYYY"),
+              clockIn: dayjs(data.checkInTime).format("hh:mm A"),
+              clockOut: dayjs(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
                 ? data.breaks
@@ -115,16 +115,16 @@ const EmployeeWiseRep = () => {
               enteredDt: dayjs(data.enteredDt, "DD-MM-YYYY").format(
                 "DD MMM YYYY"
               ),
-              checkInTime: (
-                <div className="flex gap-2 flex-nowrap">
+              clockIn: (
+                <div className="flex gap-2 flex-nowrap items-center">
                   <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                  {dayjs(data.checkInTime).format("DD MMM YYYY")}
+                  {dayjsUtc(data.checkInTime || null).format("hh:mm A")}
                 </div>
               ),
-              checkOutTime: (
-                <div className="flex gap-2 flex-nowrap">
+              clockOut: (
+                <div className="flex gap-2 flex-nowrap items-center">
                   <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                  {dayjs(data.checkOutTime).format("DD MMM YYYY")}
+                  {dayjsUtc(data.checkOutTime || null).format("hh:mm A")}
                 </div>
               ),
               workingHours: data.workingHours,
@@ -135,13 +135,13 @@ const EmployeeWiseRep = () => {
                       key={index}
                       className="flex gap-2 flex-nowrap border border-[var(--color-border-1)] rounded-md p-2"
                     >
-                      <div className="flex gap-2 flex-nowrap">
+                      <div className="flex gap-2 flex-nowrap items-center">
                         <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                        {dayjs(brk.breakInTime).format("HH:mm A")}
+                        {dayjs(brk.breakInTime || null).format("hh:mm A")}
                       </div>
-                      <div className="flex gap-2 flex-nowrap">
+                      <div className="flex gap-2 flex-nowrap items-center">
                         <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                        {dayjs(brk.breakOutTime).format("HH:mm A")}
+                        {dayjs(brk.breakOutTime || null).format("hh:mm A")}
                       </div>
                     </div>
                   ))}

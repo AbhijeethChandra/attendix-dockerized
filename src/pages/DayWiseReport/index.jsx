@@ -2,7 +2,7 @@ import { useGetAllDayWiseReportQuery } from "@/app/rtkQueries/daywisereportApi";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayjs, { dayjsUtc } from "@/utils/dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
@@ -159,26 +159,29 @@ const DayWiseRep = () => {
                   {dayjs(data.date).format("DD MMM YYYY")}
                 </span>
               ),
-              checkInTime: (
+              checkInTime: data.checkInTime ? (
                 <span className="text-nowrap">
-                  {
-                    <div className="flex gap-2 flex-nowrap">
-                      <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                      {dayjs(data.checkInTime).format("hh:mm A")}
-                    </div>
-                  }
+                  <div className="flex gap-2 flex-nowrap items-center">
+                    <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
+                    {dayjsUtc(data.checkInTime).format("hh:mm A")}
+                  </div>
                 </span>
+              ) : (
+                "-"
               ),
-              checkOutTime: (
-                <span className="text-nowrap">
-                  {
-                    <div className="flex gap-2 flex-nowrap">
-                      <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                      {dayjs(data.checkOutTime).format("hh:mm A")}
-                    </div>
-                  }
+              checkOutTime: 
+              // data.checkOutTime ? 
+              (
+                <span className="text-nowrap text-center">
+                  <div className="flex gap-2 flex-nowrap items-center">
+                    <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
+                    {dayjsUtc(data.checkOutTime||null).format("hh:mm A")}
+                  </div>
                 </span>
+              // ) : (
+              //   " - "
               ),
+
               workingHours: data.workingHours,
               breaks: data.breaks.length ? (
                 <div className="flex gap-2 flex-wrap max-h-[80px] overflow-x-auto">
@@ -189,11 +192,11 @@ const DayWiseRep = () => {
                     >
                       <div className="flex gap-2 flex-nowrap">
                         <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                        {dayjs(brk.breakInTime).format("HH:mm A")}
+                        {dayjsUtc(brk.breakInTime).format("hh:mm A")}
                       </div>
                       <div className="flex gap-2 flex-nowrap">
                         <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                        {dayjs(brk.breakOutTime).format("HH:mm A")}
+                        {dayjsUtc(brk.breakOutTime).format("hh:mm A")}
                       </div>
                     </div>
                   ))}

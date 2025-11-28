@@ -1,7 +1,7 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayjs, { dayjsUtc } from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
@@ -79,8 +79,8 @@ const SummaryReport = () => {
               officeName: data.officeName,
               departmentName: data.departmentName,
               shiftName: data.shiftName,
-              shiftFrom: data.shiftFrom,
-              shiftTo: data.shiftTo,
+              shiftFrom: dayjsUtc(data.shiftFrom).format("hh:mm A"),
+              shiftTo: dayjsUtc(data.shiftTo).format("hh:mm A"),
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
               totalAbsentDays: data.absentDays,

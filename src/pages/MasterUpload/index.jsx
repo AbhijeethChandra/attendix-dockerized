@@ -53,7 +53,7 @@ const MasterUpload = () => {
       <div className="flex items-center justify-center p-4">
         <form
           onSubmit={handleSave}
-          className="w-full max-w-2xl rounded-2xl shadow-xl p-8"
+          className="w-full max-w-2xl rounded-2xl shadow-[0_2px_5px_gray] p-8"
         >
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-[var(--color-text-1)] mb-2">
@@ -62,13 +62,12 @@ const MasterUpload = () => {
           </div>
 
           {/* Download Template Button */}
-          <div className="flex mb-4">
-            <p className="text-9xs text-[var(--color-text-2)]">
-              Download the pre-formatted template to ensure your data is
-              structured correctly
+          <div className="mb-4 flex flex-col items-center gap-2 bg-[var(--color-bg-1)] p-4 rounded-md">
+            <p className="text-sm text-[var(--color-text-2)]">
+              Download the pre-formatted template to ensure your data is structured correctly
             </p>
             <div
-              className="button-1 cursor-pointer rounded-md flex"
+              className="button-1 py-1 cursor-pointer rounded-md flex"
               onClick={() => window.open(myExcel)}
             >
               <label className="cursor-pointer w-full px-2 py-1.5 text-center text-md font-semibold font-medium">

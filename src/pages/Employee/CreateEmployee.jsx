@@ -23,7 +23,7 @@ const INITIAL_DETAILS = {
   email: "",
   phoneNumber: "",
   role: "",
-  reportingStaff:"",
+  reportingStaff: "",
   geoSense: false,
   outsideClockin: false,
   multipleClockIn: false,
@@ -157,7 +157,9 @@ export const CreateEmployee = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success(`Employee ${details.id ? "updated" : "created"} successfully`);
+      toast.success(
+        `Employee ${details.id ? "updated" : "created"} successfully`
+      );
     } catch (err) {
       console.log("Error creating Geo Location:", err);
     }
@@ -180,6 +182,7 @@ export const CreateEmployee = (props) => {
         <div className="flex-1 px-5 pb-1 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <CommonInput
+              required
               onChange={handleChange}
               name="fullName"
               value={details.fullName}
@@ -228,6 +231,7 @@ export const CreateEmployee = (props) => {
             />
 
             <CommonInput
+              required
               name="phoneNumber"
               value={details.phoneNumber}
               onChange={handleChange}
@@ -237,6 +241,7 @@ export const CreateEmployee = (props) => {
             />
 
             <CommonInput
+              required
               name="email"
               value={details.email}
               onChange={handleChange}
@@ -246,9 +251,8 @@ export const CreateEmployee = (props) => {
             />
 
             <SearchBar
-              onChange={(value) =>
-                handleSelectChange(value, "reportingStaff")
-              }
+              required
+              onChange={(value) => handleSelectChange(value, "reportingStaff")}
               name="reportingStaff"
               value={details.reportingStaff}
               label="Reporting Staff"
@@ -294,7 +298,7 @@ export const CreateEmployee = (props) => {
             disabled={createApiRes.isLoading || editApiRes.isLoading}
             className="button-1 w-full rounded-md py-1.5 px-3"
           >
-             {details.id ? "Update" : "Create"}
+            {details.id ? "Update" : "Create"}
           </button>
         </div>
       </form>

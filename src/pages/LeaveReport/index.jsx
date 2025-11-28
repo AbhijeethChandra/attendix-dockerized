@@ -1,7 +1,7 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayjs, { dayjsUtc } from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
@@ -69,11 +69,11 @@ const LeaveRep = () => {
               leaveType: data.leaveType,
               session: data.session,
               requestReason: data.requestReason,
-              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
+              requestDate: dayjsUtc(data.requestDate).format("DD MMM YYYY"),
               approvedDate: data.approvedDate
-                ? dayjs(data.approvedDate).format("DD MMM YYYY")
+                ? dayjsUtc(data.approvedDate).format("DD MMM YYYY")
                 : "-",
-              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
+              appliedDate: dayjsUtc(data.appliedDate).format("DD MMM YYYY"),
               decisionReason: data.decisionReason,
             },
             tableData: {
@@ -90,11 +90,11 @@ const LeaveRep = () => {
               leaveType: data.leaveType,
               session: data.session,
               requestReason: data.requestReason,
-              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
+              requestDate: dayjsUtc(data.requestDate).format("DD MMM YYYY"),
               approvedDate: data.approvedDate
-                ? dayjs(data.approvedDate).format("DD MMM YYYY")
+                ? dayjsUtc(data.approvedDate).format("DD MMM YYYY")
                 : "-",
-              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
+              appliedDate: dayjsUtc(data.appliedDate).format("DD MMM YYYY"),
               decisionReason: data.decisionReason,
             },
           }))
@@ -126,14 +126,11 @@ const LeaveRep = () => {
 
   const handleDateChange = (date) => {
     try {
-      const fromDate = date.length > 0
-        ? dayjs(date[0]).format("YYYY-MM-DD")
-        : undefined;
-      const toDate = date
-        ? dayjs(date[1]).format("YYYY-MM-DD")
-        : undefined;
+      const fromDate =
+        date.length > 0 ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
+      const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
 
-        console.log(toDate, fromDate);
+      console.log(toDate, fromDate);
       setDetails((prev) => ({
         ...prev,
         fromDate: fromDate,
