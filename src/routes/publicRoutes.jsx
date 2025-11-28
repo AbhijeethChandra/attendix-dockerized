@@ -1,5 +1,5 @@
 import { PathHandler } from "@/components/AuthControllers/PathHandler";
-import { Login } from "@/pages/Auth";
+import Auth from "@/pages/Auth";
 
 export const PublicRoutes = [
   {
@@ -9,6 +9,10 @@ export const PublicRoutes = [
   // { path: "/", element: <Navigate to="/dashboard" /> },
   {
     path: "/login",
-    element: <Login />,
+    element: <Auth />,
+  },
+   {
+    path: "/forgot-password",
+    element: <Auth />,
   },
 ];

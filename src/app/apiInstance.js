@@ -6,20 +6,20 @@ import { handleLogoutSlice, handleRefreshToken } from "./slice/authSlice";
 
 const handleApiError = (error, api) => {
   const status = error?.originalStatus || error.status;
-  
+
   let message =
     error?.data?.message || error?.data?.errorCode || "Request failed";
   if (status === 404) {
     return error;
   } else if (status === 401) {
-    if (message === "Already Loggedin") {
-      return;
-    }
     if (message.includes("Invalid JWT Token")) {
       api.dispatch(handleLogoutSlice());
       localStorage.clear();
       message = "Unauthorized. Please login again";
     }
+  if(error?.data?.data){
+    message = error?.data?.data;
+  }
   } else if (status === "FETCH_ERROR")
     message = "Network issue. Check connection.";
   toast.dismiss();

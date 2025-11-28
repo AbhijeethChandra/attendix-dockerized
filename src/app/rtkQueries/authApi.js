@@ -28,6 +28,13 @@ const authApi = authApiInstance.injectEndpoints({
         body: body,
       }),
     }),
+    forgotPassword: builder.mutation({
+      query: (body) => ({
+        url: `/user/forgot-password`,
+        method: "POST",
+        body: body,
+      }),
+    }),
   }),
 });
 
@@ -36,4 +43,5 @@ export const {
   useLogoutAllApiMutation,
   useLogoutApiMutation,
   useResetPasswordMutation,
+  useForgotPasswordMutation,
 } = authApi;

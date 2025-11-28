@@ -3,6 +3,7 @@ import { Modal } from "../Common/Modal";
 import { CommonInput } from "../Common/CommonInput";
 import { useResetPasswordMutation } from "@/app/rtkQueries/authApi";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const INITIAL_DETAILS = {
   currentPassword: "",
@@ -34,18 +35,23 @@ export const ChangePassword = (props) => {
       setError("New Password and Confirm New Password do not match");
       return;
     }
-    const submitData = {
-      username: user.username,
-      oldPassword: details.currentPassword,
-      newPassword: details.newPassword,
-    };
+    try{
 
-    await resetPasswordApi(submitData).unwrap();
-
-    setError("");
-    setDetails(INITIAL_DETAILS);
-    onClose();
-    taost
+      const submitData = {
+        username: user.username,
+        oldPassword: details.currentPassword,
+        newPassword: details.newPassword,
+      };
+      
+      await resetPasswordApi(submitData).unwrap();
+      
+      setError("");
+      setDetails(INITIAL_DETAILS);
+      onClose();
+      toast.success("Password changed successfully");
+    }catch(err){
+      console.log(err);
+    }
   };
 
   return (

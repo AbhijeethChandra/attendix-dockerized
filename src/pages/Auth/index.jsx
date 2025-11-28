@@ -1,37 +1,28 @@
 import { useState } from "react";
-import logoWithName from "@/assets/icons/Attendix_Tagline.svg";
-import { CommonInput } from "@/components/Common/CommonInput";
-import { useLoginApiMutation } from "@/app/rtkQueries/authApi";
-import { useLogoutAllApiMutation } from "@/app/rtkQueries/authApi";
 import { useDispatch } from "react-redux";
 import { handleLoginSlice } from "@/app/slice/authSlice";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import loginbg from "@/assets/images/loginbg.jpg";
+import { Login } from "./Login";
+import { ForgotPassword } from "./ForgotPassword";
+import {
+  useForgotPasswordMutation,
+  useLoginApiMutation,
+} from "@/app/rtkQueries/authApi";
 
-export const Login = () => {
-  const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
-  });
+const Auth = () => {
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const path = useLocation().pathname;
 
-  const [loginApi, { isLoading, isError, data }] = useLoginApiMutation();
+  const [loginApi, { isLoadingLogin }] = useLoginApiMutation();
+  const [forgotPasswordApi, { isLoadingForgotPassword }] =
+    useForgotPasswordMutation();
 
-  const [logoutAllApi, logoutAllApiResult] = useLogoutAllApiMutation();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleLogin = async (e) => {
-    if (e) e.preventDefault();
+  const handleLogin = async (loginData) => {
 
     try {
       const resp = await loginApi(loginData).unwrap();
@@ -54,23 +45,16 @@ export const Login = () => {
       }
     } catch (err) {
       console.error(err);
-      if (err?.data?.message === "Already Loggedin") {
-        handleLogoutAllDevices();
-      }
     }
   };
 
-  const handleLogoutAllDevices = async () => {
+  const handleForgotPassword = async (data) => {
     try {
-      const resp = await logoutAllApi({
-        username: loginData.username,
-      }).unwrap();
-      if (resp.success) {
-        console.log("Logout from all devices successful:", resp);
-        handleLogin();
-      }
+      await forgotPasswordApi(data).unwrap();
+      navigate("/login");
+      toast.success("Password reset successful");
     } catch (err) {
-      console.error("Logout from all devices failed:", err);
+      console.error(err);
     }
   };
 
@@ -83,67 +67,26 @@ export const Login = () => {
         }}
       ></div>
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8">
-        <form
-          onSubmit={handleLogin}
-          className="w-full max-w-md flex flex-col gap-6"
-        >
-          <div className="text-center mb-8">
-            <img
-              className="mx-auto mb-8"
-              style={{ width: "180px" }}
-              src={logoWithName}
-              alt="Attendix Logo"
+        {path.match(/login/) ? (
+          <Login
+            {...{
+              handleSubmit: handleLogin,
+              isLoading: isLoadingLogin,
+            }}
+          />
+        ) : (
+          path.match(/forgot/) && (
+            <ForgotPassword
+              {...{
+                handleSubmit: handleForgotPassword,
+                isLoading: isLoadingForgotPassword,
+              }}
             />
-            <h1 className="text-3xl font-semibold text-gray-800 mb-2">
-              Welcome
-            </h1>
-            <p className="text-gray-500 text-sm">Please logIn to continue</p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-700">Email</label>
-            <CommonInput
-              name="username"
-              required
-              value={loginData.username}
-              onChange={handleChange}
-              type="text"
-              placeholder="Enter your email"
-              className="border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <CommonInput
-              name="password"
-              required
-              value={loginData.password}
-              onChange={handleChange}
-              type="password"
-              placeholder="Enter your password"
-              className="border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          {/* <div className="text-right">
-            <a href="#" className="text-sm text-[#1575B2] hover:underline">
-              Forgot password?
-            </a>
-          </div> */}
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="bg-[#1575B2] cursor-pointer w-full py-3 rounded-md text-white font-medium hover:bg-[#1575B2]/90 transition disabled:opacity-50"
-          >
-            {isLoading ? "Logging in..." : "Log in"}
-          </button>
-          <div className="text-center text-xs text-gray-500 mt-8">
-            Powered by
-            <br />
-            <span className="font-medium">GJ Global IT Ventures</span>
-          </div>
-        </form>
+          )
+        )}
       </div>
     </div>
   );
 };
+
+export default Auth;
