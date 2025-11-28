@@ -20,18 +20,19 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { SearchBar } from "../Common/SearchBar";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-import dayjs from "@/utils/dayjs";;
+import dayjs from "@/utils/dayjs";
 import toast from "react-hot-toast";
 import {
   useGetAllTenantQuery,
-  useGetTenantQuery,
 } from "@/app/rtkQueries/tenantApi";
 import { useLocation } from "react-router";
+import { ChangePassword } from "./ChangePassword";
 
 export const Header = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [selectAllNotifications, setSelectAllNotifications] = useState(false);
+  const [changePasswordView, setChangePasswordView] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
@@ -105,18 +106,17 @@ export const Header = () => {
       const defaultTenant = tenantData.data[0];
       dispatch(handleTenantUpdate(defaultTenant.id));
     }
-    console.log(office.id, officesData?.data, office.name);
     if (
       !office?.id &&
       office?.name !== "All Offices" &&
       officesData?.data?.length > 0
     ) {
-      const defaultOffice = officesData.data[0];
+      const defaultOffice = officesOptions()[0];
       dispatch(
         handleOfficeUpdate({
           id: defaultOffice.id,
-          officeName: defaultOffice.officeName,
-          name: defaultOffice.officeName,
+          officeName: defaultOffice.name,
+          name: defaultOffice.name,
           value: defaultOffice.id,
         })
       );
@@ -209,7 +209,17 @@ export const Header = () => {
 
   const handleReadNotifications = async (id) => {
     try {
-      if (unreadNotificationsData?.data?.length == 0 || !selectAllNotifications)
+      console.log(
+        unreadNotificationsData?.data?.length === 0,
+        selectAllNotifications,
+        id
+      );
+      if (
+        unreadNotificationsData?.data?.length == 0 ||
+        (!selectAllNotifications && !id) ||
+        readAllNotificationApiResult.isLoading ||
+        readNotificationApiResult.isLoading
+      )
         return;
       let resp;
       if (id) {
@@ -356,7 +366,7 @@ export const Header = () => {
             ref={profileMenuRef}
             className="absolute z-90 top-15 right-5 bg-[var(--color-bg-2)] rounded p-4 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-4"
           >
-            <div className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
+            <div onClick={()=>setChangePasswordView(true)} className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
               <TbLockCode className="inline size-5 mr-2 text-[var(--color-icon-2)]" />
               Change Password
             </div>
@@ -370,6 +380,7 @@ export const Header = () => {
           </div>
         )}
       </div>
+      <ChangePassword {...{isOpen:changePasswordView, onClose: () => setChangePasswordView(false)}}/>
     </div>
   );
 };

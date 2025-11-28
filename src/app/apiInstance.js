@@ -6,8 +6,7 @@ import { handleLogoutSlice, handleRefreshToken } from "./slice/authSlice";
 
 const handleApiError = (error, api) => {
   const status = error?.originalStatus || error.status;
-  const errorMessage = error?.data?.message || "";
-  // error.data = JSON.parse(error.data);
+  
   let message =
     error?.data?.message || error?.data?.errorCode || "Request failed";
   if (status === 404) {
@@ -16,11 +15,11 @@ const handleApiError = (error, api) => {
     if (message === "Already Loggedin") {
       return;
     }
-    if (message.includes("Unauthorized")) {
+    if (message.includes("Invalid JWT Token")) {
       api.dispatch(handleLogoutSlice());
       localStorage.clear();
+      message = "Unauthorized. Please login again";
     }
-    message = "Unauthorized. Please login again";
   } else if (status === "FETCH_ERROR")
     message = "Network issue. Check connection.";
   toast.dismiss();
@@ -130,6 +129,15 @@ const reauthWrapper = (baseQuery) => async (args, api, extra) => {
 const errorWrapper = (baseQuery) => async (args, api, extra) => {
   const result = await baseQuery(args, api, extra);
 
+  const status = result?.data?.status || result?.error?.status;
+  if (status === 208) {
+    let message = result?.data?.data || "Request already processed";
+    if (Array.isArray(result?.data?.data)) {
+      message = result?.data?.data.join(", ") || "Request already processed";
+    }
+    handleApiError({ status: 208, data: { message } }, api);
+    return { error: { status: 208, data: { message } } };
+  }
   if (result.error) {
     handleApiError(result.error, api);
     return result;
