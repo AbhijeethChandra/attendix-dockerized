@@ -60,7 +60,10 @@ export const SearchBar = (props) => {
           <div className="flex gap-2 px-2">
             <ComboboxInput
               required={required && !(multiple && value?.length)}
-              className={twMerge("flex-1 outline-none overflow-y-auto", inputClass)}
+              className={twMerge(
+                "flex-1 outline-none overflow-y-auto",
+                inputClass
+              )}
               displayValue={(data) =>
                 options.find((opt) => opt.value === data)?.name
               }
@@ -79,7 +82,12 @@ export const SearchBar = (props) => {
           </div>
 
           {value?.length > 0 && (
-            <div className={twMerge("text-wrap max-h-[55px] overflow-y-auto px-1 pt-1", multiselectClass)}>
+            <div
+              className={twMerge(
+                "text-wrap max-h-[55px] overflow-y-auto px-1 pt-1",
+                multiselectClass
+              )}
+            >
               {value.map((data) => (
                 <span key={data}>
                   {options.find((opt) => opt.value === data)?.name}, &nbsp;
@@ -97,16 +105,27 @@ export const SearchBar = (props) => {
             optionMenuClass
           )}
         >
-          {filteredOptions.map((data) => (
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((data) => (
+              <ComboboxOption
+                key={data.value}
+                value={data.value}
+                className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/20"
+              >
+                <div className="text-sm/6 text-black">{data.name}</div>
+                <CheckIcon className="invisible size-4 fill-[var(--color-icon-2)] group-data-selected:visible" />
+              </ComboboxOption>
+            ))
+          ) : (
             <ComboboxOption
-              key={data.value}
-              value={data.value}
+              key={undefined}
+              value={undefined}
               className="group flex cursor-default items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/20"
             >
-              <div className="text-sm/6 text-black">{data.name}</div>
+              <div className="text-sm/6 text-black">Not available</div>
               <CheckIcon className="invisible size-4 fill-[var(--color-icon-2)] group-data-selected:visible" />
             </ComboboxOption>
-          ))}
+          )}
         </ComboboxOptions>
       </Combobox>
     </div>

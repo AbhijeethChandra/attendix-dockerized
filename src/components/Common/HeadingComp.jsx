@@ -57,7 +57,7 @@ export const HeadingComp = (props) => {
           <div className="flex items-center">
             <TbReload
               onClick={refetch}
-              className="text-[var(--color-icon-2)] size-5 cursor-pointer"
+              className="text-[var(--color-icon-2)] size-5 cursor-pointer active:rotate-360 ease-out duration-900"
             />
           </div>
         )}

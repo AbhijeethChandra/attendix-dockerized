@@ -251,7 +251,6 @@ export const CreateEmployee = (props) => {
             />
 
             <SearchBar
-              required
               onChange={(value) => handleSelectChange(value, "reportingStaff")}
               name="reportingStaff"
               value={details.reportingStaff}
