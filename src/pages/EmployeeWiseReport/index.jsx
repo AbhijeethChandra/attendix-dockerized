@@ -74,12 +74,6 @@ const EmployeeWiseRep = () => {
   const employeewisereport =
     employeewisereportData?.data?.length && !isError
       ? employeewisereportData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -151,6 +145,12 @@ const EmployeeWiseRep = () => {
               ),
             },
           }))
+          .filter((data) =>
+            Object.values(data.excelData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

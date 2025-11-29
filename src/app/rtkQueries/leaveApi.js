@@ -3,8 +3,12 @@ import { apiInstance } from "@/app/apiInstance";
 const leaveApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({
     getAllLeaveRequest: builder.query({
-      query: ({ tenantId }) => ({
-        url: `/leave-request/tenant/${tenantId}`,
+      query: ({ tenantId, officeId }) => ({
+        url: `/leave-request/admin`,
+        params: {
+          tenantId,
+          officeId,
+        },
         method: "GET",
       }),
     }),

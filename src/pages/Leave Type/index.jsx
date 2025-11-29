@@ -33,12 +33,6 @@ const LeaveType = () => {
   const leaves =
     leaveData?.data.length && !isError
       ? leaveData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: { ...data },
             tableData: {
@@ -47,6 +41,12 @@ const LeaveType = () => {
               description: data.description,
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

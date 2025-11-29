@@ -26,12 +26,6 @@ const DeviceIn = () => {
   const deviceinfo =
     deviceinfoData?.data?.length && !isError
       ? deviceinfoData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -44,6 +38,12 @@ const DeviceIn = () => {
               officeName: data.officeName,
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

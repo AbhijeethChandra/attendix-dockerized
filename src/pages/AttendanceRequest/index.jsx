@@ -34,12 +34,6 @@ const AttendanceReq = () => {
   const attendancerequest =
     attendancerequestData?.data?.length && !isError
       ? attendancerequestData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -53,6 +47,12 @@ const AttendanceReq = () => {
               requestTime:  dayjs(data.punchTime|| null).format("hh:mm A"),
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

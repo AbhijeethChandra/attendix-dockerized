@@ -35,12 +35,6 @@ const Holiday = () => {
   const holidays =
     holidayData?.data.length && !isError
       ? holidayData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -53,6 +47,12 @@ const Holiday = () => {
               isOptional: data.isOptional ? "ENABLED" : "DISABLED",
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

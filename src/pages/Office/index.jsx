@@ -32,12 +32,6 @@ const Office = () => {
   const offices =
     officesData?.data.length && !isError
       ? officesData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -51,6 +45,12 @@ const Office = () => {
               address: data.address,
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

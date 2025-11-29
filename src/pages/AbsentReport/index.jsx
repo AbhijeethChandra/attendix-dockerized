@@ -45,12 +45,6 @@ const AbsenteRep = () => {
   const absenteReports =
     absenteReportData?.data?.length && !isError
       ? absenteReportData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -81,6 +75,12 @@ const AbsenteRep = () => {
               absentDate: dayjs(data.missingDate).format("DD MMM YYYY"),
             },
           }))
+          .filter((data) =>
+            Object.values(data.excelData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

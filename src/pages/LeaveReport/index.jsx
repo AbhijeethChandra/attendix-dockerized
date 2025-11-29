@@ -51,12 +51,6 @@ const LeaveRep = () => {
   const leaveReports =
     leaveReportData?.data?.length && !isError
       ? leaveReportData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -98,6 +92,12 @@ const LeaveRep = () => {
               decisionReason: data.decisionReason,
             },
           }))
+          .filter((data) =>
+            Object.values(data.excelData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

@@ -30,12 +30,6 @@ const OfficeAllocationAllocation = () => {
   const officeAllocations =
     officeAllocationsData?.data.length && !isError
       ? officeAllocationsData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -52,6 +46,12 @@ const OfficeAllocationAllocation = () => {
                 : "",
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

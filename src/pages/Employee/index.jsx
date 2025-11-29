@@ -37,12 +37,6 @@ const Employee = () => {
   const employees =
     employeesData?.data.length && !isError
       ? employeesData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -60,6 +54,12 @@ const Employee = () => {
               geoSense: data.geoSense ? "ENABLED" : "DISABLED",
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

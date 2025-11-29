@@ -30,12 +30,6 @@ const ShiftOver = () => {
   const shiftOverrides =
     shiftOverridesData?.data.length && !isError
       ? shiftOverridesData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -49,6 +43,12 @@ const ShiftOver = () => {
               reason: data.reason,
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

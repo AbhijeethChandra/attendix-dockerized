@@ -35,12 +35,6 @@ const ShiftAss = () => {
   const shiftAssign =
     shiftAssignData?.data.length && !isError
       ? shiftAssignData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -58,6 +52,12 @@ const ShiftAss = () => {
                 : "-",
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

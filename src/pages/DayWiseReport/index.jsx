@@ -98,12 +98,6 @@ const DayWiseRep = () => {
   const daywisereport =
     daywiseReportData?.data?.length && !isError
       ? daywiseReportData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -207,6 +201,12 @@ const DayWiseRep = () => {
               shiftEndMargin: data?.shift?.shiftEndMargin,
             },
           }))
+          .filter((data) =>
+            Object.values(data.excelData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

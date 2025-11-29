@@ -13,10 +13,10 @@ import dayjs from "@/utils/dayjs";
 const LeaveReq = () => {
   const [searchText, setSearchText] = useState("");
   const [showReject, setShowReject] = useState(false);
+  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
-  const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
   const {
     data: leaveRequestData,
@@ -27,6 +27,7 @@ const LeaveReq = () => {
     user.tenant_id
       ? {
           tenantId: user.tenant_id,
+          officeId: office?.id,
         }
       : skipToken
   );
@@ -37,12 +38,6 @@ const LeaveReq = () => {
   const leaveRequest =
     leaveRequestData?.data?.length && !isError
       ? leaveRequestData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -58,6 +53,12 @@ const LeaveReq = () => {
               requestReason: data.requestReason,
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

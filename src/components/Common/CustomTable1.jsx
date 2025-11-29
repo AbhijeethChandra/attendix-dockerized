@@ -30,8 +30,6 @@ export const CustomTable1 = (props) => {
     });
   };
 
-  console.log(sort);
-
   return (
     <div
       className={twMerge(

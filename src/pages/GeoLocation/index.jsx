@@ -30,12 +30,6 @@ const GeoLocation = () => {
   const geolocation =
     geolocationData?.data.length && !isError
       ? geolocationData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -48,6 +42,12 @@ const GeoLocation = () => {
               geoRadius: data.geoRadius,
             },
           }))
+          .filter((data) =>
+            Object.values(data.tableData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData

@@ -50,12 +50,6 @@ const SummaryReport = () => {
   const SummaryReports =
     SummaryReportData?.data?.length && !isError
       ? SummaryReportData.data
-          .filter((data) =>
-            Object.values(data)
-              ?.join(" ")
-              ?.toLowerCase()
-              ?.includes(searchText.toLowerCase())
-          )
           .map((data, index) => ({
             other: {
               ...data,
@@ -90,6 +84,12 @@ const SummaryReport = () => {
               autoLeave: data.autoLeave,
             },
           }))
+          .filter((data) =>
+            Object.values(data.excelData)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
+          )
           .sort((a, b) => {
             if (sort.name && sort.field) {
               const fieldA = a.tableData
