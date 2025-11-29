@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useGetOfficeActiveEmployeesQuery } from "@/app/rtkQueries/employeeApi";
 import { useCreateOfficeAllocationMutation } from "@/app/rtkQueries/officeAllocationApi";
 import { skipToken } from "@reduxjs/toolkit/query";
+import toast from "react-hot-toast";
 
 const INITIAL_DETAILS = {
   userId: "",
@@ -19,7 +20,7 @@ export const CreateOfficeAllocation = (props) => {
 
   const user = useSelector((state) => state.auth.user);
   const office = useSelector((state) => state.auth.office);
-
+ 
   //queries
   const { data: offices } = useGetActiveOfficesQuery(
     user.tenant_id ?? skipToken
@@ -71,6 +72,7 @@ export const CreateOfficeAllocation = (props) => {
 
       setDetails(INITIAL_DETAILS);
       refetch();
+      onClose();
       toast.success(`Office Allocation ${details.id ? "updated" : "created"} successfully`);
     } catch (err) {
       console.log("Error creating Office Allocation:", err);

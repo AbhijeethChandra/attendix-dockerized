@@ -2,7 +2,7 @@ export default function PrivacyPolicy() {
   return (
     <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-[0px_4px_15px_lightgray]">
       <h1 className="text-3xl font-semibold text-gray-800 mb-2">Privacy Policy</h1>
-      <p><strong>Effective Date:</strong> 2025-06-01</p>
+      <p><strong>Effective Date:</strong> 01-06-2025</p>
       <p className="mt-4">
         Attendix Pro is developed by <strong>GJ GLOBAL IT VENTURES</strong> to provide a
         reliable attendance tracking solution for individuals and teams. This

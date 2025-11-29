@@ -69,9 +69,11 @@ const SummaryReport = () => {
               shiftTo: data.shiftTo,
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
+              approvedLeaveDays: data.approvedLeaveDays,
               totalAbsentDays: data.absentDays,
               totalLeaveDays: data.totalLeaveDays,
               totalLateDays: data.lateDays,
+              autoLeave: data.autoLeave,
             },
             tableData: {
               sl: index + 1,
@@ -83,9 +85,11 @@ const SummaryReport = () => {
               shiftTo: dayjsUtc(data.shiftTo).format("hh:mm A"),
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
+              approvedLeaveDays: data.approvedLeaveDays,
               totalAbsentDays: data.absentDays,
               totalLeaveDays: data.totalLeaveDays,
               totalLateDays: data.lateDays,
+              autoLeave: data.autoLeave,
             },
           }))
           .sort((a, b) => {
@@ -164,9 +168,11 @@ const SummaryReport = () => {
             "Shift To",
             "Total Working Days",
             "Total Present Days",
+            "Approved Leave Days",
             "Total Absent Days",
             "Total Leave Days",
             "Total Late Days",
+            "Auto Leave Days",
           ],
         }}
       />
