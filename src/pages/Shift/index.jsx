@@ -10,7 +10,7 @@ import {
   useGetAllOfficeShiftsQuery,
   useUpdateStatusShiftMutation,
 } from "@/app/rtkQueries/shiftApi";
-import dayjs, { dayjsUtc } from "@/utils/dayjs";
+import dayjs from "@/utils/dayjs";
 
 const Shift = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,8 +49,8 @@ const Shift = () => {
             tableData: {
               sl: index + 1,
               shiftName: data.shiftName,
-              shiftFrom: dayjsUtc(data.shiftFrom, "HH:mm").format("hh:mm A"),
-              shiftTo: dayjsUtc(data.shiftTo, "HH:mm").format("hh:mm A"),
+              shiftFrom:  dayjs(data.shiftFrom, "HH:mm").format("hh:mm A"),
+              shiftTo:  dayjs(data.shiftTo, "HH:mm").format("hh:mm A"),
               shiftType: data.shiftType,
             },
           }))

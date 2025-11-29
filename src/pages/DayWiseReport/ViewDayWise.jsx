@@ -1,5 +1,5 @@
 import { Modal } from "@/components/Common/Modal";
-import dayjs, { dayjsUtc } from "@/utils/dayjs";
+import dayjs from "@/utils/dayjs";
 import React, { useEffect, useState } from "react";
 import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 
@@ -98,7 +98,7 @@ export const ViewDayWise = (props) => {
               <p className="font-medium">Clock-in</p>
               <p>
                 {data?.checkInTime
-                  ? dayjsUtc(data?.checkInTime).format("hh:mm A")
+                  ?  dayjs(data?.checkInTime).format("hh:mm A")
                   : "-"}
               </p>
             </div>
@@ -106,7 +106,7 @@ export const ViewDayWise = (props) => {
               <p className="font-medium">Clock-out</p>
               <p>
                 {data?.checkOutTime
-                  ? dayjsUtc(data?.checkOutTime).format("hh:mm A")
+                  ?  dayjs(data?.checkOutTime).format("hh:mm A")
                   : "-"}
               </p>
             </div>

@@ -1,7 +1,7 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs, { dayjsUtc } from "@/utils/dayjs";
+import dayjs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
@@ -65,13 +65,12 @@ const SummaryReport = () => {
               officeName: data.officeName,
               departmentName: data.departmentName,
               shiftName: data.shiftName,
-              shiftFrom: data.shiftFrom,
-              shiftTo: data.shiftTo,
+              shiftFrom: dayjs(data.shiftFrom).format("hh:mm A"),
+              shiftTo: dayjs(data.shiftTo).format("hh:mm A"),
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
-              approvedLeaveDays: data.approvedLeaveDays,
               totalAbsentDays: data.absentDays,
-              totalLeaveDays: data.totalLeaveDays,
+              approvedLeaveDays: data.approvedLeaveDays,
               totalLateDays: data.lateDays,
               autoLeave: data.autoLeave,
             },
@@ -81,13 +80,12 @@ const SummaryReport = () => {
               officeName: data.officeName,
               departmentName: data.departmentName,
               shiftName: data.shiftName,
-              shiftFrom: dayjsUtc(data.shiftFrom).format("hh:mm A"),
-              shiftTo: dayjsUtc(data.shiftTo).format("hh:mm A"),
+              shiftFrom: dayjs(data.shiftFrom).format("hh:mm A"),
+              shiftTo: dayjs(data.shiftTo).format("hh:mm A"),
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
-              approvedLeaveDays: data.approvedLeaveDays,
               totalAbsentDays: data.absentDays,
-              totalLeaveDays: data.totalLeaveDays,
+              approvedLeaveDays: data.approvedLeaveDays,
               totalLateDays: data.lateDays,
               autoLeave: data.autoLeave,
             },
@@ -168,9 +166,8 @@ const SummaryReport = () => {
             "Shift To",
             "Total Working Days",
             "Total Present Days",
-            "Approved Leave Days",
             "Total Absent Days",
-            "Total Leave Days",
+            "Approved Leave Days",
             "Total Late Days",
             "Auto Leave Days",
           ],

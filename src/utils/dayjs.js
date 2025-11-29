@@ -8,20 +8,31 @@ dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
 
 const TARGET_TIMEZONE = "Etc/GMT+12";
+dayjs.tz.setDefault(TARGET_TIMEZONE);
 
-dayjs.tz.setDefault(TARGET_TIMEZONE); 
-
-export const dayjsUtc = (...args) => {
-  const date = dayjs(...args).tz(TARGET_TIMEZONE);
-  
-  if (!date.isValid()) {
-    // Return a proxy object that returns "-" for any method call
-    return new Proxy({}, {
-      get: () => () => "-"
-    });
+const fallback = new Proxy(
+  {},
+  {
+    get: () => () => "-",
   }
-  
-  return date;
+);
+
+const date = (input, ...rest) => {
+  const raw = typeof input === "string" ? input : "";
+
+  const isUTC =
+    raw.endsWith("Z") ||
+    raw.includes("+00:00") ||
+    raw.includes("+0000") ||
+    raw.includes("+00.00");
+
+  const base = isUTC
+    ? dayjs(input, ...rest).utc().tz(TARGET_TIMEZONE)
+    : dayjs(input, ...rest);
+
+  if (!base.isValid()) return fallback;
+
+  return base;
 };
 
-export default dayjs;
+export default date;

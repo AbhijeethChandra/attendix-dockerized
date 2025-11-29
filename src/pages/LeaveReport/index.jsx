@@ -1,7 +1,7 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs, { dayjsUtc } from "@/utils/dayjs";
+import dayjs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
@@ -69,11 +69,11 @@ const LeaveRep = () => {
               leaveType: data.leaveType,
               session: data.session,
               requestReason: data.requestReason,
-              requestDate: dayjsUtc(data.requestDate).format("DD MMM YYYY"),
+              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
               approvedDate: data.approvedDate
-                ? dayjsUtc(data.approvedDate).format("DD MMM YYYY")
+                ? dayjs(data.approvedDate).format("DD MMM YYYY")
                 : "-",
-              appliedDate: dayjsUtc(data.appliedDate).format("DD MMM YYYY"),
+              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
               decisionReason: data.decisionReason,
             },
             tableData: {
@@ -90,11 +90,11 @@ const LeaveRep = () => {
               leaveType: data.leaveType,
               session: data.session,
               requestReason: data.requestReason,
-              requestDate: dayjsUtc(data.requestDate).format("DD MMM YYYY"),
+              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
               approvedDate: data.approvedDate
-                ? dayjsUtc(data.approvedDate).format("DD MMM YYYY")
+                ? dayjs(data.approvedDate).format("DD MMM YYYY")
                 : "-",
-              appliedDate: dayjsUtc(data.appliedDate).format("DD MMM YYYY"),
+              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
               decisionReason: data.decisionReason,
             },
           }))

@@ -83,7 +83,7 @@ export const CustomTable1 = (props) => {
                 Object.entries(data.tableData).forEach(
                   ([key, value], colIndex) => {
                     if (!key.match(/^-/))
-                      rowElements.push(<td key={colIndex}>{value || "-"}</td>);
+                      rowElements.push(<td key={colIndex}>{value ?? "-"}</td>);
                   }
                 );
               }

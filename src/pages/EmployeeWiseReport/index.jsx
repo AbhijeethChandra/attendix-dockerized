@@ -2,7 +2,7 @@ import { useGetAllEmployeeWiseReportQuery } from "@/app/rtkQueries/employeewiser
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs, { dayjsUtc } from "@/utils/dayjs";
+import dayjs from "@/utils/dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
@@ -88,8 +88,8 @@ const EmployeeWiseRep = () => {
               staffName: data.staffName,
               departmentName: data.departmentName,
               date: dayjs(data.date).format("DD MMM YYYY"),
-              clockIn: dayjsUtc(data.checkInTime).format("hh:mm A"),
-              clockOut: dayjsUtc(data.checkOutTime).format("hh:mm A"),
+              clockIn:  dayjs(data.checkInTime).format("hh:mm A"),
+              clockOut:  dayjs(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
                 ? data.breaks
@@ -118,13 +118,13 @@ const EmployeeWiseRep = () => {
               clockIn: (
                 <div className="flex gap-2 flex-nowrap items-center">
                   <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                  {dayjsUtc(data.checkInTime || null).format("hh:mm A")}
+                  { dayjs(data.checkInTime || null).format("hh:mm A")}
                 </div>
               ),
               clockOut: (
                 <div className="flex gap-2 flex-nowrap items-center">
                   <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                  {dayjsUtc(data.checkOutTime || null).format("hh:mm A")}
+                  { dayjs(data.checkOutTime || null).format("hh:mm A")}
                 </div>
               ),
               workingHours: data.workingHours,
