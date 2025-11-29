@@ -359,7 +359,7 @@ export const Header = () => {
         <IoIosArrowDropdown
           ref={profileMenuParentRef}
           onClick={toggleProfileMenu}
-          className="size-3 text-[var(--color-icon-1)] cursor-pointer"
+          className="size-5 text-[var(--color-icon-1)] cursor-pointer"
         />
         {isProfileMenuOpen && (
           <div
