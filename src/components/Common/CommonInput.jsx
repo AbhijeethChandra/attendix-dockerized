@@ -66,7 +66,7 @@ export const CommonInput = ({
         </div>
       )}
 
-      {type.match(/^(text|number|email)$/) ? (
+      {type.match(/^(text|number|email|tel)$/) ? (
         <input
           type={type}
           {...props}

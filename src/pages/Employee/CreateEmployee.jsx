@@ -235,10 +235,9 @@ export const CreateEmployee = (props) => {
               name="phoneNumber"
               value={details.phoneNumber}
               onChange={handleChange}
-              min={0}
-              max={9999999999}
               errorMessage="Please enter a valid phone number"
-              type="number"
+              type="tel"
+              pattern="^[0-9]{10,}$"
               label="Phone"
               placeholder="Enter Phone Number"
             />
