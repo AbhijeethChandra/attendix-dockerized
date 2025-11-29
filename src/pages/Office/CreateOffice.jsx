@@ -168,7 +168,6 @@ export const CreateOffice = (props) => {
             placeholder="Select Office Type"
           />
           <CommonInput
-            required
             onChange={handleChange}
             name="parentOfficeId"
             value={details.parentOfficeId}
