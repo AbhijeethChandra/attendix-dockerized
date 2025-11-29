@@ -49,8 +49,8 @@ const Shift = () => {
             tableData: {
               sl: index + 1,
               shiftName: data.shiftName,
-              shiftFrom: dayjs(data.shiftFrom, "HH:mm").format("hh:mm A"),
-              shiftTo: dayjs(data.shiftTo, "HH:mm").format("hh:mm A"),
+              shiftFrom: dayjsUtc(data.shiftFrom, "HH:mm").format("hh:mm A"),
+              shiftTo: dayjsUtc(data.shiftTo, "HH:mm").format("hh:mm A"),
               shiftType: data.shiftType,
             },
           }))

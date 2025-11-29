@@ -8,7 +8,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AttendanceReject } from "./AttendanceReject";
-import dayjs from "@/utils/dayjs";
+import dayjs, { dayjsUtc } from "@/utils/dayjs";
 
 const AttendanceReq = () => {
   const [searchText, setSearchText] = useState("");
@@ -49,8 +49,8 @@ const AttendanceReq = () => {
               employee: data.employee,
               locationText: data.locationText,
               officeName: data.officeName,
-              createdAt: dayjs(data.createdAt).format("DD MMM YYYY"),
-              requestTime: dayjs(data.punchTime).format("hh:mm A"),
+              createdAt: dayjs(data.createdAt|| null).format("DD MMM YYYY"),
+              requestTime: dayjsUtc(data.punchTime|| null).format("hh:mm A"),
             },
           }))
           .sort((a, b) => {

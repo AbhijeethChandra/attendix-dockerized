@@ -120,8 +120,8 @@ const DayWiseRep = () => {
                 ? dayjs(data?.shift?.shiftTo, "HH:mm").format("hh:mm A")
                 : "-",
               date: dayjs(data.date).format("DD MMM YYYY"),
-              checkInTime: dayjs(data.checkInTime).format("hh:mm A"),
-              checkOutTime: dayjs(data.checkOutTime).format("hh:mm A"),
+              checkInTime: dayjsUtc(data.checkInTime).format("hh:mm A"),
+              checkOutTime: dayjsUtc(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
                 ? data.breaks
@@ -169,17 +169,16 @@ const DayWiseRep = () => {
               ) : (
                 "-"
               ),
-              checkOutTime: 
-              // data.checkOutTime ? 
-              (
+              checkOutTime: (
+                // data.checkOutTime ?
                 <span className="text-nowrap text-center">
                   <div className="flex gap-2 flex-nowrap items-center">
                     <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                    {dayjsUtc(data.checkOutTime||null).format("hh:mm A")}
+                    {dayjsUtc(data.checkOutTime || null).format("hh:mm A")}
                   </div>
                 </span>
-              // ) : (
-              //   " - "
+                // ) : (
+                //   " - "
               ),
 
               workingHours: data.workingHours,

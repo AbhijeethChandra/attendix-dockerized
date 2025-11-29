@@ -64,6 +64,7 @@ export const SearchBar = (props) => {
                 "flex-1 outline-none overflow-y-auto",
                 inputClass
               )}
+              autoComplete="off"
               displayValue={(data) =>
                 options.find((opt) => opt.value === data)?.name
               }

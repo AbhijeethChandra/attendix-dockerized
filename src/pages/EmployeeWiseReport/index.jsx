@@ -88,8 +88,8 @@ const EmployeeWiseRep = () => {
               staffName: data.staffName,
               departmentName: data.departmentName,
               date: dayjs(data.date).format("DD MMM YYYY"),
-              clockIn: dayjs(data.checkInTime).format("hh:mm A"),
-              clockOut: dayjs(data.checkOutTime).format("hh:mm A"),
+              clockIn: dayjsUtc(data.checkInTime).format("hh:mm A"),
+              clockOut: dayjsUtc(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
                 ? data.breaks
