@@ -3,8 +3,8 @@ import { apiInstance } from "@/app/apiInstance";
 const deviceinfoApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({
     getAllDeviceInfo: builder.query({
-      query: ({tenantId}) => ({
-        url: `/device-info/fetch/${tenantId}/0/0`,
+      query: ({tenantId, officeId}) => ({
+        url: `/device-info/fetch/${tenantId}/${officeId}/0`,
         method: "GET",
       }),
     }),

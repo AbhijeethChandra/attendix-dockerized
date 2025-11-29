@@ -9,7 +9,10 @@ const DeviceIn = () => {
   const [searchText, setSearchText] = useState("");
   const [sort, setSort] = useState({ name: "", order: "ASC", field: "" });
 
+  const office = useSelector((state) => state.auth.office);
   const user = useSelector((state) => state.auth.user);
+
+  //queries
   const {
     data: deviceinfoData,
     isLoading,
@@ -17,13 +20,17 @@ const DeviceIn = () => {
     refetch,
   } = useGetAllDeviceInfoQuery({
     tenantId: user.tenant_id,
+    officeId: office?.id,
   });
 
   const deviceinfo =
     deviceinfoData?.data?.length && !isError
       ? deviceinfoData.data
           .filter((data) =>
-            data?.officeName?.toLowerCase().includes(searchText.toLowerCase())
+            Object.values(data)
+              ?.join(" ")
+              ?.toLowerCase()
+              ?.includes(searchText.toLowerCase())
           )
           .map((data, index) => ({
             other: {
@@ -54,7 +61,13 @@ const DeviceIn = () => {
       : [];
   return (
     <div>
-      <HeadingComp refetch={refetch} heading="Device Info" iconToShow={[]} />
+      <HeadingComp
+        refetch={refetch}
+        heading="Device Info"
+        iconToShow={[]}
+        searchValue={searchText}
+        onSearchChange={(e) => setSearchText(e.target.value)}
+      />
       <CustomTable1
         {...{
           isLoading: isLoading,
