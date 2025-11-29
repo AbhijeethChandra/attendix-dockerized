@@ -54,10 +54,10 @@ const AbsenteRep = () => {
               officeName: data.officeName,
               shiftName: data.shiftName || "-",
               shiftFrom: data.shiftFrom
-                ? dayjs(data.shiftFrom, "HH:mm:ss").format("HH:mm A")
+                ? dayjs(data.shiftFrom || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
               shiftTo: data.shiftTo
-                ? dayjs(data.shiftTo, "HH:mm:ss").format("HH:mm A")
+                ? dayjs(data.shiftTo || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
               absentDate: dayjs(data.missingDate).format("DD MMM YYYY"),
             },
@@ -67,10 +67,10 @@ const AbsenteRep = () => {
               officeName: data.officeName,
               shiftName: data.shiftName || "-",
               shiftFrom: data.shiftFrom
-                ? dayjs(data.shiftFrom, "HH:mm:ss").format("HH:mm A")
+                ? dayjs(data.shiftFrom || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
               shiftTo: data.shiftTo
-                ? dayjs(data.shiftTo, "HH:mm:ss").format("HH:mm A")
+                ? dayjs(data.shiftTo || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
               absentDate: dayjs(data.missingDate).format("DD MMM YYYY"),
             },

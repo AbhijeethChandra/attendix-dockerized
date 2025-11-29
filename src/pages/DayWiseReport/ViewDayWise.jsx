@@ -10,7 +10,7 @@ export const ViewDayWise = (props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getLocation();
+    if (data) getLocation();
   }, [data]);
 
   const getLocation = async () => {
@@ -32,12 +32,8 @@ export const ViewDayWise = (props) => {
       );
       const value = await resp.json();
       const value2 = await resp2.json();
-      setCheckInLocation(
-        `${value.display_name}`
-      );
-      setCheckOutLocation(
-        `${value2.display_name}`
-      );
+      setCheckInLocation(`${value.display_name}`);
+      setCheckOutLocation(`${value2.display_name}`);
     } catch (error) {
       console.log(error);
     } finally {
@@ -98,7 +94,7 @@ export const ViewDayWise = (props) => {
               <p className="font-medium">Clock-in</p>
               <p>
                 {data?.checkInTime
-                  ?  dayjs(data?.checkInTime).format("hh:mm A")
+                  ? dayjs(data?.checkInTime).format("hh:mm A")
                   : "-"}
               </p>
             </div>
@@ -106,7 +102,7 @@ export const ViewDayWise = (props) => {
               <p className="font-medium">Clock-out</p>
               <p>
                 {data?.checkOutTime
-                  ?  dayjs(data?.checkOutTime).format("hh:mm A")
+                  ? dayjs(data?.checkOutTime).format("hh:mm A")
                   : "-"}
               </p>
             </div>

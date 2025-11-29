@@ -106,7 +106,7 @@ const EmployeeWiseRep = () => {
                 />
               ),
               departmentName: data.departmentName,
-              enteredDt: dayjs(data.enteredDt, "DD-MM-YYYY").format(
+              enteredDt: dayjs(data.enteredDt || null, "DD-MM-YYYY").format(
                 "DD MMM YYYY"
               ),
               clockIn: (

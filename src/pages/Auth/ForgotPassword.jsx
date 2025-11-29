@@ -11,10 +11,12 @@ export const ForgotPassword = (props) => {
     newPassword: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    setError("");
     const { name, value } = e.target;
     setDetails((prevData) => ({
       ...prevData,
@@ -24,6 +26,10 @@ export const ForgotPassword = (props) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (details.newPassword !== details.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     handleSubmit(details);
   };
 
@@ -48,7 +54,7 @@ export const ForgotPassword = (props) => {
         value={details.username}
         onChange={handleChange}
         type="text"
-        placeholder="Enter your email or mobile"
+        placeholder="Enter your username"
       />
       <CommonInput
         name="newPassword"
@@ -68,6 +74,7 @@ export const ForgotPassword = (props) => {
         type="password"
         placeholder="Confirm your new password"
       />
+      {error && <div className="text-red-500 text-sm">{error}</div>}
       <div
         onClick={() => navigate("/login")}
         className="text-right text-sm text-[#1575B2] hover:underline cursor-pointer"

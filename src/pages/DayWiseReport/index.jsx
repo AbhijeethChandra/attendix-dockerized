@@ -108,14 +108,16 @@ const DayWiseRep = () => {
               departmentName: data.departmentName,
               shift: data?.shift?.shiftName,
               shiftFrom: data?.shift?.shiftFrom
-                ? dayjs(data?.shift?.shiftFrom, "HH:mm").format("hh:mm A")
+                ? dayjs(data?.shift?.shiftFrom || null, "HH:mm").format(
+                    "hh:mm A"
+                  )
                 : "-",
               shiftTo: data?.shift?.shiftTo
-                ? dayjs(data?.shift?.shiftTo, "HH:mm").format("hh:mm A")
+                ? dayjs(data?.shift?.shiftTo || null, "HH:mm").format("hh:mm A")
                 : "-",
               date: dayjs(data.date).format("DD MMM YYYY"),
-              checkInTime:  dayjs(data.checkInTime).format("hh:mm A"),
-              checkOutTime:  dayjs(data.checkOutTime).format("hh:mm A"),
+              checkInTime: dayjs(data.checkInTime).format("hh:mm A"),
+              checkOutTime: dayjs(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
                 ? data.breaks
@@ -143,10 +145,12 @@ const DayWiseRep = () => {
               departmentName: data.departmentName,
               shift: data?.shift?.shiftName,
               shiftFrom: data?.shift?.shiftFrom
-                ? dayjs(data?.shift?.shiftFrom, "HH:mm").format("hh:mm A")
+                ? dayjs(data?.shift?.shiftFrom || null, "HH:mm").format(
+                    "hh:mm A"
+                  )
                 : "-",
               shiftTo: data?.shift?.shiftTo
-                ? dayjs(data?.shift?.shiftTo, "HH:mm").format("hh:mm A")
+                ? dayjs(data?.shift?.shiftTo || null, "HH:mm").format("hh:mm A")
                 : "-",
               date: (
                 <span className="text-nowrap">
@@ -157,7 +161,7 @@ const DayWiseRep = () => {
                 <span className="text-nowrap">
                   <div className="flex gap-2 flex-nowrap items-center">
                     <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                    { dayjs(data.checkInTime).format("hh:mm A")}
+                    {dayjs(data.checkInTime).format("hh:mm A")}
                   </div>
                 </span>
               ) : (
@@ -168,7 +172,7 @@ const DayWiseRep = () => {
                 <span className="text-nowrap text-center">
                   <div className="flex gap-2 flex-nowrap items-center">
                     <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                    { dayjs(data.checkOutTime || null).format("hh:mm A")}
+                    {dayjs(data.checkOutTime || null).format("hh:mm A")}
                   </div>
                 </span>
                 // ) : (
@@ -185,11 +189,11 @@ const DayWiseRep = () => {
                     >
                       <div className="flex gap-2 flex-nowrap">
                         <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                        {dayjs(brk.breakInTime).format("hh:mm A")}
+                        {dayjs(brk.breakInTime||null).format("hh:mm A")}
                       </div>
                       <div className="flex gap-2 flex-nowrap">
                         <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                        {dayjs(brk.breakOutTime).format("hh:mm A")}
+                        {dayjs(brk.breakOutTime||null).format("hh:mm A")}
                       </div>
                     </div>
                   ))}

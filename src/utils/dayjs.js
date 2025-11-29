@@ -7,15 +7,15 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
 
-const TARGET_TIMEZONE = "Etc/GMT+12";
+const TARGET_TIMEZONE = "Etc/GMT+0";
 dayjs.tz.setDefault(TARGET_TIMEZONE);
 
-const fallback = new Proxy(
-  {},
-  {
-    get: () => () => "-",
-  }
-);
+const fallbackDate = {
+  format: () => "-",
+  toString: () => "-",
+  valueOf: () => NaN,
+  isValid: () => false,
+};
 
 const date = (input, ...rest) => {
   const raw = typeof input === "string" ? input : "";
@@ -30,7 +30,7 @@ const date = (input, ...rest) => {
     ? dayjs(input, ...rest).utc().tz(TARGET_TIMEZONE)
     : dayjs(input, ...rest);
 
-  if (!base.isValid()) return fallback;
+  if (!base.isValid()) return fallbackDate;
 
   return base;
 };

@@ -77,7 +77,6 @@ export const SIDEBAR_LIST_BY_ROLE = {
     { name: "dashboard", id: 1 },
     { name: "control-panel", id: 2 },
     { name: "sector-master", parent: 2 },
-    { name: "role-master", parent: 2 },
     { name: "office-master", parent: 2 },
     { name: "geo-location", parent: 2 },
     { name: "department-master", parent: 2 },
