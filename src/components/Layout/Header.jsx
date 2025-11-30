@@ -20,11 +20,9 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { SearchBar } from "../Common/SearchBar";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import toast from "react-hot-toast";
-import {
-  useGetAllTenantQuery,
-} from "@/app/rtkQueries/tenantApi";
+import { useGetAllTenantQuery } from "@/app/rtkQueries/tenantApi";
 import { useLocation } from "react-router";
 import { ChangePassword } from "./ChangePassword";
 
@@ -330,7 +328,7 @@ export const Header = () => {
                       </div>
                       <div className="text-sm text-[var(--color-text-2)]">
                         Date :
-                        {dayjs(notification.notifyTime).format(
+                        {dayJs(notification.notifyTime || null).format(
                           "YYYY-MM-DD hh:mm A"
                         )}
                       </div>
@@ -366,7 +364,10 @@ export const Header = () => {
             ref={profileMenuRef}
             className="absolute z-90 top-15 right-5 bg-[var(--color-bg-2)] rounded p-4 px-5 shadow-[-5px_15px_10px_rgba(0,0,0,0.1)] space-y-4"
           >
-            <div onClick={()=>setChangePasswordView(true)} className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105">
+            <div
+              onClick={() => setChangePasswordView(true)}
+              className="text-[var(--color-text-1)] cursor-pointer hover:text-shadow-md hover:scale-105"
+            >
               <TbLockCode className="inline size-5 mr-2 text-[var(--color-icon-2)]" />
               Change Password
             </div>
@@ -380,7 +381,12 @@ export const Header = () => {
           </div>
         )}
       </div>
-      <ChangePassword {...{isOpen:changePasswordView, onClose: () => setChangePasswordView(false)}}/>
+      <ChangePassword
+        {...{
+          isOpen: changePasswordView,
+          onClose: () => setChangePasswordView(false),
+        }}
+      />
     </div>
   );
 };

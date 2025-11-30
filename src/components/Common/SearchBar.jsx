@@ -45,7 +45,7 @@ export const SearchBar = (props) => {
       <Combobox
         multiple={multiple}
         immediate
-        value={value}
+        value={value || ""}
         onChange={onChange}
         onClose={() => setQuery("")}
         as="div"

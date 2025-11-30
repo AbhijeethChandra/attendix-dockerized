@@ -8,7 +8,7 @@ import {
   useGetAllLeaveRequestQuery,
   useLeaveRequestStatusUpdateMutation,
 } from "@/app/rtkQueries/leaveApi";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 
 const LeaveReq = () => {
   const [searchText, setSearchText] = useState("");
@@ -48,8 +48,8 @@ const LeaveReq = () => {
               officeName: data.officeName,
               leaveCategoryName: data.leaveCategoryName,
               leaveType: data.leaveType,
-              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
-              createdDate: dayjs(data.createdDate).format("DD MMM YYYY"),
+              requestDate: dayJs(data.requestDate).format("DD MMM YYYY"),
+              createdDate: dayJs(data.createdDate).format("DD MMM YYYY"),
               requestReason: data.requestReason,
             },
           }))

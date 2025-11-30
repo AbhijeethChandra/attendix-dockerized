@@ -1,5 +1,6 @@
 import { apiInstance } from "@/app/apiInstance";
-import dayjs from "@/utils/dayjs";;
+import dayJs from "@/utils/dayjs";import dayjs from "dayjs";
+;
 
 const dashboardApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({

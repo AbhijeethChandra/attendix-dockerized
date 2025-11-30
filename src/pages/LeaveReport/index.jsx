@@ -1,13 +1,14 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { useLeaveDayviseReportQuery } from "@/app/rtkQueries/leaveApi";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useExcelExport } from "@/hooks/useExcelDownload";
+import dayjs from "dayjs";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
@@ -63,11 +64,11 @@ const LeaveRep = () => {
               leaveType: data.leaveType,
               session: data.session,
               requestReason: data.requestReason,
-              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
+              requestDate: dayJs(data.requestDate).format("DD MMM YYYY"),
               approvedDate: data.approvedDate
-                ? dayjs(data.approvedDate).format("DD MMM YYYY")
+                ? dayJs(data.approvedDate).format("DD MMM YYYY")
                 : "-",
-              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
+              appliedDate: dayJs(data.appliedDate).format("DD MMM YYYY"),
               decisionReason: data.decisionReason,
             },
             tableData: {
@@ -84,11 +85,11 @@ const LeaveRep = () => {
               leaveType: data.leaveType,
               session: data.session,
               requestReason: data.requestReason,
-              requestDate: dayjs(data.requestDate).format("DD MMM YYYY"),
+              requestDate: dayJs(data.requestDate).format("DD MMM YYYY"),
               approvedDate: data.approvedDate
-                ? dayjs(data.approvedDate).format("DD MMM YYYY")
+                ? dayJs(data.approvedDate).format("DD MMM YYYY")
                 : "-",
-              appliedDate: dayjs(data.appliedDate).format("DD MMM YYYY"),
+              appliedDate: dayJs(data.appliedDate).format("DD MMM YYYY"),
               decisionReason: data.decisionReason,
             },
           }))
@@ -127,8 +128,8 @@ const LeaveRep = () => {
   const handleDateChange = (date) => {
     try {
       const fromDate =
-        date.length > 0 ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-      const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+        date.length > 0 ? dayJs(date[0]).format("YYYY-MM-DD") : undefined;
+      const toDate = date ? dayJs(date[1]).format("YYYY-MM-DD") : undefined;
 
       console.log(toDate, fromDate);
       setDetails((prev) => ({

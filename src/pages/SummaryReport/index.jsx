@@ -1,13 +1,13 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
-import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useAttendanceSummaryReportQuery } from "@/app/rtkQueries/attendanceApi";
 import { useExcelExport } from "@/hooks/useExcelDownload";
+import dayjs from "dayjs";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
@@ -59,8 +59,8 @@ const SummaryReport = () => {
               officeName: data.officeName,
               departmentName: data.departmentName,
               shiftName: data.shiftName,
-              shiftFrom: dayjs(data.shiftFrom).format("hh:mm A"),
-              shiftTo: dayjs(data.shiftTo).format("hh:mm A"),
+              shiftFrom: dayJs(data.shiftFrom).format("hh:mm A"),
+              shiftTo: dayJs(data.shiftTo).format("hh:mm A"),
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
               totalAbsentDays: data.absentDays,
@@ -74,8 +74,8 @@ const SummaryReport = () => {
               officeName: data.officeName,
               departmentName: data.departmentName,
               shiftName: data.shiftName,
-              shiftFrom: dayjs(data.shiftFrom).format("hh:mm A"),
-              shiftTo: dayjs(data.shiftTo).format("hh:mm A"),
+              shiftFrom: dayJs(data.shiftFrom).format("hh:mm A"),
+              shiftTo: dayJs(data.shiftTo).format("hh:mm A"),
               totalWorkingDays: data.totalWorkingDays,
               totalPresentDays: data.presentDays,
               totalAbsentDays: data.absentDays,
@@ -117,8 +117,8 @@ const SummaryReport = () => {
   );
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayJs(date[0]).format("YYYY-MM-DD") : undefined;
+    const toDate = date ? dayJs(date[1]).format("YYYY-MM-DD") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,

@@ -2,7 +2,7 @@ import { useGetAllDayWiseReportQuery } from "@/app/rtkQueries/daywisereportApi";
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IoMdLogOut } from "react-icons/io";
@@ -13,6 +13,7 @@ import { useGetActiveDepartmentsQuery } from "@/app/rtkQueries/departmentApi";
 import { EyeIcon } from "@heroicons/react/16/solid";
 import { ViewDayWise } from "./ViewDayWise";
 import { useExcelExport } from "@/hooks/useExcelDownload";
+import dayjs from "dayjs";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
@@ -108,22 +109,22 @@ const DayWiseRep = () => {
               departmentName: data.departmentName,
               shift: data?.shift?.shiftName,
               shiftFrom: data?.shift?.shiftFrom
-                ? dayjs(data?.shift?.shiftFrom || null, "HH:mm").format(
+                ? dayJs(data?.shift?.shiftFrom || null, "HH:mm").format(
                     "hh:mm A"
                   )
                 : "-",
               shiftTo: data?.shift?.shiftTo
-                ? dayjs(data?.shift?.shiftTo || null, "HH:mm").format("hh:mm A")
+                ? dayJs(data?.shift?.shiftTo || null, "HH:mm").format("hh:mm A")
                 : "-",
-              date: dayjs(data.date).format("DD MMM YYYY"),
-              checkInTime: dayjs(data.checkInTime).format("hh:mm A"),
-              checkOutTime: dayjs(data.checkOutTime).format("hh:mm A"),
+              date: dayJs(data.date).format("DD MMM YYYY"),
+              checkInTime: dayJs(data.checkInTime).format("hh:mm A"),
+              checkOutTime: dayJs(data.checkOutTime).format("hh:mm A"),
               workingHours: data.workingHours,
               breaks: data.breaks.length
                 ? data.breaks
                     ?.map(
                       (brk, index) =>
-                        `${dayjs(brk.breakInTime).format("hh:mm A")} - ${dayjs(
+                        `${dayJs(brk.breakInTime).format("hh:mm A")} - ${dayjs(
                           brk.breakOutTime
                         ).format("hh:mm A")}`
                     )
@@ -145,23 +146,23 @@ const DayWiseRep = () => {
               departmentName: data.departmentName,
               shift: data?.shift?.shiftName,
               shiftFrom: data?.shift?.shiftFrom
-                ? dayjs(data?.shift?.shiftFrom || null, "HH:mm").format(
+                ? dayJs(data?.shift?.shiftFrom || null, "HH:mm").format(
                     "hh:mm A"
                   )
                 : "-",
               shiftTo: data?.shift?.shiftTo
-                ? dayjs(data?.shift?.shiftTo || null, "HH:mm").format("hh:mm A")
+                ? dayJs(data?.shift?.shiftTo || null, "HH:mm").format("hh:mm A")
                 : "-",
               date: (
                 <span className="text-nowrap">
-                  {dayjs(data.date).format("DD MMM YYYY")}
+                  {dayJs(data.date).format("DD MMM YYYY")}
                 </span>
               ),
               checkInTime: data.checkInTime ? (
                 <span className="text-nowrap">
                   <div className="flex gap-2 flex-nowrap items-center">
                     <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                    {dayjs(data.checkInTime).format("hh:mm A")}
+                    {dayJs(data.checkInTime).format("hh:mm A")}
                   </div>
                 </span>
               ) : (
@@ -172,7 +173,7 @@ const DayWiseRep = () => {
                 <span className="text-nowrap text-center">
                   <div className="flex gap-2 flex-nowrap items-center">
                     <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                    {dayjs(data.checkOutTime || null).format("hh:mm A")}
+                    {dayJs(data.checkOutTime || null).format("hh:mm A")}
                   </div>
                 </span>
                 // ) : (
@@ -189,11 +190,11 @@ const DayWiseRep = () => {
                     >
                       <div className="flex gap-2 flex-nowrap">
                         <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                        {dayjs(brk.breakInTime||null).format("hh:mm A")}
+                        {dayJs(brk.breakInTime||null).format("hh:mm A")}
                       </div>
                       <div className="flex gap-2 flex-nowrap">
                         <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                        {dayjs(brk.breakOutTime||null).format("hh:mm A")}
+                        {dayJs(brk.breakOutTime||null).format("hh:mm A")}
                       </div>
                     </div>
                   ))}
@@ -247,8 +248,8 @@ const DayWiseRep = () => {
   }, [departmentOptions]);
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayJs(date[0]).format("YYYY-MM-DD") : undefined;
+    const toDate = date ? dayJs(date[1]).format("YYYY-MM-DD") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,

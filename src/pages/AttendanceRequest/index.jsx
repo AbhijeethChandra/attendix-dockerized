@@ -8,7 +8,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AttendanceReject } from "./AttendanceReject";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import toast from "react-hot-toast";
 
 const AttendanceReq = () => {
@@ -44,8 +44,8 @@ const AttendanceReq = () => {
               employee: data.employee,
               locationText: data.locationText,
               officeName: data.officeName,
-              createdAt: dayjs(data.createdAt|| null).format("DD MMM YYYY"),
-              requestTime:  dayjs(data.punchTime|| null).format("hh:mm A"),
+              createdAt: dayJs(data.createdAt|| null).format("DD MMM YYYY"),
+              requestTime:  dayJs(data.punchTime|| null).format("hh:mm A"),
             },
           }))
           .filter((data) =>

@@ -12,7 +12,7 @@ import {
 import { useGetOfficeEmployeesQuery } from "@/app/rtkQueries/employeeApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetAllOfficeActiveShiftsQuery } from "@/app/rtkQueries/shiftApi";
-import dayjs from "@/utils/dayjs";;
+import dayJs from "@/utils/dayjs";;
 
 const INITIAL_DETAILS = {
   tenantId: "",
@@ -107,7 +107,7 @@ export const CreateShiftAss = (props) => {
   const handleDateChange = ({ name, date }) => {
     setDetails((prev) => ({
       ...prev,
-      [name]: dayjs(date).format("YYYY-MM-DD"),
+      [name]: dayJs(date).format("YYYY-MM-DD"),
     }));
   };
 

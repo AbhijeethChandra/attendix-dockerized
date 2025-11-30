@@ -10,7 +10,7 @@ import {
   useUpdateHolidayMutation,
 } from "@/app/rtkQueries/holidayApi";
 import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 const INITIAL_DETAILS = {
@@ -72,7 +72,7 @@ export const CreateHoliday = (props) => {
     const name = "holidayDate";
     setDetails((prev) => ({
       ...prev,
-      [name]: dayjs(date).format("YYYY-MM-DD"),
+      [name]: dayJs(date).format("YYYY-MM-DD"),
     }));
   };
 

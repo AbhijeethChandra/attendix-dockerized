@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useGetOfficeEmployeesQuery } from "@/app/rtkQueries/employeeApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetAllOfficeActiveShiftsQuery } from "@/app/rtkQueries/shiftApi";
-import dayjs from "@/utils/dayjs";;
+import dayJs from "@/utils/dayjs";;
 import {
   useCreateShiftOverrideMutation,
   useUpdateShiftOverrideMutation,
@@ -115,7 +115,7 @@ export const CreateShiftOver = (props) => {
   const handleDateChange = ({ name, date }) => {
     setDetails((prev) => ({
       ...prev,
-      [name]: dayjs(date).format("YYYY-MM-DD"),
+      [name]: dayJs(date).format("YYYY-MM-DD"),
     }));
   };
 

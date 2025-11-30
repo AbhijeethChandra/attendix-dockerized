@@ -8,7 +8,7 @@ import { CreateHoliday } from "./CreateHoliday";
 import { useGetAllHolidayQuery } from "@/app/rtkQueries/holidayApi";
 import { useUpdateHolidayMutation } from "@/app/rtkQueries/holidayApi";
 import { twMerge } from "tailwind-merge";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 
 const Holiday = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +42,7 @@ const Holiday = () => {
             tableData: {
               sl: index + 1,
               holidayName: data.holidayName,
-              holidayDate: dayjs(data.holidayDate).format("DD-MM-YYYY"),
+              holidayDate: dayJs(data.holidayDate).format("DD-MM-YYYY"),
               isGlobal: data.isGlobal ? "ENABLED" : "DISABLED",
               isOptional: data.isOptional ? "ENABLED" : "DISABLED",
             },

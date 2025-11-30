@@ -1,5 +1,5 @@
 import { Modal } from "@/components/Common/Modal";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import React, { useEffect, useState } from "react";
 import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 
@@ -80,7 +80,7 @@ export const ViewEmployeeWise = (props) => {
               <p className="font-medium">Clock-in</p>
               <p>
                 {data?.checkInTime
-                  ?  dayjs(data?.checkInTime).format("hh:mm A")
+                  ?  dayJs(data?.checkInTime).format("hh:mm A")
                   : "-"}
               </p>
             </div>
@@ -88,7 +88,7 @@ export const ViewEmployeeWise = (props) => {
               <p className="font-medium">Clock-out</p>
               <p>
                 {data?.checkOutTime
-                  ?  dayjs(data?.checkOutTime).format("hh:mm A")
+                  ?  dayJs(data?.checkOutTime).format("hh:mm A")
                   : "-"}
               </p>
             </div>
@@ -97,7 +97,7 @@ export const ViewEmployeeWise = (props) => {
 
         <div className="grid gap-y-3 grid-cols-[35%_1fr]">
           <p className="font-medium">Date</p>
-          <p>: {dayjs(data?.date).format("DD MMM YYYY")}</p>
+          <p>: {dayJs(data?.date).format("DD MMM YYYY")}</p>
           <p className="font-medium">Working Hours</p>
           <p>: {data?.workingHours}</p>
         </div>
@@ -112,11 +112,11 @@ export const ViewEmployeeWise = (props) => {
               >
                 <div className="flex gap-2 flex-nowrap">
                   <IoMdLogOut className="size-5 text-[var(--color-icon-error)]" />
-                  {dayjs(brk.breakInTime).format("hh:mm A")}
+                  {dayJs(brk.breakInTime).format("hh:mm A")}
                 </div>
                 <div className="flex gap-2 flex-nowrap">
                   <IoMdLogIn className="size-5 text-[var(--color-icon-success)]" />
-                  {dayjs(brk.breakOutTime).format("hh:mm A")}
+                  {dayJs(brk.breakOutTime).format("hh:mm A")}
                 </div>
               </div>
             ))}

@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import dayjs from "dayjs";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -18,6 +18,10 @@ const fallbackDate = {
 };
 
 const date = (input, ...rest) => {
+  if (input === null || input === undefined) {
+    return fallbackDate;
+  }
+
   const raw = typeof input === "string" ? input : "";
 
   const isUTC =
@@ -27,7 +31,9 @@ const date = (input, ...rest) => {
     raw.includes("+00.00");
 
   const base = isUTC
-    ? dayjs(input, ...rest).utc().tz(TARGET_TIMEZONE)
+    ? dayjs(input, ...rest)
+        .utc()
+        .tz(TARGET_TIMEZONE)
     : dayjs(input, ...rest);
 
   if (!base.isValid()) return fallbackDate;
@@ -35,4 +41,6 @@ const date = (input, ...rest) => {
   return base;
 };
 
+// only use this if expecting a UTC date input, otherwise use the main date function. This function might return "-" for invalid dates.
+// if you are using this function on date input fields, it might throw invalid date errors for empty inputs.
 export default date;

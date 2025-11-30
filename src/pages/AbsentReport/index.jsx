@@ -1,12 +1,13 @@
 import { CustomTable1 } from "@/components/Common/CustomTable1";
 import { HeadingComp } from "@/components/Common/HeadingComp";
 import { skipToken } from "@reduxjs/toolkit/query";
-import dayjs from "@/utils/dayjs";
+import dayJs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
 import { useLeaveReportQuery } from "@/app/rtkQueries/leaveApi";
 import { useExcelExport } from "@/hooks/useExcelDownload";
+import dayjs from "dayjs";
 
 const INITIAL_DETAILS = {
   fromDate: dayjs().format("YYYY-MM-DD"),
@@ -54,12 +55,12 @@ const AbsenteRep = () => {
               officeName: data.officeName,
               shiftName: data.shiftName || "-",
               shiftFrom: data.shiftFrom
-                ? dayjs(data.shiftFrom || null, "HH:mm:ss").format("HH:mm A")
+                ? dayJs(data.shiftFrom || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
               shiftTo: data.shiftTo
-                ? dayjs(data.shiftTo || null, "HH:mm:ss").format("HH:mm A")
+                ? dayJs(data.shiftTo || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
-              absentDate: dayjs(data.missingDate).format("DD MMM YYYY"),
+              absentDate: dayJs(data.missingDate).format("DD MMM YYYY"),
             },
             tableData: {
               sl: index + 1,
@@ -67,12 +68,12 @@ const AbsenteRep = () => {
               officeName: data.officeName,
               shiftName: data.shiftName || "-",
               shiftFrom: data.shiftFrom
-                ? dayjs(data.shiftFrom || null, "HH:mm:ss").format("HH:mm A")
+                ? dayJs(data.shiftFrom || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
               shiftTo: data.shiftTo
-                ? dayjs(data.shiftTo || null, "HH:mm:ss").format("HH:mm A")
+                ? dayJs(data.shiftTo || null, "HH:mm:ss").format("HH:mm A")
                 : "-",
-              absentDate: dayjs(data.missingDate).format("DD MMM YYYY"),
+              absentDate: dayJs(data.missingDate || null).format("DD MMM YYYY"),
             },
           }))
           .filter((data) =>
@@ -98,8 +99,8 @@ const AbsenteRep = () => {
       : [];
 
   const handleDateChange = (date) => {
-    const fromDate = date ? dayjs(date[0]).format("YYYY-MM-DD") : undefined;
-    const toDate = date ? dayjs(date[1]).format("YYYY-MM-DD") : undefined;
+    const fromDate = date ? dayJs(date[0]).format("YYYY-MM-DD") : undefined;
+    const toDate = date ? dayJs(date[1]).format("YYYY-MM-DD") : undefined;
     setDetails((prev) => ({
       ...prev,
       fromDate: fromDate,
