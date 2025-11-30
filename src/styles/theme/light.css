@@ -72,7 +72,6 @@
   --color-border-success: #007a4d;
 
   .button-1 {
-    cursor: pointer;
     background-color: var(--color-button);
     font-weight: 500;
     color: var(--color-button-text);

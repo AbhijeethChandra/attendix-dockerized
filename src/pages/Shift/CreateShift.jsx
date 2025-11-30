@@ -10,10 +10,13 @@ import {
 } from "@/app/rtkQueries/shiftApi";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
+import { SearchBar } from "@/components/Common/SearchBar";
 
 const INITIAL_DETAILS = {
   shiftName: "",
   shiftFrom: "",
+  officeId: "",
   shiftTo: "",
   breakTime: "",
   workingTime: "",
@@ -39,11 +42,24 @@ export const CreateShift = (props) => {
   const [details, setDetails] = useState(INITIAL_DETAILS);
 
   const user = useSelector((state) => state.auth.user);
-  const office = useSelector((state) => state.auth.office);
+
+  //queries
+  const { data: offices } = useGetActiveOfficesQuery(
+    user.tenant_id ?? skipToken
+  );
 
   //mutations
   const [createApi, createApiRes] = useCreateShiftMutation();
   const [editApi, editApiRes] = useUpdateShiftMutation();
+
+  const officesOptions = offices?.data
+    ? offices.data?.map((data) => ({
+        id: data.id,
+        name: data.officeName,
+        label: data.officeName,
+        value: data.id,
+      }))
+    : [];
 
   useEffect(() => {
     if (typeof isOpen === "object" && isOpen !== null) {
@@ -64,6 +80,13 @@ export const CreateShift = (props) => {
       setDetails(INITIAL_DETAILS);
     }
   }, [isOpen]);
+
+  const handleSelectChange = (value, name) => {
+    setDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e?.target || {};
@@ -144,7 +167,6 @@ export const CreateShift = (props) => {
         ...details,
         shiftBreaks: tempShiftBreaks,
         tenantId: user.tenant_id,
-        officeId: office.id,
         active: "Y",
       };
 
@@ -176,6 +198,17 @@ export const CreateShift = (props) => {
         <div className="flex-1 space-y-5 px-5">
           {/* First Row - 5 columns */}
           <div className="grid grid-cols-4 gap-4">
+            {/* {!details.id && details.id !== 0 && ( */}
+              <SearchBar
+                required
+                containerClass="flex-wrap"
+                onChange={(value) => handleSelectChange(value, "officeId")}
+                value={details.officeId}
+                options={officesOptions}
+                label="Office"
+                placeholder="Select Office"
+              />
+            {/* )} */}
             <CommonInput
               label="Shift Name"
               required

@@ -82,14 +82,6 @@ export const CreateHoliday = (props) => {
   };
 
   const handleSelectChange = (value, name) => {
-    if (value[value.length - 1] === "all") {
-      if (value.length === officesOptions.length) {
-        value = [];
-      } else
-        value = officesOptions
-          .filter((opt) => opt.value !== "all")
-          .map((opt) => opt.value);
-    }
     setDetails((prev) => ({
       ...prev,
       [name]: value,

@@ -51,13 +51,13 @@ export const SearchBar = (props) => {
   }
 
   return (
-    <div className={twMerge("flex flex-col gap-1.5 w-full ", className)}>
+    <div className={twMerge("flex flex-col gap-1 w-full ", className)}>
       {label && <label className={labelClass}>{label}</label>}
 
       <Combobox
         multiple={multiple}
         immediate
-        value={value || ""}
+        value={value ?? ""}
         onChange={onChange}
         onClose={() => setQuery("")}
         as="div"
@@ -65,7 +65,7 @@ export const SearchBar = (props) => {
       >
         <div
           className={twMerge(
-            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[5px] w-full overflow-y-auto",
+            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[6px] w-full overflow-y-auto",
             containerClass,
             !multiple && "scrollbar-hidden"
           )}
@@ -74,7 +74,7 @@ export const SearchBar = (props) => {
             <ComboboxInput
               required={required && !(multiple && value?.length)}
               className={twMerge(
-                "flex-1 outline-none overflow-y-auto",
+                "w-full outline-none overflow-y-auto",
                 inputClass
               )}
               autoComplete="off"

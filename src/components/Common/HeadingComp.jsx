@@ -24,6 +24,7 @@ export const HeadingComp = (props) => {
     headingClass = "",
     CreateButtonIcon,
     createButtonText,
+    createButtonDisableMessage,
     handleButtonClick,
     searchValue,
     onSearchChange,
@@ -97,17 +98,22 @@ export const HeadingComp = (props) => {
         </div>
         {(CreateButtonIcon || createButtonText) && (
           <div
-            onClick={handleButtonClick}
-            className="button-1 cursor-pointer rounded-md flex"
+            disabled={createButtonDisableMessage}
+            title={createButtonDisableMessage}
+            onClick={!createButtonDisableMessage && handleButtonClick}
+            className={twMerge(
+              "button-1 rounded-md flex cursor-pointer",
+              createButtonDisableMessage && "cursor-not-allowed opacity-50"
+            )}
           >
             {CreateButtonIcon && (
               <div className="flex items-center justify-center p-2 bg-[var(--color-border-3)]">
                 <CreateButtonIcon className="size-6" />
               </div>
             )}
-            <label className="cursor-pointer w-full px-2 py-1.5 text-center text-md font-semibold font-medium">
+            <p className="w-full px-2 py-1.5 text-center text-md font-semibold font-medium">
               {createButtonText}
-            </label>
+            </p>
           </div>
         )}
       </div>
