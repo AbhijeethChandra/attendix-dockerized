@@ -40,14 +40,12 @@ export const CreateHoliday = (props) => {
   const [editApi, editApiRes] = useUpdateHolidayMutation();
 
   const officesOptions = offices?.data
-    ? [{ officeName: "All Offices", id: "all" }, ...offices.data]?.map(
-        (data) => ({
-          id: data.id,
-          name: data.officeName,
-          label: data.officeName,
-          value: data.id,
-        })
-      )
+    ? offices.data?.map((data) => ({
+        id: data.id,
+        name: data.officeName,
+        label: data.officeName,
+        value: data.id,
+      }))
     : [];
 
   useEffect(() => {
@@ -131,7 +129,9 @@ export const CreateHoliday = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success(`Holiday ${details.id ? "updated" : "created"} successfully`);
+      toast.success(
+        `Holiday ${details.id ? "updated" : "created"} successfully`
+      );
     } catch (err) {
       console.log("Error creating Holiday:", err);
     }

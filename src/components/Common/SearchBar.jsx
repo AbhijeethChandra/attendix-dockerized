@@ -38,6 +38,18 @@ export const SearchBar = (props) => {
           return data?.name?.toLowerCase().includes(query.toLowerCase());
         });
 
+  const hasOptions = options.length > 0;
+  const allValues = hasOptions ? options.map((o) => o.value) : [];
+  const isAllSelected =
+    multiple && hasOptions && value?.length === allValues.length;
+
+  function toggleSelectAll() {
+    if (!multiple) return;
+    if (!hasOptions) return;
+    if (isAllSelected) onChange([]);
+    else onChange(allValues);
+  }
+
   return (
     <div className={twMerge("flex flex-col gap-1.5 w-full ", className)}>
       {label && <label className={labelClass}>{label}</label>}
@@ -53,8 +65,9 @@ export const SearchBar = (props) => {
       >
         <div
           className={twMerge(
-            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[5px] w-full overflow-y-auto scrollbar-hidden",
-            containerClass
+            "items-center border border-[var(--color-border-input)] rounded-md px-1 py-[5px] w-full overflow-y-auto",
+            containerClass,
+            !multiple && "scrollbar-hidden"
           )}
         >
           <div className="flex gap-2 px-2">
@@ -106,6 +119,17 @@ export const SearchBar = (props) => {
             optionMenuClass
           )}
         >
+          {multiple && hasOptions && (
+            <div
+              onClick={toggleSelectAll}
+              className="group flex cursor-pointer items-center gap-2 rounded-lg px-3 py-1 select-none data-focus:bg-[var(--color-hover)]/20"
+            >
+              <div className="text-sm/6 text-black">
+                Select All {isAllSelected ? "(✓)" : ""}
+              </div>
+            </div>
+          )}
+
           {filteredOptions.length > 0 ? (
             filteredOptions.map((data) => (
               <ComboboxOption

@@ -17,9 +17,9 @@ const handleApiError = (error, api) => {
       localStorage.clear();
       message = "Unauthorized. Please login again";
     }
-  if(error?.data?.data){
-    message = error?.data?.data;
-  }
+    if (error?.data?.data) {
+      message = error?.data?.data;
+    }
   } else if (status === "FETCH_ERROR")
     message = "Network issue. Check connection.";
   toast.dismiss();
@@ -131,7 +131,10 @@ const errorWrapper = (baseQuery) => async (args, api, extra) => {
 
   const status = result?.data?.status || result?.error?.status;
   if (status === 208) {
-    let message = result?.data?.data || "Request already processed";
+    let message =
+      result?.data?.data ||
+      result?.data?.message ||
+      "Request already processed";
     if (Array.isArray(result?.data?.data)) {
       message = result?.data?.data.join(", ") || "Request already processed";
     }

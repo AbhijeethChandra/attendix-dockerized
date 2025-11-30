@@ -12,12 +12,12 @@ import {
 import { useGetOfficeEmployeesQuery } from "@/app/rtkQueries/employeeApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetAllOfficeActiveShiftsQuery } from "@/app/rtkQueries/shiftApi";
-import dayJs from "@/utils/dayjs";;
+import dayJs from "@/utils/dayjs";
 
 const INITIAL_DETAILS = {
   tenantId: "",
   officeId: "",
-  staffId: "",
+  staffs: [],
   shiftId: "",
   effectiveFrom: "",
   effectiveTo: "",
@@ -42,7 +42,15 @@ export const CreateShiftAss = (props) => {
           tenantId: user.tenant_id,
           officeId: details.officeId,
         }
-      : skipToken
+      : skipToken,
+    {
+      refetchOnMountOrArgChange: true,
+      keepUnusedDataFor: 0,
+      selectFromResult: (result) => ({
+        ...result,
+        data: result.isError || result.isFetching ? undefined : result.data,
+      }),
+    }
   );
 
   const { data: shifts } = useGetAllOfficeActiveShiftsQuery(
@@ -51,7 +59,15 @@ export const CreateShiftAss = (props) => {
           tenantId: user.tenant_id,
           officeId: details.officeId,
         }
-      : skipToken
+      : skipToken,
+    {
+      refetchOnMountOrArgChange: true,
+      keepUnusedDataFor: 0,
+      selectFromResult: (result) => ({
+        ...result,
+        data: result.isError || result.isFetching ? undefined : result.data,
+      }),
+    }
   );
 
   //mutations
@@ -98,10 +114,13 @@ export const CreateShiftAss = (props) => {
   }, [isOpen]);
 
   const handleSelectChange = ({ name, value }) => {
-    setDetails((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const tempDetails = { ...details };
+    if (name === "officeId") {
+      tempDetails.staffs = [];
+      tempDetails.shiftId = "";
+    }
+    tempDetails[name] = value;
+    setDetails(tempDetails);
   };
 
   const handleDateChange = ({ name, date }) => {
@@ -114,19 +133,34 @@ export const CreateShiftAss = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const submitData = {
-        ...details,
-        tenantId: user.tenant_id,
-        createdBy: user.id,
-      };
-
-      if (details.id) await editApi(submitData).unwrap();
-      else await createApi(submitData).unwrap();
+      if (details.id) {
+        const submitData = {
+          ...details,
+          tenantId: user.tenant_id,
+          createdBy: user.id,
+        };
+        await editApi(submitData).unwrap();
+      } else {
+        let submitDatas = [];
+        for (const staffId of details.staffs) {
+          submitDatas.push({
+            ...details,
+            tenantId: user.tenant_id,
+            staffId: staffId,
+            createdBy: user.id,
+          });
+        }
+        const response = await Promise.all(
+          submitDatas.map((data) => createApi(data).unwrap())
+        );
+      }
 
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success(`Shift Assignment ${details.id ? "updated" : "created"} successfully`);
+      toast.success(
+        `Shift Assignment ${details.id ? "updated" : "created"} successfully`
+      );
     } catch (err) {
       console.log("Error creating Shift Assignment:", err);
     }
@@ -138,7 +172,7 @@ export const CreateShiftAss = (props) => {
         isOpen: Boolean(isOpen),
         onClose,
         dialogTitle: "Shift Assignment",
-        panelClass: "min-w-[calc(100vw-70vw)]",
+        panelClass: "w-[calc(100vw-70vw)]",
         backdropChildClass: "min-h-screen flex items-start justify-end px-4",
       }}
     >
@@ -152,7 +186,6 @@ export const CreateShiftAss = (props) => {
             label="Office"
             options={officesOptions}
             placeholder="Select Office"
-            name="officeId"
             value={details.officeId}
             onChange={(value) =>
               handleSelectChange({ name: "officeId", value })
@@ -160,14 +193,19 @@ export const CreateShiftAss = (props) => {
           />
           <SearchBar
             required
-            label="Employee"
+            multiple={!details.id}
+            label={details.id ? "Employee" : "Employees"}
             options={officeEmployeesOptions}
-            name="staffId"
-            value={details.staffId}
-            onChange={(value) => handleSelectChange({ name: "staffId", value })}
+            value={details.id ? details.staffId : details.staffs}
+            onChange={(value) =>
+              handleSelectChange({
+                name: details.id ? "staffId" : "staffs",
+                value,
+              })
+            }
             placeholder={
               details.officeId
-                ? "Select Employee"
+                ? `Select Employee${!details.id ? "s" : ""}`
                 : "Please select office first"
             }
           />
@@ -175,7 +213,6 @@ export const CreateShiftAss = (props) => {
             required
             label="Shift"
             options={shiftOptions}
-            name="shiftId"
             value={details.shiftId}
             onChange={(value) => handleSelectChange({ name: "shiftId", value })}
             placeholder={
@@ -186,7 +223,6 @@ export const CreateShiftAss = (props) => {
             required
             type="date"
             label="Effective From"
-            name="effectiveFrom"
             value={details.effectiveFrom}
             onChange={(date) =>
               handleDateChange({ name: "effectiveFrom", date })
@@ -196,7 +232,6 @@ export const CreateShiftAss = (props) => {
             required
             type="date"
             label="Effective To"
-            name="effectiveTo"
             value={details.effectiveTo}
             onChange={(date) => handleDateChange({ name: "effectiveTo", date })}
           />
