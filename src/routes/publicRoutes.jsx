@@ -12,7 +12,7 @@ export const PublicRoutes = [
     path: "/login",
     element: <Auth />,
   },
-   {
+  {
     path: "/forgot-password",
     element: <Auth />,
   },

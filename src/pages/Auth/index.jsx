@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { handleLoginSlice } from "@/app/slice/authSlice";
 import { useLocation, useNavigate } from "react-router";
@@ -12,8 +11,6 @@ import {
 } from "@/app/rtkQueries/authApi";
 
 const Auth = () => {
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const path = useLocation().pathname;
@@ -23,7 +20,6 @@ const Auth = () => {
     useForgotPasswordMutation();
 
   const handleLogin = async (loginData) => {
-
     try {
       const resp = await loginApi(loginData).unwrap();
       if (resp.success) {
@@ -66,7 +62,7 @@ const Auth = () => {
           backgroundImage: `url(${loginbg})`,
         }}
       ></div>
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8">
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center bg-white px-8">
         {path.match(/login/) ? (
           <Login
             {...{
@@ -84,6 +80,11 @@ const Auth = () => {
             />
           )
         )}
+        <div className="text-center text-xs text-gray-500 mt-8">
+          Powered by
+          <br />
+          <span className="font-medium">GJ Global IT Ventures</span>
+        </div>
       </div>
     </div>
   );

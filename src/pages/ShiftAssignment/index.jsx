@@ -90,7 +90,6 @@ const ShiftAss = () => {
           isLoading: isLoading,
           sort: sort,
           setSort: setSort,
-          errorMessage: office?.id ? null : "Please select an office",
           datas: shiftAssign,
           columns: [
             "Sl.No",

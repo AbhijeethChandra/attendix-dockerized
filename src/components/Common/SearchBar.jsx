@@ -85,7 +85,7 @@ export const SearchBar = (props) => {
               onChange={(event) => setQuery(event.target.value)}
               {...rest}
             />
-            <ComboboxButton className="flex-non items-center ">
+            <ComboboxButton className="flex-non items-center cursor-pointer data-active:rotate-180 transition-transform">
               <IoChevronDown
                 className={twMerge(
                   "size-6 text-[var(--color-text-2)]",

@@ -8,8 +8,8 @@ export const ForgotPassword = (props) => {
 
   const [details, setDetails] = useState({
     username: "",
-    newPassword: "",
-    confirmPassword: "",
+    // newPassword: "",
+    // confirmPassword: "",
   });
   const [error, setError] = useState("");
 
@@ -26,11 +26,15 @@ export const ForgotPassword = (props) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (details.newPassword !== details.confirmPassword) {
-      setError("Passwords do not match");
-      return;
+    // if (details.newPassword !== details.confirmPassword) {
+    //   setError("Passwords do not match");
+    //   return;
+    // }
+    try {
+      await handleSubmit(details).unwrap();
+    } catch (err) {
+      setError(err?.data?.message || "Something went wrong");
     }
-    handleSubmit(details);
   };
 
   return (
@@ -56,7 +60,7 @@ export const ForgotPassword = (props) => {
         type="text"
         placeholder="Enter your username"
       />
-      <CommonInput
+      {/* <CommonInput
         name="newPassword"
         label="New Password"
         required
@@ -73,7 +77,7 @@ export const ForgotPassword = (props) => {
         onChange={handleChange}
         type="password"
         placeholder="Confirm your new password"
-      />
+      /> */}
       {error && <div className="text-red-500 text-sm">{error}</div>}
       <div
         onClick={() => navigate("/login")}
@@ -88,11 +92,6 @@ export const ForgotPassword = (props) => {
       >
         {isLoading ? "Resetting..." : "Reset Password"}
       </button>
-      <div className="text-center text-xs text-gray-500 mt-8">
-        Powered by
-        <br />
-        <span className="font-medium">GJ Global IT Ventures</span>
-      </div>
     </form>
   );
 };

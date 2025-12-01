@@ -23,8 +23,8 @@ const OfficeAllocationAllocation = () => {
     isError,
     refetch,
   } = useGetEmployeesOfficesQuery({
-    tenantId: user.tenant_id ?? skipToken,
-    officeId: office?.id ?? skipToken,
+    tenantId: user.tenant_id,
+    officeId: office?.id,
   });
 
   const officeAllocations =

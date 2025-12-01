@@ -81,7 +81,6 @@ const ShiftOver = () => {
           isLoading: isLoading,
           sort: sort,
           setSort: setSort,
-          errorMessage: office?.id ? null : "Please select an office",
           datas: shiftOverrides,
           columns: [
             "Sl.No",

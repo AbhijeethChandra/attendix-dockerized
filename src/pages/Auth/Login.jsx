@@ -4,7 +4,7 @@ import { CommonInput } from "@/components/Common/CommonInput";
 import { useNavigate } from "react-router";
 
 export const Login = (props) => {
-  const { handleSubmit, setShowForgotPassword, isLoading } = props;
+  const { handleSubmit, isLoading } = props;
 
   const [details, setDetails] = useState({
     username: "",
@@ -42,9 +42,7 @@ export const Login = (props) => {
         <p className="text-gray-500 text-sm">Please logIn to continue</p>
       </div>
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-gray-700">
-          Username
-        </label>
+        <label className="text-sm font-medium text-gray-700">Username</label>
         <CommonInput
           name="username"
           required
@@ -80,11 +78,6 @@ export const Login = (props) => {
       >
         {isLoading ? "Logging in..." : "Log in"}
       </button>
-      <div className="text-center text-xs text-gray-500 mt-8">
-        Powered by
-        <br />
-        <span className="font-medium">GJ Global IT Ventures</span>
-      </div>
     </form>
   );
 };
