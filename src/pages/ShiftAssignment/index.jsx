@@ -29,7 +29,6 @@ const ShiftAss = () => {
   } = useGetShiftAssignQuery({
     tenantId: user.tenant_id ?? skipToken,
     officeId: office?.id ?? skipToken,
-    shiftId: 0,
   });
 
   const shiftAssign =

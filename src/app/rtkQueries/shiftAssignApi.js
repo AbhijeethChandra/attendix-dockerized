@@ -23,8 +23,9 @@ const leaveApi = apiInstance.injectEndpoints({
       }),
     }),
     getShiftAssign: builder.query({
-      query: ({tenantId, officeId, shiftId}) => ({
-        url: `/employee-shift/find?tenantId=${tenantId}&officeId=${officeId}&shiftId=${shiftId}`,
+      query: ({ tenantId, officeId, shiftId }) => ({
+        url: `/employee-shift/get-by-tenant-office`,
+        params: { officeId, tenantId },
         method: "GET",
       }),
     }),
