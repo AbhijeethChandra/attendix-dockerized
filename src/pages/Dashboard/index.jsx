@@ -15,7 +15,7 @@ const DASHBOARD_CARD_ITEMS = [
   {
     title: "Total Employees",
     name: "totalEmployees",
-    path: "/employee-wise-report",
+    path: "/employee-master",
     iconContainerClass: "bg-[blue]/10",
     iconClass: "text-[blue]",
     value: "0",
