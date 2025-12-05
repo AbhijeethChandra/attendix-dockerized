@@ -8,6 +8,7 @@ const leaveApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["shiftAssign"],
     }),
     updateShiftAssign: builder.mutation({
       query: (data) => ({
@@ -15,12 +16,14 @@ const leaveApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["shiftAssign"],
     }),
     getShiftAssignByDate: builder.query({
       query: ({ tenantId, staffId, officeId, fromDate, toDate }) => ({
         url: `/employee-shift/by-date?tenantId=${tenantId}&officeId=${officeId}&staffId=${staffId}&fromDate=${fromDate}&toDate=${toDate}`,
         method: "GET",
       }),
+      providesTags: ["shiftAssign"],
     }),
     getShiftAssign: builder.query({
       query: ({ tenantId, officeId, shiftId }) => ({
@@ -28,12 +31,14 @@ const leaveApi = apiInstance.injectEndpoints({
         params: { officeId, tenantId },
         method: "GET",
       }),
+      providesTags: ["shiftAssign"],
     }),
     getShiftAssignByStaff: builder.query({
       query: ({ tenantId, staffId, officeId }) => ({
         url: `/employee-shift/staff/${staffId}?tenantId=${tenantId}&officeId=${officeId}`,
         method: "GET",
       }),
+      providesTags: ["shiftAssign"],
     }),
   }),
 });

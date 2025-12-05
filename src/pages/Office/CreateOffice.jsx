@@ -30,6 +30,8 @@ const INITIAL_DETAILS = {
   parentOfficeId: "",
   address: "",
   active: "",
+  countryId: "",
+  stateId: "",
 };
 
 export const CreateOffice = (props) => {
@@ -48,7 +50,11 @@ export const CreateOffice = (props) => {
   const { data: countries, isLoading: isLoadingCountries } =
     useGetCountriesQuery();
 
-  const { data: states, isLoading: isLoadingStates } = useGetStatesQuery();
+  const { data: states, isLoading: isLoadingStates } = useGetStatesQuery(
+    details.countryId
+      ? { country: details.countryId }
+      : skipToken
+  );
 
   //mutations
   const [createApi, createApiRes] = useCreateOfficeMutation();

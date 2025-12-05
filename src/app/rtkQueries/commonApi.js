@@ -9,8 +9,9 @@ const officeApi = apiInstance.injectEndpoints({
       }),
     }),
     getStates: builder.query({
-      query: () => ({
-        url: `/state/get-all-state-active`,
+      query: ({ country }) => ({
+        url: `/state/get-state-by-country`,
+        params: { country },
         method: "GET",
       }),
     }),

@@ -8,6 +8,7 @@ const sectorApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["sector"],
     }),
     updateSector: builder.mutation({
       query: (data) => ({
@@ -15,24 +16,28 @@ const sectorApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["sector"],
     }),
     getSector: builder.query({
       query: (id) => ({
         url: `/sector?id=${id}`,
         method: "GET",
       }),
+      providesTags: ["sector"],
     }),
     getAllSector: builder.query({
       query: (tenantId) => ({
         url: `/sector/tenantId?tenantId=${tenantId}`,
         method: "GET",
       }),
+      providesTags: ["sector"],
     }),
     getActiveSector: builder.query({
       query: (tenantId) => ({
         url: `/sector/active-tenantId?tenantId=${tenantId}&active=Y`,
         method: "GET",
       }),
+      providesTags: ["sector"],
     }),
     updateStatusSector: builder.mutation({
       query: (data) => ({
@@ -40,6 +45,7 @@ const sectorApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["sector"],
     }),
   }),
 });

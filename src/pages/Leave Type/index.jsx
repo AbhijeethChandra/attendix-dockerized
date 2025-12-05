@@ -9,7 +9,7 @@ import { CreateLeaveType } from "./CreateLeaveType";
 import {
   useGetOfficeLeaveQuery,
   useUpdateStatusLeaveMutation,
-} from "@/app/rtkQueries/leave";
+} from "@/app/rtkQueries/leaveApi";
 
 const LeaveType = () => {
   const [isOpen, setIsOpen] = useState(false);

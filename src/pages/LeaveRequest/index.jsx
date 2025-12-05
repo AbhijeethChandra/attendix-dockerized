@@ -7,7 +7,7 @@ import { LeaveReject } from "./LeaveReject";
 import {
   useGetAllLeaveRequestQuery,
   useLeaveRequestStatusUpdateMutation,
-} from "@/app/rtkQueries/leaveApi";
+} from "@/app/rtkQueries/leaveRequestApi";
 import dayJs from "@/utils/dayjs";
 
 const LeaveReq = () => {

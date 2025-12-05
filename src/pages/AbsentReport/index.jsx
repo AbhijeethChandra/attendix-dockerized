@@ -5,7 +5,7 @@ import dayJs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
-import { useLeaveReportQuery } from "@/app/rtkQueries/leaveApi";
+import { useLeaveReportQuery } from "@/app/rtkQueries/leaveRequestApi";
 import { useExcelExport } from "@/hooks/useExcelDownload";
 import dayjs from "dayjs";
 

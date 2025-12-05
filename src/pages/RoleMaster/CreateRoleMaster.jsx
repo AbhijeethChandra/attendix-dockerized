@@ -84,7 +84,6 @@ export const CreateRoleMaster = (props) => {
           />
           <CommonInput
             type="text"
-            required
             name="description"
             value={details.description}
             onChange={handleChange}

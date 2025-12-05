@@ -8,7 +8,7 @@ import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
 import {
   useCreateLeaveMutation,
   useUpdateLeaveMutation,
-} from "@/app/rtkQueries/leave";
+} from "@/app/rtkQueries/leaveApi";
 
 const INITIAL_DETAILS = {
   name: "",

@@ -9,12 +9,14 @@ import {
 } from "@/app/rtkQueries/designationApi";
 import { SearchBar } from "@/components/Common/SearchBar";
 import toast from "react-hot-toast";
+import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
 
 const INITIAL_DETAILS = {
   designame: "",
   tenantId: "",
   departmentId: "",
   active: "",
+  managerFlag: false,
 };
 
 export const CreateDesignation = (props) => {
@@ -58,6 +60,13 @@ export const CreateDesignation = (props) => {
     }));
   };
 
+  const handleToggleChange = (name) => {
+    setDetails((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
+  };
+
   const handleSelectChange = (value) => {
     setDetails((prev) => ({
       ...prev,
@@ -80,7 +89,9 @@ export const CreateDesignation = (props) => {
       setDetails(INITIAL_DETAILS);
       refetch();
       onClose();
-      toast.success(`Designation ${details.id ? "updated" : "created"} successfully`);
+      toast.success(
+        `Designation ${details.id ? "updated" : "created"} successfully`
+      );
     } catch (err) {
       console.log("Error creating Designation:", err);
     }
@@ -119,6 +130,14 @@ export const CreateDesignation = (props) => {
             placeholder="Select Department"
             options={designationOptions}
           />
+          <div className="flex items-center justify-between w-full pt-2">
+            <label>Is Reporting Manager</label>
+            <ToggleSwitch
+              name="managerFlag"
+              value={details.managerFlag}
+              onChange={() => handleToggleChange("managerFlag")}
+            />
+          </div>
         </div>
 
         <div className="w-full flex gap-3">

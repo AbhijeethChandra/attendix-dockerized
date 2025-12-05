@@ -8,6 +8,7 @@ const geolocationApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["geolocation"],
     }),
     updateGeolocation: builder.mutation({
       query: (data) => ({
@@ -15,18 +16,21 @@ const geolocationApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["geolocation"],
     }),
     getGeolocation: builder.query({
       query: (id) => ({
         url: `/office-geo-location/${id}`,
         method: "GET",
       }),
+      providesTags: ["geolocation"],
     }),
     getAllGeolocations: builder.query({
       query: ({ tenantId, officeId }) => ({
         url: `/office-geo-location?tenantId=${tenantId}&officeId=${officeId}`,
         method: "GET",
       }),
+      providesTags: ["geolocation"],
     }),
   }),
 });

@@ -2,57 +2,59 @@ import { apiInstance } from "@/app/apiInstance";
 
 const leaveApi = apiInstance.injectEndpoints({
   endpoints: (builder) => ({
-    getAllLeaveRequest: builder.query({
-      query: ({ tenantId, officeId }) => ({
-        url: `/leave-request/admin`,
-        params: {
-          tenantId,
-          officeId,
-        },
-        method: "GET",
+    createLeave: builder.mutation({
+      query: (data) => ({
+        url: "/leave",
+        method: "POST",
+        body: data,
       }),
+      invalidatesTags: ["leave"],
     }),
-    leaveRequestStatusUpdate: builder.mutation({
-      query: ({ userId, action, requestId, remarks }) => ({
-        url: `/leave-request/${requestId}/process`,
+    updateLeave: builder.mutation({
+      query: (data) => ({
+        url: `/leave`,
         method: "PUT",
-        params: {
-          status: action,
-          decisionReason: remarks,
-          approverId: userId,
-        },
+        body: data,
       }),
+      invalidatesTags: ["leave"],
     }),
-    leaveDayviseReport: builder.query({
-      query: ({ tenantId, officeId, fromDate, toDate }) => ({
-        url: `/leave-request/day-wise-report`,
-        params: {
-          tenantId,
-          officeId,
-          fromDate,
-          toDate,
-        },
+    getLeave: builder.query({
+      query: (id) => ({
+        url: `/leave/id?id=${id}`,
         method: "GET",
       }),
+      providesTags: ["leave"],
     }),
-    leaveReport: builder.query({
-      query: ({ tenantId, officeId, fromDate, toDate }) => ({
-        url: `/leave-request/leave-report`,
-        params: {
-          tenantId,
-          officeId,
-          fromDate,
-          toDate,
-        },
+    getOfficeLeave: builder.query({
+      query: ({ tenantId, officeId }) => ({
+        url: `/leave/office?officeId=${officeId}&tenantId=${tenantId}`,
         method: "GET",
       }),
+      providesTags: ["leave"],
+    }),
+    getOfficeActiveLeave: builder.query({
+      query: ({ tenantId, officeId }) => ({
+        url: `/leave/office-active?officeId=${officeId}&tenantId=${tenantId}`,
+        method: "GET",
+      }),
+      providesTags: ["leave"],
+    }),
+    updateStatusLeave: builder.mutation({
+      query: (data) => ({
+        url: `/leave/update-active`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["leave"],
     }),
   }),
 });
 
 export const {
-  useGetAllLeaveRequestQuery,
-  useLeaveRequestStatusUpdateMutation,
-  useLeaveDayviseReportQuery,
-  useLeaveReportQuery,
+  useCreateLeaveMutation,
+  useUpdateLeaveMutation,
+  useGetLeaveQuery,
+  useGetOfficeLeaveQuery,
+  useGetOfficeActiveLeaveQuery,
+  useUpdateStatusLeaveMutation,
 } = leaveApi;

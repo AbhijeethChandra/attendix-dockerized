@@ -10,6 +10,7 @@ import {
   useUpdateStatusDesignationMutation,
 } from "@/app/rtkQueries/designationApi";
 import { useSelector } from "react-redux";
+import { CheckBadgeIcon } from "@heroicons/react/16/solid";
 
 const Designation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +43,9 @@ const Designation = () => {
               sl: index + 1,
               designame: data.designame,
               department: data.department,
+              managerFlag: data.managerFlag && (
+                <CheckBadgeIcon className="size-5 text-green-500" />
+              ),
             },
           }))
           .sort((a, b) => {
@@ -91,12 +95,13 @@ const Designation = () => {
         {...{
           isLoading,
           datas: designations,
-           sort: sort,
+          sort: sort,
           setSort: setSort,
           columns: [
             "Sl.No",
             "Designation Name",
             "Department",
+            "Reporting manager",
             "Status",
             "Actions",
           ],

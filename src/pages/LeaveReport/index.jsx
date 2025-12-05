@@ -5,7 +5,7 @@ import dayJs from "@/utils/dayjs";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CommonInput } from "@/components/Common/CommonInput";
-import { useLeaveDayviseReportQuery } from "@/app/rtkQueries/leaveApi";
+import { useLeaveDayviseReportQuery } from "@/app/rtkQueries/leaveRequestApi";
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useExcelExport } from "@/hooks/useExcelDownload";
 import dayjs from "dayjs";

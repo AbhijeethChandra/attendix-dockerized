@@ -6,14 +6,19 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useGetActiveOfficesQuery } from "@/app/rtkQueries/officeApi";
 import { ToggleSwitch } from "@/components/Common/ToggleSwitch";
-import { useGetRolesQuery } from "@/app/rtkQueries/roleApi";
-import { useGetAllDesignationsQuery } from "@/app/rtkQueries/designationApi";
+import {
+  useGetAllDesignationsByDepartmentQuery,
+  useGetAllDesignationsQuery,
+} from "@/app/rtkQueries/designationApi";
 import { useGetActiveDepartmentsQuery } from "@/app/rtkQueries/departmentApi";
 import {
   useCreateEmployeeMutation,
   useGetOfficeEmployeesQuery,
+  useGetOfficeReportingManagersQuery,
   useUpdateEmployeeMutation,
 } from "@/app/rtkQueries/employeeApi";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useGetAllRolesQuery } from "@/app/rtkQueries/rolemasterApi";
 
 const INITIAL_DETAILS = {
   tenantId: "",
@@ -42,21 +47,26 @@ export const CreateEmployee = (props) => {
     user.tenant_id ?? skipToken
   );
 
-  const { data: employees } = useGetOfficeEmployeesQuery(
+  const { data: employees } = useGetOfficeReportingManagersQuery(
     {
       tenantId: user.tenant_id,
       officeId: 0,
     } ?? skipToken
   );
 
-  const { data: roles } = useGetRolesQuery(user.tenant_id ?? skipToken);
+  const { data: roles } = useGetAllRolesQuery(user.tenant_id ?? skipToken);
 
   const { data: departments } = useGetActiveDepartmentsQuery(
     user.tenant_id ?? skipToken
   );
 
-  const { data: designations } = useGetAllDesignationsQuery(
-    user.tenant_id ?? skipToken
+  const { data: designations } = useGetAllDesignationsByDepartmentQuery(
+    details.departmentId
+      ? {
+          departmentId: details.departmentId,
+          tenantId: user.tenant_id,
+        }
+      : skipToken
   );
 
   //mutations
@@ -73,14 +83,12 @@ export const CreateEmployee = (props) => {
     : [];
 
   const reportingStaffOptions = employees?.data
-    ? employees?.data
-        .filter((x) => x.roleName === "Admin Manager")
-        .map((data) => ({
-          id: data.id,
-          name: data.fullName,
-          label: data.fullName,
-          value: data.id,
-        }))
+    ? employees?.data.map((data) => ({
+        id: data.id,
+        name: data.fullName,
+        label: data.fullName,
+        value: data.id,
+      }))
     : [];
 
   const roleOptions = roles?.data

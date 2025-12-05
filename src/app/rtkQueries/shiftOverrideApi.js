@@ -8,6 +8,7 @@ const shiftOverrideApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["shiftOverride"],
     }),
     updateShiftOverride: builder.mutation({
       query: (data) => ({
@@ -15,12 +16,14 @@ const shiftOverrideApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["shiftOverride"],
     }),
     getAllShiftOverride: builder.query({
       query: ({ tenantId, officeId }) => ({
         url: `/shift-overrides/find-all?tenantId=${tenantId}&officeId=${officeId}`,
         method: "GET",
       }),
+      providesTags: ["shiftOverride"],
     }),
   }),
 });

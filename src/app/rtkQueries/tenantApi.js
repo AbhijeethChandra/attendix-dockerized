@@ -8,6 +8,7 @@ const tenantApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["tenant"],
     }),
     updateTenant: builder.mutation({
       query: (data) => ({
@@ -15,6 +16,7 @@ const tenantApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["tenant"],
     }),
     getTenant: builder.query({
       query: (id) => ({
@@ -22,12 +24,14 @@ const tenantApi = apiInstance.injectEndpoints({
         params: { id },
         method: "GET",
       }),
+      providesTags: ["tenant"],
     }),
     getAllTenant: builder.query({
       query: () => ({
         url: `/tenant/all-tenant`,
         method: "GET",
       }),
+      providesTags: ["tenant"],
     }),
     getActiveTenant: builder.query({
       query: (tenantId) => ({
@@ -35,6 +39,7 @@ const tenantApi = apiInstance.injectEndpoints({
         params: { tenantId },
         method: "GET",
       }),
+      providesTags: ["tenant"],
     }),
     updateStatusTenant: builder.mutation({
       query: (data) => ({
@@ -42,6 +47,7 @@ const tenantApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["tenant"],
     }),
   }),
 });

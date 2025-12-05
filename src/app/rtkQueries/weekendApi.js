@@ -8,6 +8,7 @@ const roleApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["weekend"],
     }),
     updateWeekend: builder.mutation({
       query: (data) => ({
@@ -15,12 +16,14 @@ const roleApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["weekend"],
     }),
     getWeekendByShift: builder.query({
       query: ({ officeId, shiftId }) => ({
         url: `/weekend/get-by-shift?officeId=${officeId}&shiftId=${shiftId}`,
         method: "GET",
       }),
+      providesTags: ["weekend"],
     }),
   }),
 });

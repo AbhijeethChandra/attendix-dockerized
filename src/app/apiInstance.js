@@ -179,9 +179,12 @@ export const apiInstance = makeApiInstance({
     "role",
     "staff",
     "shiftOverride",
+    "tenant",
     "attendance",
     "report",
     "holiday",
     "leave",
   ],
+  keepUnusedDataFor: 0,
+  refetchOnMountOrArgChange: true,
 });

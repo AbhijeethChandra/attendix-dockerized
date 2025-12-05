@@ -4,6 +4,7 @@ import themeSlice from "./slice/themeSlice";
 import authSlice from "./slice/authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +30,8 @@ export const store = configureStore({
       },
     }).concat(authApiInstance.middleware, apiInstance.middleware),
 });
+
+setupListeners(store.dispatch)
 
 export const persistor = persistStore(store);
 

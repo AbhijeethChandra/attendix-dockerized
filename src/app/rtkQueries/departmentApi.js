@@ -8,6 +8,7 @@ const departmentApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["department"]
     }),
     updateDepartment: builder.mutation({
       query: (data) => ({
@@ -15,24 +16,28 @@ const departmentApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["department"]
     }),
     getDepartment: builder.query({
       query: (id) => ({
         url: `/departments/${id}`,
         method: "GET",
       }),
+      providesTags: ["department"]
     }),
     getAllDepartment: builder.query({
       query: (tenantId) => ({
         url: `/departments/tenant/${tenantId}`,
         method: "GET",
       }),
+      providesTags: ["department"]
     }),
     getActiveDepartments: builder.query({
       query: (tenantId) => ({
         url: `/departments/active/${tenantId}`,
         method: "GET",
       }),
+      providesTags: ["department"]
     }),
     updateStatusDepartment: builder.mutation({
       query: (data) => ({
@@ -40,6 +45,7 @@ const departmentApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["department"]
     }),
   }),
 });

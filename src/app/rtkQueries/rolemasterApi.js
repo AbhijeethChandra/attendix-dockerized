@@ -8,6 +8,7 @@ const rolemasterApi = apiInstance.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["rolemaster"],
     }),
     updateRole: builder.mutation({
       query: (data) => ({
@@ -15,12 +16,14 @@ const rolemasterApi = apiInstance.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["rolemaster"],
     }),
     getAllRoles: builder.query({
       query: (tenantId) => ({
         url: `/roles/list-by-tenant?tenantId=${tenantId}`,
         method: "GET",
       }),
+      providesTags: ["rolemaster"],
     }),
   }),
 });

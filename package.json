@@ -11,8 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
+    "@headlessui/react": "^2.2.9",
     "@reduxjs/toolkit": "^2.10.1",
     "@tailwindcss/vite": "^4.1.17",
     "@wojtekmaj/react-daterange-picker": "^7.0.0",
